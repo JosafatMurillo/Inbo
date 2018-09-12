@@ -13,4 +13,4 @@ Los miembros involucrados en este proyecto son los alumnos:
 - [Josafat Murillo Hernández](https://github.com/JosafatMurillo)
 - [Adolfo Ángel de la Cruz Díaz](https://github.com/AdolfoA98)  
 
-<img src="/Prototipo/Login.png" width="200" height="150" style="float:right"/>
+<img src="https://github.com/JosafatMurillo/ProyectoQA/blob/master/Prototipo/Login.png" width="200" height="150" style="float:right"/>
