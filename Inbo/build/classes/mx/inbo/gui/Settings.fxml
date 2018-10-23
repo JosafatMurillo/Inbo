@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.*?>
+<?import javafx.scene.text.Font?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.paint.ImagePattern?>
+
+<BorderPane id="AnchorPane"
+            prefHeight="700.0"
+            prefWidth="1000.0"
+            minWidth="500"
+            minHeight="500"
+            styleClass="mainFxmlClass"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.inbo.gui.CSettings">
+    <stylesheets>
+        <URL value="@ssettings.css"/>
+    </stylesheets>
+    
+    <top>
+        <StackPane prefHeight="55"
+                   style="-fx-background-color:#00819f;">
+            <JFXButton fx:id="backButton"
+                       text=""
+                       textFill="#FFFFFF"
+                       onAction="#stepBack"
+                       StackPane.alignment="CENTER_LEFT">
+                <font>
+                    <Font name="Segoe MDL2 Assets" size="32"/>
+                </font>
+            </JFXButton>
+            <JFXButton fx:id="saveBuuton"
+                       text="%key.saveButton"
+                       style="-fx-background-color: #000000;"
+                       textFill="#FFFFFF"
+                       StackPane.alignment="CENTER_RIGHT">
+                <font>
+                    <Font name="Segoe UI" size="20"/>
+                </font>
+                <StackPane.margin>
+                    <Insets right="10"/>
+                </StackPane.margin>
+            </JFXButton>
+        </StackPane>
+    </top>
+    
+    <left>
+        <StackPane prefWidth="200"
+                   maxWidth="2000"
+                   prefHeight="700"
+                   maxHeight="1000">
+            <Circle fx:id="userImage"
+                    StackPane.alignment="TOP_CENTER"
+                    radius="60.0"
+                    scaleX="1.2"
+                    scaleY="1.2">
+                <fill>
+                    <ImagePattern>
+                        <image>
+                            <Image url="/mx/inbo/images/dog.jpg" />
+                        </image>
+                    </ImagePattern>
+                </fill>
+                <effect>
+                    <DropShadow height="20.0" radius="5" width="20.0" />
+                </effect>
+                <StackPane.margin>
+                    <Insets top="50"/>
+                </StackPane.margin>
+            </Circle>
+            <JFXButton fx:id="changeImageButton"
+                       text="%key.changeImageButton"
+                       StackPane.alignment="TOP_CENTER"
+                       style="-fx-background-color:#000000;"
+                       textFill="#FFFFFF">
+                <StackPane.margin>
+                    <Insets top="200"/>
+                </StackPane.margin>
+            </JFXButton>
+        </StackPane>
+    </left>
+    <center>
+        
+        <VBox>
+            <Label text="%key.settingsTitle">
+                <font>
+                    <Font name="Segoe UI Semilight" size="42"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="25" left="25"/>
+                </VBox.margin>
+            </Label>
+            <Label text="%key.userLabel"
+                   textFill="#707070">
+                <font>
+                    <Font name="Segoe UI" size="15"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="10" left="30"/>
+                </VBox.margin>
+            </Label>
+            <TextField fx:id="usernameField"
+                       maxWidth="400"
+                       prefHeight="28">
+                <VBox.margin>
+                    <Insets top="5" left="30"/>
+                </VBox.margin>
+            </TextField>
+            <Label text="%key.emailLabel"
+                   textFill="#707070">
+                <font>
+                    <Font name="Segoe UI" size="15"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="10" left="30"/>
+                </VBox.margin>
+            </Label>
+            <TextField fx:id="emailField"
+                       maxWidth="400"
+                       prefHeight="28">
+                <VBox.margin>
+                    <Insets top="5" left="30"/>
+                </VBox.margin>
+            </TextField>
+            <Label text="%key.changePasswordTitle">
+                <font>
+                    <Font name="Segoe UI Semilight" size="24"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="45" left="25"/>
+                </VBox.margin>
+            </Label>
+            <Label text="%key.currentPassword"
+                   textFill="#707070">
+                <font>
+                    <Font name="Segoe UI" size="15"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="10" left="30"/>
+                </VBox.margin>
+            </Label>
+            <PasswordField fx:id="curentPasswordField"
+                           maxWidth="400"
+                           prefHeight="28">
+                <VBox.margin>
+                    <Insets top="5" left="30"/>
+                </VBox.margin>
+            </PasswordField>
+            <Label text="%key.newPassword"
+                   textFill="#707070">
+                <font>
+                    <Font name="Segoe UI" size="15"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="10" left="30"/>
+                </VBox.margin>
+            </Label>
+            <PasswordField fx:id="newPasswordField"
+                           maxWidth="400"
+                           prefHeight="28">
+                <VBox.margin>
+                    <Insets top="5" left="30"/>
+                </VBox.margin>
+            </PasswordField>
+            <Label text="%key.passwordVerification"
+                   textFill="#707070">
+                <font>
+                    <Font name="Segoe UI" size="15"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="10" left="30"/>
+                </VBox.margin>
+            </Label>
+            <PasswordField fx:id="passwordVerificationField"
+                           maxWidth="400"
+                           prefHeight="28">
+                <VBox.margin>
+                    <Insets top="5" left="30"/>
+                </VBox.margin>
+            </PasswordField>
+            <BorderPane.margin>
+                <Insets right="20"/>
+            </BorderPane.margin>
+        </VBox>
+        
+    </center>
+    
+    <right>
+        <VBox fx:id="languageBox"
+              minWidth="400"
+              prefWidth="450"
+              maxWidth="800">
+            <Label text="%key.languageTitle">
+                <font>
+                    <Font name="Segoe UI Semilight" size="34"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="25" left="25"/>
+                </VBox.margin>
+            </Label>
+            <Label text="%key.languageText"
+                   wrapText="true"
+                   prefWidth="420">
+                <font>
+                    <Font name="Segoe UI" size="15"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="10" left="25" right="5"/>
+                </VBox.margin>
+            </Label>
+            <ListView fx:id="languageList"
+                      prefWidth="420">
+                <VBox.margin>
+                    <Insets top="10" left="25" right="5"/>
+                </VBox.margin>
+            </ListView>
+            <BorderPane.margin>
+                <Insets top="30" bottom="30"/>
+            </BorderPane.margin>
+        </VBox>
+    </right>
+    
+</BorderPane>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane id="AnchorPane"
+            prefHeight="500.0"
+            prefWidth="800.0"
+            styleClass="mainFxmlClass"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.inbo.gui.CLogin">
+    
+    <stylesheets>
+        <URL value="@slogin.css" />
+    </stylesheets>
+   <left>
+      <ImageView fx:id=""
+                 fitHeight="500.0"
+                 fitWidth="400.0"
+                 pickOnBounds="true"
+                 BorderPane.alignment="CENTER">
+         <image>
+            <Image url="/mx/inbo/images/login_photo.jpg" />
+         </image>
+         <effect>
+            <Lighting bumpInput="$null">
+               <light>
+                  <Light.Distant color="#868585" />
+               </light>
+            </Lighting>
+         </effect>
+      </ImageView>
+   </left>
+   <right>
+      <StackPane prefHeight="500.0"
+                 prefWidth="400.0"
+                 style="-fx-background-color: #00819f;"
+                 BorderPane.alignment="CENTER">
+         <children>
+             
+             <JFXButton fx:id="closeBuuton"
+                        text=""
+                        onAction="#closeOperation"
+                        StackPane.alignment="TOP_RIGHT">
+                 <font>
+                     <Font name="Segoe MDL2 Assets" size="22"/>
+                 </font>
+             </JFXButton>
+            
+            <VBox fx:id="loginBox"
+                  maxHeight="300.0"
+                  maxWidth="350.0"
+                  prefHeight="100.0"
+                  prefWidth="200.0"
+                  style="-fx-background-color: FFFFFF;">
+                
+               <effect>
+                  <DropShadow />
+               </effect>
+               <children>
+                 <Label alignment="TOP_CENTER"
+                        text="%key.LoginTitle"
+                        textFill="BLACK">
+                      <font>
+                          <Font name="Segoe UI"
+                                size="46.0" />
+                      </font>
+                      <VBox.margin>
+                          <Insets bottom="20"
+                                  left="35"
+                                  top="20.0" />
+                      </VBox.margin>
+                  </Label>
+                  <TextField fx:id="userField"
+                             prefHeight="30"
+                             prefWidth="300"
+                             promptText="%key.userLabel">
+                     <VBox.margin>
+                        <Insets left="25.0"
+                                right="25.0"
+                                top="15.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <TextField fx:id="passwordField"
+                             prefHeight="30"
+                             prefWidth="300"
+                             promptText="%key.passwordLabel">
+                     <VBox.margin>
+                        <Insets left="25.0"
+                                right="25.0"
+                                top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <StackPane prefHeight="60">
+                     <children>
+                         <JFXButton fx:id="loginButton"
+                                    prefHeight="28"
+                                    style="-fx-background-color: #000000;"
+                                    text="%key.loginButton"
+                                    textFill="#95989A"
+                                    onAction="#loadDashboard">
+                      </JFXButton>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="60">
+                     <children>
+                         <HBox maxWidth="250.0">
+                            <children>
+                                <Label text="%key.registerMessage" />
+                                <Hyperlink text="%key.registerHyperlink" />
+                            </children>
+                         </HBox>
+                     </children></StackPane>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </right>
+    
+    
+</BorderPane>

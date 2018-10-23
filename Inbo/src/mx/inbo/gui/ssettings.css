@@ -1,0 +1,29 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background-color: #FFFFFF;
+}
+
+TextField, PasswordField {
+    -fx-border-radius: 0em;
+    -fx-border-color: #707070;
+    -fx-background-radius: 0em;
+}
+
+#languageBox {
+    -fx-border-width: 0 0 0 1;
+    -fx-border-color: #707070;
+}
+
+JFXButton {
+    -fx-border-radius: 0em;
+    -fx-background-radius: 0em;
+}
+
+ListView {
+    -fx-border-width: 0px;
+    -fx-border-color: #FFFFFF;
+    -fx-background-color: #FFFFFF;
+}

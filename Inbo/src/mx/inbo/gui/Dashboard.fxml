@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.paint.ImagePattern?>
+
+<BorderPane id="AnchorPane"
+            prefHeight="700.0"
+            prefWidth="1000.0"
+            minWidth="500"
+            minHeight="500"
+            styleClass="mainFxmlClass"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.inbo.gui.CDashboard">
+    
+    <stylesheets>
+        <URL value="@sdashboard.css" />
+    </stylesheets>
+    
+   <left>
+       
+       <!-- Lateral menu begins -->
+      <VBox prefHeight="200.0"
+            prefWidth="270.0"
+            style="-fx-background-color: #00819f;"
+            BorderPane.alignment="CENTER">
+         <children>
+             
+            <StackPane prefHeight="200.0"
+                       prefWidth="200.0">
+               <children>
+                   <Circle fx:id="userImage"
+                           radius="60.0"
+                           scaleX="1.2"
+                           scaleY="1.2">
+                        <fill>
+                            <ImagePattern>
+                                <image>
+                                    <Image url="/mx/inbo/images/dog.jpg" />
+                                </image>
+                            </ImagePattern>
+                        </fill>
+                     <effect>
+                        <DropShadow height="20.0" radius="5" width="20.0" />
+                     </effect>
+                     <StackPane.margin>
+                        <Insets top="5.0" />
+                     </StackPane.margin>
+                    </Circle>
+               </children>
+            </StackPane>
+            
+            <StackPane prefHeight="50.0"
+                       prefWidth="200.0">
+               <children>
+                  <Label fx:id="usernameLabel"
+                         text="Username">
+                     <font>
+                        <Font name="Segoe UI Light"
+                              size="32.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            
+            <StackPane prefHeight="30.0"
+                       prefWidth="200.0">
+               <children>
+                  <Label fx:id="emailLabel"
+                         text="email">
+                     <font>
+                        <Font name="Segoe UI Semilight" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            
+            <StackPane prefHeight="30.0"
+                       prefWidth="200.0">
+               <children>
+                   <HBox maxWidth="222"
+                         prefHeight="40"
+                         style="-fx-background-color: #FFFFFF">
+                       <Label text="%key.numberQuizzesLabel"
+                              textFill="#000100">
+                           <HBox.margin>
+                               <Insets top="5" left="40"/>
+                           </HBox.margin>
+                            <font>
+                                <Font name="Segoe UI" size="15.0" />
+                            </font>
+                       </Label>
+                       <Label fx:id="numberQuizzesLabel"
+                              text="5"
+                              textFill="#000100">
+                           <HBox.margin>
+                               <Insets top="5"/>
+                           </HBox.margin>
+                           <font>
+                               <Font name="Segoe UI" size="15.0" />
+                           </font>
+                       </Label>
+                   </HBox>
+               </children>
+               <VBox.margin>
+                   <Insets top="10"/>
+               </VBox.margin>
+            </StackPane>
+            
+            <StackPane>
+                <JFXButton fx:id="createQuizButton"
+                           alignment="CENTER_LEFT"
+                           text="%key.createQuizButton"
+                           style="-fx-background-color: #000000;"
+                           textFill="#95989A"
+                           prefWidth="222"
+                           prefHeight="40">
+                    <font>
+                        <Font name="Segoe UI"
+                              size="15.0" />
+                    </font>
+                </JFXButton>
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+            </StackPane>
+            
+            <StackPane>
+                <JFXButton fx:id="playQuizCodeButton"
+                           alignment="CENTER_LEFT"
+                           text="%key.playQuizCodeButton"
+                           style="-fx-background-color: #000000;"
+                           textFill="#95989A"
+                           prefWidth="222"
+                           prefHeight="40">
+                    <font>
+                        <Font name="Segoe UI"
+                              size="15.0" />
+                    </font>
+                </JFXButton>
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+            </StackPane>
+            
+            <StackPane>
+                <JFXButton fx:id="settingsButton"
+                           alignment="CENTER_LEFT"
+                           text="%key.settingsButton"
+                           onAction="#loadSettings"
+                           style="-fx-background-color: #000000;"
+                           textFill="#95989A"
+                           prefWidth="222"
+                           prefHeight="40">
+                    <font>
+                        <Font name="Segoe UI"
+                              size="15.0" />
+                    </font>
+                </JFXButton>
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+            </StackPane>
+            
+            <StackPane>
+                <JFXButton fx:id="disconnectButton"
+                           alignment="CENTER_LEFT"
+                           text="%key.disconnectButton"
+                           style="-fx-background-color: #000000;"
+                           textFill="#95989A"
+                           prefWidth="222"
+                           prefHeight="40">
+                    <font>
+                        <Font name="Segoe UI"
+                              size="15.0" />
+                    </font>
+                </JFXButton>
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+            </StackPane>
+            
+         </children>
+      </VBox>
+   </left>
+   <top>
+       <HBox>
+           <StackPane style="-fx-background-color: #00819f;"
+                      prefWidth="270"
+                      minWidth="270"
+                      prefHeight="50">
+                <HBox.margin>
+                    <Insets right="5" />
+                </HBox.margin>
+           </StackPane>
+           <StackPane prefHeight="50"
+                      prefWidth="720"
+                      HBox.hgrow="ALWAYS"
+                      maxWidth="2000">
+               <Label text="%key.myQuizzesTitle"
+                      StackPane.alignment="CENTER_LEFT">
+                   <font>
+                       <Font name="Segoe UI Light" size="42.0" />
+                   </font>
+                   <StackPane.margin>
+                       <Insets left="20"/>
+                   </StackPane.margin>
+               </Label>
+               <TextField fx:id="searchBox"
+                          promptText="%key.searchBox"
+                          prefWidth="250"
+                          maxWidth="250"
+                          prefHeight="30"
+                          StackPane.alignment="CENTER_RIGHT">
+                   <StackPane.margin>
+                       <Insets right="20"/>
+                   </StackPane.margin>
+               </TextField>
+               <JFXButton fx:id="searchButton"
+                          text=""
+                          StackPane.alignment="CENTER_RIGHT"
+                          >
+                   <font>
+                     <Font name="Segoe MDL2 Assets" size="16"/>
+                   </font>
+                   <StackPane.margin>
+                       <Insets right="20"/>
+                   </StackPane.margin>
+               </JFXButton>
+           </StackPane>
+           
+       </HBox> 
+   </top>
+   <center>
+       <ListView fx:id="listaQuizzes"
+                 prefHeight="600"
+                 maxHeight="1000">
+           
+       </ListView>
+   </center>
+</BorderPane>

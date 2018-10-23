@@ -1,0 +1,16 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.button:focus {
+    -fx-focus-color: transparent;
+}
+
+JFXButton {
+    -fx-border-radius: 0em;
+    -fx-background-radius: 0em;
+}

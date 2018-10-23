@@ -1,0 +1,23 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background-color: #FFFFFF;
+}
+
+#searchBox{
+    -fx-border-radius: 0em;
+    -fx-border-color: #707070;
+    -fx-background-radius: 0em;
+}
+
+JFXButton {
+    -fx-border-radius: 0em;
+    -fx-background-radius: 0em;
+}
+
+ListView {
+    -fx-border-width: 0px;
+    -fx-background-color: #FFFFFF;
+}
