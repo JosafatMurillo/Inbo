@@ -35,8 +35,8 @@ import javafx.stage.StageStyle;
  */
 public class Osiyru extends Application {
     
-    private static double xOffset = 0;
-    private static double yOffset = 0;
+    private static double xOffse = 0;
+    private static double yOffse = 0;
     
     /**
      * Inicializa la página inicial que se muestra al usuario.
@@ -52,13 +52,13 @@ public class Osiyru extends Application {
         Parent root = FXMLLoader.load(this.getClass().getResource("/mx/inbo/gui/Login.fxml"), ResourceBundle.getBundle("mx.inbo.lang.lang", locale));
 
         root.setOnMousePressed((MouseEvent event) -> {
-            xOffset = primaryStage.getX() - event.getScreenX();
-            yOffset = primaryStage.getY() - event.getScreenY();
+            xOffse = primaryStage.getX() - event.getScreenX();
+            yOffse = primaryStage.getY() - event.getScreenY();
         });
 
         root.setOnMouseDragged((MouseEvent event) -> {
-            primaryStage.setX(event.getScreenX() + xOffset);
-            primaryStage.setY(event.getScreenY() + yOffset);
+            primaryStage.setX(event.getScreenX() + xOffse);
+            primaryStage.setY(event.getScreenY() + yOffse);
         });
 
         Scene scene = new Scene(root);
