@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import java.lang.*?>
 <?import java.net.*?>
@@ -14,31 +19,21 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 
-<BorderPane fx:id="mainPane"
-            prefHeight="400.0"
-            prefWidth="600.0"
-            styleClass="mainFxmlClass"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="mx.inbo.gui.controllers.CQuizCode">
+<BorderPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.inbo.gui.controllers.CQuizCode">
     <stylesheets>
-        <URL value="@/mx/inbo/gui/styles/squizcode.css"/>
+        <URL value="@/mx/inbo/gui/styles/squizcode.css" />
         <URL value="@styles/sgeneral.css" />
     </stylesheets>
     
     <top>
-        <StackPane prefHeight="60.0"
-                   prefWidth="200.0"
-                   style="-fx-background-color: #00819f;"
-                   BorderPane.alignment="CENTER">
-            <JFXButton fx:id="backButton"
-                       text=""
-                       textFill="#FFFFFF"
-                       onAction="#stepBack"
-                       StackPane.alignment="CENTER_LEFT">
-                <font>
-                    <Font name="Segoe MDL2 Assets" size="32"/>
-                </font>
-            </JFXButton>
+        <StackPane prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #00819f;" BorderPane.alignment="CENTER">
+           <children>
+               <JFXButton fx:id="backButton" onAction="#stepBack" text="" textFill="#FFFFFF" StackPane.alignment="CENTER_LEFT">
+                   <font>
+                       <Font name="Segoe MDL2 Assets" size="32" />
+                   </font>
+               </JFXButton>
+           </children>
         </StackPane>
     </top>
     <center>
@@ -46,18 +41,17 @@
             <children>
                 <ImageView fx:id="background">
                     <image>
-                        <Image url="/mx/inbo/images/door.jpg" />
+                        <Image url="/mx/inbo/images/background.jpg" />
                     </image>
                     <effect>
                         <Lighting bumpInput="$null">
                             <light>
-                                <Light.Distant />
+                                <Light.Distant color="#5b5959" />
                             </light>
                         </Lighting>
                     </effect>
                 </ImageView>
-                <Circle fx:id="userImage"
-                        radius="71.0">
+                <Circle fx:id="userImage" radius="71.0">
                     <fill>
                         <ImagePattern>
                             <image>

@@ -5,8 +5,14 @@
         <group>
             <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/Dashboard.fxml</file>
             <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/controllers/CQuizMaker.java</file>
+            <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/styles/sgeneral.css</file>
+            <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/controllers/CQuizCode.java</file>
+            <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/Settings.fxml</file>
             <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/styles/squestionmaker.css</file>
             <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/controllers/CQuestionMaker.java</file>
+            <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/controllers/CQuizQuestions.java</file>
+            <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/controllers/CSettings.java</file>
+            <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/QuizCode.fxml</file>
             <file>file:/C:/Users/adolf/Documents/NetBeansProjects/Osiyru/src/mx/inbo/gui/QuestionMaker.fxml</file>
         </group>
     </open-files>

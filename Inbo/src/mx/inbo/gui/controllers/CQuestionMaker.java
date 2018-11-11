@@ -16,6 +16,7 @@
 package mx.inbo.gui.controllers;
 
 import animatefx.animation.BounceInLeft;
+import animatefx.animation.SlideInLeft;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -94,6 +95,7 @@ public class CQuestionMaker implements Initializable {
     
     private void playIntroAnimation(){
         new BounceInLeft(mainPane).play();
+        new SlideInLeft(thumbnailPane).play();
     }
 
     @FXML

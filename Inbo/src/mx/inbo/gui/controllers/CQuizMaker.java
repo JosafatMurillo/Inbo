@@ -20,7 +20,8 @@
 package mx.inbo.gui.controllers;
 
 import animatefx.animation.BounceInLeft;
-import animatefx.animation.SlideInRight;
+import animatefx.animation.FadeIn;
+import animatefx.animation.SlideInLeft;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,12 +41,6 @@ import mx.inbo.gui.tools.Loader;
  * @author adolf
  */
 public class CQuizMaker implements Initializable {
-
-    private static boolean weAreComingBack = false;
-    
-    public static void setComingBackAnimation(){
-        weAreComingBack = true;
-    }
     
     @FXML
     private BorderPane mainPane;
@@ -95,11 +90,9 @@ public class CQuizMaker implements Initializable {
     
     private void playIntroAnimation(){
         
-        if(weAreComingBack){
-            new BounceInLeft(mainPane).play();
-        }else{
-            new SlideInRight(mainPane).play();
-        }
+        new BounceInLeft(mainPane).play();
+        new SlideInLeft(thumbnailPane).play();
+        
     }
 
     @FXML

@@ -15,6 +15,7 @@
  */
 package mx.inbo.gui.controllers;
 
+import animatefx.animation.BounceInLeft;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -46,6 +47,12 @@ public class CQuizCode implements Initializable {
         background.fitHeightProperty().bind(mainPane.heightProperty());
         background.fitWidthProperty().bind(mainPane.widthProperty());
         
+        playIntroAnimation();
+        
+    }
+    
+    private void playIntroAnimation(){
+        new BounceInLeft(mainPane).play();
     }
 
     @FXML

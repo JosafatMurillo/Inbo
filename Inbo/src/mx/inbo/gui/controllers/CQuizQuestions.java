@@ -58,7 +58,6 @@ public class CQuizQuestions implements Initializable {
 
     @FXML
     private void stepBack() {
-        CQuizMaker.setComingBackAnimation();
         Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizMaker.fxml", "New Quiz", actualStage);
     }

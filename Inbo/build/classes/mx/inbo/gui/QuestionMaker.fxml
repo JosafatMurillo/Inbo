@@ -154,7 +154,7 @@
                         </VBox>
                         <JFXCheckBox fx:id="answer1IsCorrect">
                             <HBox.margin>
-                                <Insets left="5" top="20"/>
+                                <Insets left="5" top="24"/>
                             </HBox.margin>
                         </JFXCheckBox>
                         <VBox>
@@ -185,11 +185,11 @@
                         </VBox>
                         <JFXCheckBox fx:id="answer2IsCorrect">
                             <HBox.margin>
-                                <Insets left="5" top="20"/>
+                                <Insets left="5" top="24"/>
                             </HBox.margin>
                         </JFXCheckBox>
                         <VBox.margin>
-                            <Insets top="25"/>
+                            <Insets top="40"/>
                         </VBox.margin>
                     </HBox>
                     <HBox>
@@ -218,7 +218,7 @@
                         </VBox>
                         <JFXCheckBox fx:id="answer3IsCorrect">
                             <HBox.margin>
-                                <Insets left="5" top="20"/>
+                                <Insets left="5" top="24"/>
                             </HBox.margin>
                         </JFXCheckBox>
                         <VBox>
@@ -249,7 +249,7 @@
                         </VBox>
                         <JFXCheckBox fx:id="answer4IsCorrect">
                             <HBox.margin>
-                                <Insets left="5" top="20"/>
+                                <Insets left="5" top="24"/>
                             </HBox.margin>
                         </JFXCheckBox>
                         <VBox.margin>
