@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mx.inbo.gui;
+package mx.inbo.gui.controllers;
 
+import animatefx.animation.BounceInLeft;
 import com.jfoenix.controls.JFXButton;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import mx.inbo.gui.tools.Loader;
 
 /**
  * FXML Controller class
@@ -37,6 +33,9 @@ import javafx.stage.Stage;
 public class CSettings implements Initializable {
     
     @FXML
+    private BorderPane mainPane;
+    
+    @FXML
     private JFXButton changeImageButton;
     
     /**
@@ -44,27 +43,17 @@ public class CSettings implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        playIntroAnimation();
+    }
+    
+    private void playIntroAnimation(){
+        new BounceInLeft(mainPane).play();
     }
     
     @FXML
     public void stepBack(){
         Stage actualStage = (Stage) changeImageButton.getScene().getWindow();
-        Locale locale = Locale.getDefault();
-        Stage dashboard = new Stage();
-        try{
-            Parent root = FXMLLoader.load(this.getClass().getResource("/mx/inbo/gui/Dashboard.fxml"), ResourceBundle.getBundle("mx.inbo.lang.lang", locale));
-            
-            Scene scene = new Scene(root, actualStage.getWidth(), actualStage.getHeight());
-            
-            dashboard.setScene(scene);
-            dashboard.setMaximized(true);
-            dashboard.setTitle("Dashboard");
-            dashboard.show();
-            actualStage.close();
-        } catch (IOException ex) {
-            Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
     
 }

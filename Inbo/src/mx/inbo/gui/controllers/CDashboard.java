@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mx.inbo.gui;
+package mx.inbo.gui.controllers;
 
+import animatefx.animation.BounceOutLeft;
 import com.jfoenix.controls.JFXButton;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import mx.inbo.gui.tools.Loader;
 
 /**
  * FXML Controller class
@@ -35,36 +34,49 @@ import javafx.stage.Stage;
  * @author adolf
  */
 public class CDashboard implements Initializable {
-
+    
+    @FXML
+    private BorderPane mainPane;
+    
+    @FXML
+    private VBox lateralMenu;
+    
     @FXML
     private JFXButton createQuizButton;
+    
+    private Stage actualStage;
+    
+    private Loader loader;
+    
+    private BounceOutLeft transicion;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        transicion = new BounceOutLeft(mainPane); 
+    }
+    
+    @FXML
+    private void loadQuizMaker(){
+        actualStage = (Stage) createQuizButton.getScene().getWindow();
+        loadPage("/mx/inbo/gui/QuizMaker.fxml", "New Quiz", actualStage);
     }
 
     @FXML
     private void loadSettings(){
-        Stage actualStage = (Stage) createQuizButton.getScene().getWindow();
-        Locale locale = Locale.getDefault();
-        Stage settings = new Stage();
-        try{
-            Parent root = FXMLLoader.load(this.getClass().getResource("/mx/inbo/gui/Settings.fxml"), ResourceBundle.getBundle("mx.inbo.lang.lang", locale));
-            
-            Scene scene = new Scene(root, actualStage.getWidth(), actualStage.getHeight());
-            
-            settings.setScene(scene);
-            settings.setMaximized(true);
-            settings.setTitle("Settings");
-            settings.show();
-            actualStage.close();
-        } catch (IOException ex) {
-            Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        actualStage = (Stage) createQuizButton.getScene().getWindow();
+        loadPage("/mx/inbo/gui/Settings.fxml", "Settings", actualStage);
     }
     
+    @FXML
+    private void loadPlayWithCode(){
+        actualStage = (Stage) createQuizButton.getScene().getWindow();
+        loadPage("/mx/inbo/gui/QuizCode.fxml", "Play with code", actualStage);
+    }
+    
+    private void loadPage(String url, String title, Stage actualStage){
+        Loader.loadPageInCurrentStage(url, title, actualStage);
+    }
 }

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.effect.*?>
+
+<BorderPane fx:id="mainPane"
+            prefHeight="600.0"
+            prefWidth="800.0"
+            minWidth="500"
+            minHeight="500"
+            styleClass="mainFxmlClass"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.inbo.gui.controllers.CQuizMaker">
+    <stylesheets>
+        <URL value="@styles/squizmaker.css"/>
+        <URL value="@styles/sgeneral.css" />
+    </stylesheets>
+    
+    <top>
+        <StackPane prefHeight="55"
+                   style="-fx-background-color:#00819f;">
+            <JFXButton fx:id="backButton"
+                       text=""
+                       textFill="#FFFFFF"
+                       onAction="#stepBack"
+                       StackPane.alignment="CENTER_LEFT">
+                <font>
+                    <Font name="Segoe MDL2 Assets" size="32"/>
+                </font>
+            </JFXButton>
+            <JFXButton fx:id="buttonNext"
+                       text="%key.nextButton"
+                       onAction="#nextPage"
+                       style="-fx-background-color: #000000;"
+                       textFill="#FFFFFF"
+                       StackPane.alignment="CENTER_RIGHT">
+                <font>
+                    <Font name="Segoe UI" size="20"/>
+                </font>
+                <StackPane.margin>
+                    <Insets right="10"/>
+                </StackPane.margin>
+            </JFXButton>
+        </StackPane>
+    </top>
+    
+    <left>
+        <StackPane fx:id="thumbnailPane"
+                   style="-fx-background-color: #000000;">
+            <ImageView fx:id="thumbnail"
+                       preserveRatio="true">
+                <image>
+                    <Image url="/mx/inbo/images/default_thumbnail.png"/>
+                </image>
+                <effect>
+                    <Lighting bumpInput="$null">
+                        <light>
+                            <Light.Distant />
+                        </light>
+                    </Lighting>
+                </effect>
+            </ImageView>
+            <JFXButton fx:id="changeImageButton"
+                       text="%key.changeImageButton"
+                       StackPane.alignment="TOP_LEFT"
+                       style="-fx-background-color:#000000;"
+                       textFill="#FFFFFF">
+                                    
+                <StackPane.margin>
+                    <Insets left="10" top="10"/>
+                </StackPane.margin>
+                                    
+            </JFXButton>
+        </StackPane>
+    </left>
+    
+    <center>
+        <StackPane fx:id="centerPane">
+            <StackPane fx:id="infoStack"
+                       maxWidth="500"
+                       maxHeight="300">
+                <VBox StackPane.alignment="CENTER">
+                    <Label text="%key.newQuiz">
+                        <font>
+                            <Font name="Segoe UI Semilight" size="42"/>
+                        </font>
+                    </Label>
+                    <Label text="%key.titleLabel"
+                                   textFill="#707070">
+                        <font>
+                            <Font name="Segoe UI" size="15"/>
+                        </font>
+                        <VBox.margin>
+                            <Insets top="10"/>
+                        </VBox.margin>
+                    </Label>
+                    <TextField fx:id="titleField"
+                                       prefHeight="28">
+                        <VBox.margin>
+                            <Insets top="5"/>
+                        </VBox.margin>
+                    </TextField>
+                    <Label text="%key.descriptionLabel"
+                                   textFill="#707070">
+                        <font>
+                            <Font name="Segoe UI" size="15"/>
+                        </font>
+                        <VBox.margin>
+                            <Insets top="10"/>
+                        </VBox.margin>
+                    </Label>
+                    <TextArea fx:id="descriptionField"
+                                      prefHeight="70">
+                        <VBox.margin>
+                            <Insets top="5"/>
+                        </VBox.margin>
+                    </TextArea>
+                    <StackPane.margin>
+                        <Insets left="10"/>
+                    </StackPane.margin>
+                </VBox>
+            </StackPane>
+        </StackPane>
+    </center>
+    
+</BorderPane>

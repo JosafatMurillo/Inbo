@@ -12,16 +12,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane id="AnchorPane"
-            prefHeight="500.0"
+<BorderPane prefHeight="500.0"
             prefWidth="800.0"
             styleClass="mainFxmlClass"
             xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="mx.inbo.gui.CLogin">
+            fx:controller="mx.inbo.gui.controllers.CLogin">
     
     <stylesheets>
-        <URL value="@slogin.css" />
+        <URL value="@styles/slogin.css" />
+        <URL value="@styles/sgeneral.css" />
     </stylesheets>
    <left>
       <ImageView fx:id=""

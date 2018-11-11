@@ -1,0 +1,17 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background-color: white;
+}
+
+#addButton {
+    -fx-background-color: #CBCBCB;
+}
+
+#titlePane {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #707070;
+}
+

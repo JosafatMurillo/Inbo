@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -35,8 +34,8 @@ import javafx.stage.StageStyle;
  */
 public class Osiyru extends Application {
     
-    private static double xOffse = 0;
-    private static double yOffse = 0;
+    private double xOffset = 0;
+    private double yOffset = 0;
     
     /**
      * Inicializa la página inicial que se muestra al usuario.
@@ -52,13 +51,13 @@ public class Osiyru extends Application {
         Parent root = FXMLLoader.load(this.getClass().getResource("/mx/inbo/gui/Login.fxml"), ResourceBundle.getBundle("mx.inbo.lang.lang", locale));
 
         root.setOnMousePressed((MouseEvent event) -> {
-            xOffse = primaryStage.getX() - event.getScreenX();
-            yOffse = primaryStage.getY() - event.getScreenY();
+            xOffset = primaryStage.getX() - event.getScreenX();
+            yOffset = primaryStage.getY() - event.getScreenY();
         });
 
         root.setOnMouseDragged((MouseEvent event) -> {
-            primaryStage.setX(event.getScreenX() + xOffse);
-            primaryStage.setY(event.getScreenY() + yOffse);
+            primaryStage.setX(event.getScreenX() + xOffset);
+            primaryStage.setY(event.getScreenY() + yOffset);
         });
 
         Scene scene = new Scene(root);

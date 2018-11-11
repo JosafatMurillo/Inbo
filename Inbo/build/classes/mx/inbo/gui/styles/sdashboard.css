@@ -12,11 +12,6 @@
     -fx-background-radius: 0em;
 }
 
-JFXButton {
-    -fx-border-radius: 0em;
-    -fx-background-radius: 0em;
-}
-
 ListView {
     -fx-border-width: 0px;
     -fx-background-color: #FFFFFF;

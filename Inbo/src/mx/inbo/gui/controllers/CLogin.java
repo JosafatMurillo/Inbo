@@ -13,23 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mx.inbo.gui;
+package mx.inbo.gui.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import mx.inbo.gui.tools.Loader;
 
 /**
  * FXML Controller class
@@ -51,29 +44,8 @@ public class CLogin implements Initializable {
 
     @FXML
     private void loadDashboard() {
-
         Stage actualStage = (Stage) loginButton.getScene().getWindow();
-
-        try {
-            Stage primaryStage = new Stage();
-            Locale locale = Locale.getDefault();
-            Parent root = FXMLLoader.load(this.getClass().getResource("/mx/inbo/gui/Dashboard.fxml"), ResourceBundle.getBundle("mx.inbo.lang.lang", locale));
-
-            Scene scene = new Scene(root);
-
-            primaryStage.setOnCloseRequest((WindowEvent t) -> {
-                Platform.exit();
-                System.exit(0);
-            });
-            primaryStage.setMaximized(true);
-            primaryStage.setTitle("Dashboard");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-            actualStage.close();
-        } catch (IOException ex) {
-            Logger.getLogger(CLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Loader.loadPageClosingCurrent("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
 
     @FXML

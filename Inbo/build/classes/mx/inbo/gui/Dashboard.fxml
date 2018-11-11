@@ -16,24 +16,26 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.paint.ImagePattern?>
 
-<BorderPane id="AnchorPane"
-            prefHeight="700.0"
-            prefWidth="1000.0"
+<BorderPane fx:id="mainPane"
+            prefHeight="650.0"
+            prefWidth="900.0"
             minWidth="500"
             minHeight="500"
             styleClass="mainFxmlClass"
             xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="mx.inbo.gui.CDashboard">
+            fx:controller="mx.inbo.gui.controllers.CDashboard">
     
     <stylesheets>
-        <URL value="@sdashboard.css" />
+        <URL value="@styles/sdashboard.css" />
+        <URL value="@styles/sgeneral.css" />
     </stylesheets>
     
    <left>
        
        <!-- Lateral menu begins -->
-      <VBox prefHeight="200.0"
+      <VBox fx:id="lateralMenu"
+            prefHeight="200.0"
             prefWidth="270.0"
             style="-fx-background-color: #00819f;"
             BorderPane.alignment="CENTER">
@@ -124,6 +126,7 @@
                 <JFXButton fx:id="createQuizButton"
                            alignment="CENTER_LEFT"
                            text="%key.createQuizButton"
+                           onAction="#loadQuizMaker"
                            style="-fx-background-color: #000000;"
                            textFill="#95989A"
                            prefWidth="222"
@@ -142,6 +145,7 @@
                 <JFXButton fx:id="playQuizCodeButton"
                            alignment="CENTER_LEFT"
                            text="%key.playQuizCodeButton"
+                           onAction="#loadPlayWithCode"
                            style="-fx-background-color: #000000;"
                            textFill="#95989A"
                            prefWidth="222"
