@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Answer.findByIdAnswer", query = "SELECT a FROM Answer a WHERE a.idAnswer = :idAnswer")
     , @NamedQuery(name = "Answer.findByRespuesta", query = "SELECT a FROM Answer a WHERE a.respuesta = :respuesta")
     , @NamedQuery(name = "Answer.findByImagen", query = "SELECT a FROM Answer a WHERE a.imagen = :imagen")
-    , @NamedQuery(name = "Answer.findByEsCorrecta", query = "SELECT a FROM Answer a WHERE a.esCorrecta = :esCorrecta")})
+    , @NamedQuery(name = "Answer.findByEsCorrecta", query = "SELECT a FROM Answer a WHERE a.esCorrecta = :esCorrecta")
+    , @NamedQuery(name = "Answer.findByIdQuestion", query = "SELECT a FROM Answer a WHERE a.idQuestion = :idQuestion")})
 public class Answer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -121,5 +122,5 @@ public class Answer implements Serializable {
     public String toString() {
         return "mx.inbo.entities.Answer[ idAnswer=" + idAnswer + " ]";
     }
-    
+
 }

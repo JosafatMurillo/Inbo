@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Quiz.findByIdQuiz", query = "SELECT q FROM Quiz q WHERE q.idQuiz = :idQuiz")
     , @NamedQuery(name = "Quiz.findByTitulo", query = "SELECT q FROM Quiz q WHERE q.titulo = :titulo")
     , @NamedQuery(name = "Quiz.findByDescripcion", query = "SELECT q FROM Quiz q WHERE q.descripcion = :descripcion")
-    , @NamedQuery(name = "Quiz.findByImagen", query = "SELECT q FROM Quiz q WHERE q.imagen = :imagen")})
+    , @NamedQuery(name = "Quiz.findByImagen", query = "SELECT q FROM Quiz q WHERE q.imagen = :imagen")
+    , @NamedQuery(name = "Quiz.findByIdUser", query = "SELECT q FROM Quiz q WHERE q.idUser = :idUser")})
 public class Quiz implements Serializable {
 
     private static final long serialVersionUID = 1L;

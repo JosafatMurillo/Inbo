@@ -6,6 +6,7 @@
 package mx.inbo.controllers;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,10 +16,14 @@ import mx.inbo.entities.Question;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import mx.inbo.controllers.exceptions.IllegalOrphanException;
 import mx.inbo.controllers.exceptions.NonexistentEntityException;
+import mx.inbo.datasource.DataBaseInbo;
 import mx.inbo.entities.Quiz;
 
 /**
@@ -228,6 +233,52 @@ public class QuizJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public void agregarQuiz(User idUser, Quiz quiz){
+        quiz.setIdUser(idUser);
+        create(quiz);
+    }
+    
+    public void actualizarQuiz(Quiz quizNuevo) throws NonexistentEntityException{
+        try {
+            edit(quizNuevo);
+        } catch (NonexistentEntityException ex) {
+            throw new NonexistentEntityException("En este momento no es posible actualizar el quiz");
+        } catch (Exception ex) {
+            Logger.getLogger(QuizJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarQuiz(Quiz quizEliminar) throws SQLException{
+        DataBaseInbo conexion = new DataBaseInbo();
+        QuestionJpaController ajc = new QuestionJpaController(emf);
+
+        if (conexion.MySQLConnect() == null) {
+            throw new SQLException("Conexión fallida, intentelo más tarde");
+        }
+        
+        ajc.eliminarTodasPreguntas(quizEliminar.getIdQuiz());
+    }
+    
+    public List<Quiz> obtenerQuizzes(int idUser) throws SQLException{
+        List<Quiz> quizzes;
+        EntityManager em = getEntityManager();
+        DataBaseInbo conexion = new DataBaseInbo();
+
+        if (conexion.MySQLConnect() == null) {
+            throw new SQLException("Conexión fallida, intentelo más tarde");
+        }
+
+        String queryName = "Quiz.findByIdUser";
+        Query query = em.createNamedQuery(queryName);
+        query.setParameter("idUser", idUser);
+        try {
+            quizzes = (List<Quiz>) query.getResultList();
+        } catch (NoResultException ex) {
+            throw new NoResultException("Usuario no encontrado");
+        }
+        return quizzes;
     }
     
 }

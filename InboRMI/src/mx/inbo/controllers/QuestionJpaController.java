@@ -6,6 +6,7 @@
 package mx.inbo.controllers;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,10 +16,15 @@ import mx.inbo.entities.Answer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import mx.inbo.controllers.exceptions.IllegalOrphanException;
 import mx.inbo.controllers.exceptions.NonexistentEntityException;
+import mx.inbo.datasource.DataBaseInbo;
 import mx.inbo.entities.Question;
 
 /**
@@ -228,6 +234,82 @@ public class QuestionJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public void agregarPregunta(Quiz idQuiz, Question pregunta){
+        pregunta.setIdQuiz(idQuiz);
+        create(pregunta);
+    }
+    
+    public void actualizarPregunta(Question preguntaNueva){
+        try {
+            edit(preguntaNueva);
+        } catch (Exception ex) {
+            Logger.getLogger(AnswerJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarPregunta(Question preguntaEliminar){
+        AnswerJpaController ajc = new AnswerJpaController(emf);
+        try {
+            ajc.eliminarTodasRespuestas(preguntaEliminar.getIdQuestion());
+            destroy(preguntaEliminar.getIdQuestion());
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(AnswerJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalOrphanException | SQLException ex) {
+            Logger.getLogger(QuestionJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarTodasPreguntas(int idQuiz) throws SQLException{
+        List<Question> preguntas;
+        EntityManager em = getEntityManager();
+        DataBaseInbo conexion = new DataBaseInbo();
+        AnswerJpaController ajc = new AnswerJpaController(emf);
+
+        if (conexion.MySQLConnect() == null) {
+            throw new SQLException("Conexión fallida, intentelo más tarde");
+        }
+
+        String queryName = "Question.findByIdQuiz";
+        Query query = em.createNamedQuery(queryName);
+        query.setParameter("idQuiz", idQuiz);
+        try {
+            preguntas = (List<Question>) query.getResultList();
+        } catch (NoResultException ex) {
+            throw new NoResultException("Usuario no encontrado");
+        }
+        
+        for (int i = 0; i < preguntas.size(); i++) {
+            try {
+                ajc.eliminarTodasRespuestas(preguntas.get(i).getIdQuestion());
+                destroy(preguntas.get(i).getIdQuestion());
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(AnswerJpaController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalOrphanException ex) {
+                Logger.getLogger(QuestionJpaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public List<Question> obtenerPreguntas(int idQuiz) throws SQLException{
+        List<Question> preguntas;
+        EntityManager em = getEntityManager();
+        DataBaseInbo conexion = new DataBaseInbo();
+
+        if (conexion.MySQLConnect() == null) {
+            throw new SQLException("Conexión fallida, intentelo más tarde");
+        }
+
+        String queryName = "Question.findByIdQuiz";
+        Query query = em.createNamedQuery(queryName);
+        query.setParameter("idQuestion", idQuiz);
+        try {
+            preguntas = (List<Question>) query.getResultList();
+        } catch (NoResultException ex) {
+            throw new NoResultException("Usuario no encontrado");
+        }
+        return preguntas;
     }
     
 }

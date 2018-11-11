@@ -39,6 +39,8 @@ import mx.inbo.exception.CustomException;
  */
 public class UserJpaController implements Serializable {
 
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
     public UserJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -237,41 +239,67 @@ public class UserJpaController implements Serializable {
             throw new CustomException("Contraseña ingresada incorrecta");
         }
     }
-    
-    public void correoSignup(User usuario) throws MessagingException{
+
+    public void correoSignup(User usuario) throws MessagingException {
         try {
             Properties props = new Properties();
             props.setProperty("mail.smtp.host", "smtp.gmail.com");
             props.setProperty("mail.smtp.starttls.enable", "true");
             props.setProperty("mail.smtp.port", "587");
             props.setProperty("mail.smtp.auth", "true");
-            
+
             Session session = Session.getInstance(props);
-            
+
             String correoRemitente = "inboconstruccion@gmail.com";
             String passwordRemitente = "InboConstruccion123";
             String correoReceptor = usuario.getEmail();
             String asunto = "Contraseña para Inbo";
-            String mensaje = "Hola <b>"+usuario.getUsername()+"</b><br>"
-                    + "Esta es tu contraseña para tu cuenta en Inbo <b>"+usuario.getContrasenia()+"</b>";
-            
+            String mensaje = "Hola <b>" + usuario.getUsername() + "</b><br>"
+                    + "Esta es tu contraseña para tu cuenta en Inbo <b>" + usuario.getContrasenia() + "</b>";
+
             MimeMessage message = new MimeMessage(session);
-            
+
             message.setFrom(new InternetAddress(correoRemitente));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(correoReceptor));
             message.setSubject(asunto);
             message.setText(mensaje, "ISO-8859-1", "html");
-             
+
             Transport t = session.getTransport("smtp");
             t.connect(correoRemitente, passwordRemitente);
             t.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
             t.close();
-            
-            
+
         } catch (MessagingException ex) {
             throw new MessagingException("Fallo al enviar el correo electronico");
         }
-        
+
+    }
+
+    public static String randomAlphaNumeric(int count) {
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
+    }
+
+    public void agregarUsuario(User usuario) throws MessagingException {
+        usuario.setContrasenia(randomAlphaNumeric(15));
+        create(usuario);
+        correoSignup(usuario);
+    }
+    
+    public void cambiarContrasenia(User usuario, String contraseniaNueva) throws NonexistentEntityException{
+        usuario.setContrasenia(contraseniaNueva);
+        try {
+            edit(usuario);
+            System.out.println("Contraseña cambiada");
+        } catch (NonexistentEntityException ex) {
+            throw new NonexistentEntityException("En este momento no es posible cambiar la contraseña");
+        } catch (Exception ex) {
+            Logger.getLogger(UserJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

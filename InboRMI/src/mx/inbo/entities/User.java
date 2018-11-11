@@ -134,5 +134,5 @@ public class User implements Serializable {
     public String toString() {
         return "mx.inbo.entities.User[ idUser=" + idUser + " ]";
     }
-    
+
 }

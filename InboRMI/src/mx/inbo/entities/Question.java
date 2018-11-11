@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Question.findByIdQuestion", query = "SELECT q FROM Question q WHERE q.idQuestion = :idQuestion")
     , @NamedQuery(name = "Question.findByPregunta", query = "SELECT q FROM Question q WHERE q.pregunta = :pregunta")
     , @NamedQuery(name = "Question.findByImagen", query = "SELECT q FROM Question q WHERE q.imagen = :imagen")
-    , @NamedQuery(name = "Question.findByTiempo", query = "SELECT q FROM Question q WHERE q.tiempo = :tiempo")})
+    , @NamedQuery(name = "Question.findByTiempo", query = "SELECT q FROM Question q WHERE q.tiempo = :tiempo")
+    , @NamedQuery(name = "Question.findByIdQuiz", query = "SELECT q FROM Question q WHERE q.idQuiz = :idQuiz")})
 public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -136,5 +137,5 @@ public class Question implements Serializable {
     public String toString() {
         return "mx.inbo.entities.Question[ idQuestion=" + idQuestion + " ]";
     }
-    
+
 }

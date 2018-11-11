@@ -13,6 +13,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import mx.inbo.controllers.UserJpaController;
+import mx.inbo.controllers.exceptions.NonexistentEntityException;
 import mx.inbo.entities.User;
 import mx.inbo.exception.CustomException;
 
@@ -21,7 +22,7 @@ import mx.inbo.exception.CustomException;
  * @author BODEGA
  */
 public class ProbarLogin {
-    public static void main(String args[]){
+    public static void main(String args[]) throws NonexistentEntityException{
         System.out.println("Buscar un usuario");
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("InboRMIPU");
         UserJpaController ujc = new UserJpaController(emf);
@@ -33,10 +34,11 @@ public class ProbarLogin {
             System.out.println(ex.getMessage());
         }
         User usuario = ujc.findUser(1);
-        try {
+        ujc.cambiarContrasenia(usuario, "Dash");
+        /*try {
             ujc.correoSignup(usuario);
         } catch (MessagingException ex) {
             System.out.println(ex.getMessage());
-        }
+        }*/
     }
 }
