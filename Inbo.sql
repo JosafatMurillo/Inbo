@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.61, for Win64 (AMD64)
+-- MySQL dump 10.13  Distrib 5.7.23, for Linux (x86_64)
 --
--- Host: localhost    Database: Inbo
+-- Host: localhost    Database: inbo
 -- ------------------------------------------------------
--- Server version	5.5.61
+-- Server version	5.7.23-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -111,9 +111,9 @@ CREATE TABLE `user` (
   `email` varchar(50) DEFAULT NULL,
   `username` varchar(20) DEFAULT NULL,
   `imagen` varchar(100) DEFAULT NULL,
-  `contraseña` varchar(20) DEFAULT NULL,
+  `contrasenia` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`idUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +122,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'inbo@gmail.com','inbo','/mx/inbo/image/dog.jpg','KHFEFB77CYR254V'),(2,'adolfo_a1513@hotmail.com','adolfo','/mx/inbo/image/dog.jpg','MZD2VQFQO3Y1SER');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -134,4 +135,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-30 14:48:28
+-- Dump completed on 2018-11-11 19:46:54
