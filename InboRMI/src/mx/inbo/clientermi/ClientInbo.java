@@ -89,4 +89,8 @@ public class ClientInbo {
     public List<Answer> obtenerRespuestas(int idQuestion) throws RemoteException {
         return stub.obtenerRespuestas(idQuestion);
     }
+    
+    public void validarLogin(String username, String contrasenia) throws RemoteException{
+        stub.validarLogin(username, contrasenia);
+    }
 }

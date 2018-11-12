@@ -47,4 +47,6 @@ public interface Operaciones extends Remote{
     public void eliminarRespuesta(Answer respuestaEliminar) throws RemoteException;
     
     public List<Answer> obtenerRespuestas(int idQuestion) throws RemoteException;
+    
+    public void validarLogin(String username, String contrasenia) throws RemoteException;
 }

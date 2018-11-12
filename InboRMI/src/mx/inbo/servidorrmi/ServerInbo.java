@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import mx.inbo.controllers.AnswerJpaController;
 import mx.inbo.controllers.QuestionJpaController;
@@ -26,6 +27,7 @@ import mx.inbo.entities.Answer;
 import mx.inbo.entities.Question;
 import mx.inbo.entities.Quiz;
 import mx.inbo.entities.User;
+import mx.inbo.exception.CustomException;
 
 /**
  *
@@ -86,7 +88,11 @@ public class ServerInbo implements Operaciones{
 
     @Override
     public void eliminarQuiz(Quiz quizEliminar) throws RemoteException {
-        qjc.eliminarQuiz(quizEliminar);
+        try {
+            qjc.eliminarQuiz(quizEliminar);
+        } catch (SQLException ex) {
+            Logger.getLogger(ServerInbo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -150,6 +156,15 @@ public class ServerInbo implements Operaciones{
             Logger.getLogger(ServerInbo.class.getName()).log(Level.SEVERE, null, ex);
         }
         return respuestas;
+    }
+
+    @Override
+    public void validarLogin(String username, String contrasenia) throws RemoteException {
+        try {
+            ujc.validarLogin(username, contrasenia);
+        } catch (SQLException | CustomException | NoResultException ex) {
+            Logger.getLogger(ServerInbo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
