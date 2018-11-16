@@ -48,7 +48,7 @@ public class Osiyru extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         Locale locale = Locale.getDefault();
-        Parent root = FXMLLoader.load(this.getClass().getResource("/mx/inbo/gui/Login.fxml"), ResourceBundle.getBundle("mx.inbo.lang.lang", locale));
+        Parent root = FXMLLoader.load(Osiyru.class.getResource("/mx/inbo/gui/Login.fxml"), ResourceBundle.getBundle("mx.inbo.lang.lang", locale));
 
         root.setOnMousePressed((MouseEvent event) -> {
             xOffset = primaryStage.getX() - event.getScreenX();

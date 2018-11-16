@@ -20,7 +20,6 @@
 package mx.inbo.gui.controllers;
 
 import animatefx.animation.BounceInLeft;
-import animatefx.animation.FadeIn;
 import animatefx.animation.SlideInLeft;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;

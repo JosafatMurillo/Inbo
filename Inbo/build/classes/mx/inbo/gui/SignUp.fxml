@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.effect.DropShadow?>
+
+<BorderPane fx:id="mainPane"
+            prefHeight="350.0"
+            prefWidth="500.0"
+            styleClass="mainFxmlClass"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.inbo.gui.controllers.CSignUp">
+    <stylesheets>
+        <URL value="@/mx/inbo/gui/styles/ssignup.css"/>
+        <URL value="@/mx/inbo/gui/styles/sgeneral.css"/>
+    </stylesheets>
+    <center>
+        <StackPane fx:id="contentPane">
+            <VBox maxWidth="300"
+                  maxHeight="300">
+                <Label text="%key.signUp">
+                    <font>
+                        <Font name="Segoe UI"
+                              size="46.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10" left="35" right="35"/>
+                    </VBox.margin>
+                </Label>
+                <TextField fx:id="usernameField"
+                           promptText="%key.userLabel">
+                    <VBox.margin>
+                        <Insets top="40" left="20" right="20"/>
+                    </VBox.margin>
+                </TextField>
+                <TextField fx:id="emailField"
+                           promptText="%key.emailLabel">
+                    <VBox.margin>
+                        <Insets top="15" left="20" right="20"/>
+                    </VBox.margin>
+                </TextField>
+                <JFXButton fx:id="signUpButton"
+                           textFill="#95989A"
+                           onAction="#signUp"
+                           text="%key.signUp">
+                    <VBox.margin>
+                        <Insets top="35" left="110" right="110"/>
+                    </VBox.margin>
+                </JFXButton>
+                <StackPane prefHeight="40">
+                    <JFXSpinner fx:id="progressIndicator"
+                                visible="false">
+                        <StackPane.margin>
+                            <Insets top="15" bottom="5" />
+                        </StackPane.margin>
+                    </JFXSpinner>
+                </StackPane>
+                <effect>
+                    <DropShadow />
+                </effect>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

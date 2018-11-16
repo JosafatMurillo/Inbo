@@ -1,0 +1,15 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background-color: #00819f;
+}
+
+VBox {
+    -fx-background-color: white;
+}
+
+JFXButton {
+    -fx-background-color: black;
+}

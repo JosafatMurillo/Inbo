@@ -36,17 +36,18 @@ public class Loader{
     
     private Loader(){}
     
-    public static void loadPage(String fxmlURL, String pageTitle){
+    public static void loadNonResizablePage(String fxmlURL, String pageTitle){
         Locale locale = Locale.getDefault();
-        Stage settings = new Stage();
+        Stage newStage = new Stage();
         try{
             Parent root = FXMLLoader.load(Loader.class.getResource(fxmlURL), ResourceBundle.getBundle(LANG_ADDRESS, locale));
             
             Scene scene = new Scene(root);
             
-            settings.setScene(scene);
-            settings.setTitle(pageTitle);
-            settings.show();
+            newStage.setScene(scene);
+            newStage.setResizable(false);
+            newStage.setTitle(pageTitle);
+            newStage.show();
         } catch (IOException ex) {
             Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);
         }
