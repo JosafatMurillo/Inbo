@@ -7,7 +7,7 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="InboRMI" default="default" basedir=".">
+<project name="InboRMI" default="default" basedir="." xmlns:sonar="antlib:org.sonar.ant" xmlns:fx="javafx:com.sun.javafx.tools.ant">
     <description>Builds, tests, and runs the project InboRMI.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
@@ -70,4 +70,25 @@
     nbproject/build-impl.xml file. 
 
     -->
+    
+    <!-- Define the SonarQube global properties (the most usual way is to pass these properties via the command line) -->
+    <property name="sonar.host.url" value="http://localhost:9000" />
+ 
+    <!-- Define the SonarQube project properties -->
+    <property name="sonar.projectKey" value="InboRMI1234" />
+    <property name="sonar.projectName" value="InboRMI" />
+    <property name="sonar.projectVersion" value="1.0" />
+    <property name="sonar.sources" value="src" />
+    <property name="sonar.java.binaries" value="build" />
+    
+    <!-- Define SonarQube Scanner for Ant Target -->
+    <target name="sonar">
+        <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+            <!-- Update the following line, or put the "sonarqube-ant-task-*.jar" file in your "$HOME/.ant/lib" folder -->
+            <classpath path="C:\Program Files\NetBeans 8.2\java\ant\sonarqube-ant-task-2.5.jar" />
+        </taskdef>
+ 
+        <!-- Execute SonarQube Scanner for Ant Analysis -->
+        <sonar:sonar />
+    </target>
 </project>

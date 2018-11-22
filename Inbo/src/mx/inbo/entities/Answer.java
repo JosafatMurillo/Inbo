@@ -17,7 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import mx.inbo.domain.Thumbnail;
 
 /**
  *
@@ -50,6 +52,9 @@ public class Answer implements Serializable {
     @JoinColumn(name = "idQuestion", referencedColumnName = "idQuestion")
     @ManyToOne(optional = false)
     private Question idQuestion;
+    
+    @Transient
+    private Thumbnail image;
 
     public Answer() {
     }
@@ -97,6 +102,16 @@ public class Answer implements Serializable {
     public void setIdQuestion(Question idQuestion) {
         this.idQuestion = idQuestion;
     }
+    
+    @Transient
+    public Thumbnail getImage(){
+        return image;
+    }
+    
+    @Transient
+    public void setImage(Thumbnail image){
+        this.image = image;
+    }
 
     @Override
     public int hashCode() {
@@ -107,15 +122,15 @@ public class Answer implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        boolean isEqual = true;
+        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Answer)) {
             return false;
         }
         Answer other = (Answer) object;
         if ((this.idAnswer == null && other.idAnswer != null) || (this.idAnswer != null && !this.idAnswer.equals(other.idAnswer))) {
-            isEqual = false;
+            return false;
         }
-        return isEqual;
+        return true;
     }
 
     @Override

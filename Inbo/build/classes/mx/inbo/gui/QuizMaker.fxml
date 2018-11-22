@@ -74,6 +74,7 @@
                        text="%key.changeImageButton"
                        StackPane.alignment="TOP_LEFT"
                        style="-fx-background-color:#000000;"
+                       onAction="#changeImage"
                        textFill="#FFFFFF">
                                     
                 <StackPane.margin>

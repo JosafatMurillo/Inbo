@@ -7,10 +7,10 @@
     <class>mx.inbo.entities.Question</class>
     <class>mx.inbo.entities.Quiz</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Inbo?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/inbo?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="inbo"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="PinkieDash5"/>
+      <property name="javax.persistence.jdbc.password" value="osiyru"/>
     </properties>
   </persistence-unit>
 </persistence>

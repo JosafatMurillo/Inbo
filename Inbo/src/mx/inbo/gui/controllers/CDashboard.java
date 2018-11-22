@@ -40,6 +40,10 @@ public class CDashboard implements Initializable {
         user = actualUser;
     }
     
+    public static User getUser(){
+        return user;
+    }
+    
     @FXML
     private BorderPane mainPane;
     

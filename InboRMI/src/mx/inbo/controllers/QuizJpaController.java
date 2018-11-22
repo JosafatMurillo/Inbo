@@ -5,6 +5,11 @@
  */
 package mx.inbo.controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.SQLException;
 import javax.persistence.Query;
@@ -18,12 +23,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import mx.inbo.controllers.exceptions.IllegalOrphanException;
 import mx.inbo.controllers.exceptions.NonexistentEntityException;
 import mx.inbo.datasource.DataBaseInbo;
+import mx.inbo.domain.FileSaver;
+import mx.inbo.domain.KeyGenerator;
+import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Quiz;
 
 /**
@@ -234,13 +243,24 @@ public class QuizJpaController implements Serializable {
             em.close();
         }
     }
-    
-    public void agregarQuiz(User idUser, Quiz quiz){
+
+    public void agregarQuiz(User idUser, Quiz quiz) {
+
+        int id = KeyGenerator.obtenerId();
+        quiz.setIdQuiz(id);
+        
+        Thumbnail thumb = quiz.getImage();
+        
+        String filePath = FileSaver.createFilePath(thumb.getType(), quiz.getIdQuiz(), idUser.getUsername(), thumb.getExtention());
+        
+        FileSaver.saveFile(thumb, filePath);
+        
+        quiz.setImagen(filePath);
         quiz.setIdUser(idUser);
         create(quiz);
     }
-    
-    public void actualizarQuiz(Quiz quizNuevo) throws NonexistentEntityException{
+
+    public void actualizarQuiz(Quiz quizNuevo) throws NonexistentEntityException {
         try {
             edit(quizNuevo);
         } catch (NonexistentEntityException ex) {
@@ -249,19 +269,19 @@ public class QuizJpaController implements Serializable {
             Logger.getLogger(QuizJpaController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void eliminarQuiz(Quiz quizEliminar) throws SQLException{
+
+    public void eliminarQuiz(Quiz quizEliminar) throws SQLException {
         DataBaseInbo conexion = new DataBaseInbo();
         QuestionJpaController ajc = new QuestionJpaController(emf);
 
         if (conexion.MySQLConnect() == null) {
             throw new SQLException("Conexión fallida, intentelo más tarde");
         }
-        
+
         ajc.eliminarTodasPreguntas(quizEliminar.getIdQuiz());
     }
-    
-    public List<Quiz> obtenerQuizzes(int idUser) throws SQLException{
+
+    public List<Quiz> obtenerQuizzes(int idUser) throws SQLException {
         List<Quiz> quizzes;
         EntityManager em = getEntityManager();
         DataBaseInbo conexion = new DataBaseInbo();
@@ -280,5 +300,5 @@ public class QuizJpaController implements Serializable {
         }
         return quizzes;
     }
-    
+
 }

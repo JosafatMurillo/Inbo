@@ -20,8 +20,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import mx.inbo.domain.Thumbnail;
 
 /**
  *
@@ -56,6 +58,9 @@ public class Question implements Serializable {
     @JoinColumn(name = "idQuiz", referencedColumnName = "idQuiz")
     @ManyToOne(optional = false)
     private Quiz idQuiz;
+    
+    @Transient
+    private Thumbnail image;
 
     public Question() {
     }
@@ -95,6 +100,16 @@ public class Question implements Serializable {
     public void setTiempo(Integer tiempo) {
         this.tiempo = tiempo;
     }
+    
+    @Transient
+    public Thumbnail getImage(){
+        return image;
+    }
+    
+    @Transient
+    public void setImage(Thumbnail image){
+        this.image = image;
+    }
 
     @XmlTransient
     public Collection<Answer> getAnswerCollection() {
@@ -122,15 +137,15 @@ public class Question implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        boolean isEqual = true;
+        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Question)) {
             return false;
         }
         Question other = (Question) object;
         if ((this.idQuestion == null && other.idQuestion != null) || (this.idQuestion != null && !this.idQuestion.equals(other.idQuestion))) {
-            isEqual = false;
+            return false;
         }
-        return isEqual;
+        return true;
     }
 
     @Override

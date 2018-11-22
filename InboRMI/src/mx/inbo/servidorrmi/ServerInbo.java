@@ -23,6 +23,7 @@ import mx.inbo.controllers.QuestionJpaController;
 import mx.inbo.controllers.QuizJpaController;
 import mx.inbo.controllers.UserJpaController;
 import mx.inbo.controllers.exceptions.NonexistentEntityException;
+import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Answer;
 import mx.inbo.entities.Question;
 import mx.inbo.entities.Quiz;
@@ -159,12 +160,22 @@ public class ServerInbo implements Operaciones{
     }
 
     @Override
-    public void validarLogin(String username, String contrasenia) throws RemoteException {
+    public boolean validarLogin(String username, String contrasenia) throws RemoteException {
+        boolean exists = true;
         try {
             ujc.validarLogin(username, contrasenia);
         } catch (SQLException | CustomException | NoResultException ex) {
             Logger.getLogger(ServerInbo.class.getName()).log(Level.SEVERE, null, ex);
+            exists = false;
         }
+        
+        return exists;
+    }
+
+    @Override
+    public User obtenerUsario(String username) throws RemoteException {
+        User user = ujc.obtenerUsuario(username);
+        return user;
     }
     
 }

@@ -18,12 +18,16 @@ package mx.inbo.gui.controllers;
 import animatefx.animation.BounceInLeft;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import mx.inbo.entities.Question;
+import mx.inbo.entities.Quiz;
 import mx.inbo.gui.tools.Loader;
 
 /**
@@ -33,6 +37,26 @@ import mx.inbo.gui.tools.Loader;
  */
 public class CQuizQuestions implements Initializable {
 
+    private static Quiz quiz;
+    private static List<Question> questions;
+    
+    public static void setQuiz(Quiz quizz){
+        quiz = quizz;
+    }
+    
+    public static Quiz getQuiz(){
+        return quiz;
+    }
+    
+    public static List<Question> getQuestions(){
+        if(questions == null){
+            questions = new ArrayList<>();
+        }
+        
+        return questions;
+    }
+    
+    
     @FXML
     private BorderPane mainPane;
 

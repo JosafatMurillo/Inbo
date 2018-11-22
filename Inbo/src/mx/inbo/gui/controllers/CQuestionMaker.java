@@ -18,7 +18,10 @@ package mx.inbo.gui.controllers;
 import animatefx.animation.BounceInLeft;
 import animatefx.animation.SlideInLeft;
 import java.net.URL;
+import java.util.InputMismatchException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
@@ -97,11 +100,30 @@ public class CQuestionMaker implements Initializable {
         new BounceInLeft(mainPane).play();
         new SlideInLeft(thumbnailPane).play();
     }
+    
+    @FXML
+    private void saveQuestion(){
+        
+        String title = titleField.getText();
+        String answer1 = answer1Field.getText();
+        String answer2 = answer2Field.getText();
+        
+        try{
+            Integer limit = Integer.parseInt(timeLimitField.getText());
+        }catch(InputMismatchException ex){
+            Logger.getLogger(CQuestionMaker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(title.isEmpty() && answer1.isEmpty() && answer2.isEmpty()){
+            
+            
+            
+        }
+    }
 
     @FXML
     private void stepBack() {
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizQuestions.fxml", "Questions", actualStage);
     }
-
 }

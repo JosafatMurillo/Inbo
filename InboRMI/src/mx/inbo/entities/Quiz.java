@@ -20,8 +20,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import mx.inbo.domain.Thumbnail;
 
 /**
  *
@@ -56,6 +58,9 @@ public class Quiz implements Serializable {
     private User idUser;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idQuiz")
     private Collection<Question> questionCollection;
+    
+    @Transient
+    private Thumbnail image;
 
     public Quiz() {
     }
@@ -102,6 +107,16 @@ public class Quiz implements Serializable {
 
     public void setIdUser(User idUser) {
         this.idUser = idUser;
+    }
+    
+    @Transient
+    public Thumbnail getImage(){
+        return image;
+    }
+    
+    @Transient
+    public void setImage(Thumbnail image){
+        this.image = image;
     }
 
     @XmlTransient

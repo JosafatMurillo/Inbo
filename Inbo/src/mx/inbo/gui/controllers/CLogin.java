@@ -69,10 +69,8 @@ public class CLogin implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         bundle = rb;
-        
-        stub = ServerConector.getStub();
     }
 
     @FXML
@@ -103,6 +101,9 @@ public class CLogin implements Initializable {
 
                     @Override
                     protected Void call() throws Exception {
+
+                        stub = ServerConector.getStub();
+
                         try {
                             userExists = stub.validarLogin(username, password);
                             if (userExists) {
@@ -117,23 +118,7 @@ public class CLogin implements Initializable {
                                 CDashboard.setUser(user);
                                 loadDashboard();
                             } else {
-
-                                if (showError) {
-                                    Mensaje alerta = new Mensaje();
-                                    alerta.setHeader(bundle.getString("key.alertLoginTitle"));
-                                    alerta.setBody(bundle.getString("key.connectionFailed"));
-                                    JFXDialog dialog = new JFXDialog(contentPane, alerta, JFXDialog.DialogTransition.CENTER);
-
-                                    dialog.show();
-                                } else {
-                                    Mensaje alerta = new Mensaje();
-                                    alerta.setHeader(bundle.getString("key.alertLoginTitle"));
-                                    alerta.setBody(bundle.getString("key.userNotFound"));
-                                    JFXDialog dialog = new JFXDialog(contentPane, alerta, JFXDialog.DialogTransition.CENTER);
-
-                                    dialog.show();
-                                }
-
+                                showErrorMessage();
                             }
 
                         });
@@ -150,32 +135,22 @@ public class CLogin implements Initializable {
         serv.start();
     }
 
-    private void logn() {
-        String username = userField.getText();
-        String password = passwordField.getText();
-        try {
-            boolean exists = stub.validarLogin(username, password);
-            if (exists) {
-                User user = stub.obtenerUsario(username);
-                CDashboard.setUser(user);
-                loadDashboard();
-            } else {
-                Mensaje alerta = new Mensaje();
-                alerta.setHeader("Login");
-                alerta.setBody("The user does not exists. Please, verify your information and try again.");
-                JFXDialog dialog = new JFXDialog(contentPane, alerta, JFXDialog.DialogTransition.CENTER);
-
-                dialog.show();
-            }
-        } catch (RemoteException | NullPointerException ex) {
+    private void showErrorMessage() {
+        if (showError) {
             Mensaje alerta = new Mensaje();
-            alerta.setHeader("Login");
-            alerta.setBody("An error occurred while login. Please, try again in a few minutes.");
+            alerta.setHeader(bundle.getString("key.alertLoginTitle"));
+            alerta.setBody(bundle.getString("key.connectionFailed"));
+            JFXDialog dialog = new JFXDialog(contentPane, alerta, JFXDialog.DialogTransition.CENTER);
+
+            dialog.show();
+        } else {
+            Mensaje alerta = new Mensaje();
+            alerta.setHeader(bundle.getString("key.alertLoginTitle"));
+            alerta.setBody(bundle.getString("key.userNotFound"));
             JFXDialog dialog = new JFXDialog(contentPane, alerta, JFXDialog.DialogTransition.CENTER);
 
             dialog.show();
         }
-
     }
 
 }

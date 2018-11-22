@@ -289,8 +289,8 @@ public class UserJpaController implements Serializable {
         create(usuario);
         correoSignup(usuario);
     }
-    
-    public void cambiarContrasenia(User usuario, String contraseniaNueva) throws NonexistentEntityException{
+
+    public void cambiarContrasenia(User usuario, String contraseniaNueva) throws NonexistentEntityException {
         usuario.setContrasenia(contraseniaNueva);
         try {
             edit(usuario);
@@ -300,6 +300,21 @@ public class UserJpaController implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(UserJpaController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public User obtenerUsuario(String username) {
+        EntityManager em = getEntityManager();
+        String queryName = "User.findByUsername";
+        Query query = em.createNamedQuery(queryName);
+        query.setParameter("username", username);
+        User usuario = null;
+        try {
+            usuario = (User) query.getSingleResult();
+        } catch (NoResultException ex) {
+            throw new NoResultException("Usuario no encontrado");
+        }
+
+        return usuario;
     }
 
 }

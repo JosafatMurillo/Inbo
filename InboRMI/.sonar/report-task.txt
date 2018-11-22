@@ -1,0 +1,6 @@
+projectKey=InboRMI1234
+serverUrl=http://localhost:9000
+serverVersion=6.7.5.38563
+dashboardUrl=http://localhost:9000/dashboard/index/InboRMI1234
+ceTaskId=AWczIL83JpbaxBdVMpmt
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AWczIL83JpbaxBdVMpmt

@@ -66,7 +66,7 @@ public class CSignUp implements Initializable {
         
         user = new User();
         ServerConector.useErrorMessage(contentPane, bundle);
-        stub = ServerConector.getStub();
+        
     }
 
     @FXML
@@ -87,10 +87,15 @@ public class CSignUp implements Initializable {
 
                     @Override
                     protected Void call() throws Exception {
+                        
+                        stub = ServerConector.getStub();
+                        
                         try {
                             stub.agregarUsario(user);
                         } catch (RemoteException | NullPointerException ex) {
-                            showError = true;
+                            if(ex.getClass() != NullPointerException.class){
+                                showError = true;
+                            }
                         }
 
                         Platform.runLater(() -> {
@@ -101,6 +106,8 @@ public class CSignUp implements Initializable {
                                 JFXDialog dialog = new JFXDialog(contentPane, alerta, JFXDialog.DialogTransition.CENTER);
 
                                 dialog.show();
+                            }else{
+                                ServerConector.useErrorMessage(contentPane, bundle);
                             }
                         });
 

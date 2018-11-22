@@ -22,16 +22,28 @@ package mx.inbo.gui.controllers;
 import animatefx.animation.BounceInLeft;
 import animatefx.animation.SlideInLeft;
 import com.jfoenix.controls.JFXButton;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
+import mx.inbo.domain.Thumbnail;
+import mx.inbo.entities.Quiz;
+import mx.inbo.gui.tools.FileHelper;
 import mx.inbo.gui.tools.Loader;
 
 /**
@@ -40,7 +52,7 @@ import mx.inbo.gui.tools.Loader;
  * @author adolf
  */
 public class CQuizMaker implements Initializable {
-    
+
     @FXML
     private BorderPane mainPane;
 
@@ -65,6 +77,9 @@ public class CQuizMaker implements Initializable {
     @FXML
     private TextArea descriptionField;
 
+    private Quiz quiz;
+    private File imageFile;
+
     /**
      * Initializes the controller class.
      */
@@ -84,14 +99,16 @@ public class CQuizMaker implements Initializable {
         });
 
         playIntroAnimation();
-        
+
+        quiz = new Quiz();
+
     }
-    
-    private void playIntroAnimation(){
-        
+
+    private void playIntroAnimation() {
+
         new BounceInLeft(mainPane).play();
         new SlideInLeft(thumbnailPane).play();
-        
+
     }
 
     @FXML
@@ -99,11 +116,55 @@ public class CQuizMaker implements Initializable {
         Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
-    
+
     @FXML
     private void nextPage() {
+
+        String title = titleField.getText();
+        String description = descriptionField.getText();
+        
+        Thumbnail thumb = new Thumbnail();
+        thumb.setType("Quiz");
+        
+        String imageName = imageFile.getName();
+        int extIndex = imageFile.getName().lastIndexOf(".");
+        String imageExtention = imageFile.getName().substring(extIndex + 1).toLowerCase();
+        thumb.setExtention(imageExtention);
+        
+        byte[] image = FileHelper.parseFileToBytes(imageFile, imageExtention);
+        thumb.setImage(image);
+        
+        quiz.setImage(thumb);
+
+        if (!title.isEmpty() && !description.isEmpty()) {
+            quiz.setTitulo(title);
+            quiz.setDescripcion(description);
+            
+            Stage actualStage = (Stage) backButton.getScene().getWindow();
+            CQuizQuestions.setQuiz(quiz);
+            Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizQuestions.fxml", "Questions", actualStage);
+        }
+
+    }
+
+    @FXML
+    private void changeImage() {
+
         Stage actualStage = (Stage) backButton.getScene().getWindow();
-        Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizQuestions.fxml", "Questions", actualStage);
+
+        FileChooser chooser = new FileChooser();
+        
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Images", "*.*"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG", "*.png")
+        );
+
+        imageFile = chooser.showOpenDialog(actualStage);
+
+        Image image = new Image(imageFile.toURI().toString());
+
+        thumbnail.setImage(image);
     }
 
 }

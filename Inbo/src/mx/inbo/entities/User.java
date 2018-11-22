@@ -18,8 +18,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import mx.inbo.domain.Thumbnail;
 
 /**
  *
@@ -53,6 +55,9 @@ public class User implements Serializable {
     private String contrasenia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUser")
     private Collection<Quiz> quizCollection;
+    
+    @Transient
+    private Thumbnail image;
 
     public User() {
     }
@@ -109,6 +114,16 @@ public class User implements Serializable {
     public void setQuizCollection(Collection<Quiz> quizCollection) {
         this.quizCollection = quizCollection;
     }
+    
+    @Transient
+    public Thumbnail getImage(){
+        return image;
+    }
+    
+    @Transient
+    public void setImage(Thumbnail image){
+        this.image = image;
+    }
 
     @Override
     public int hashCode() {
@@ -119,15 +134,15 @@ public class User implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        boolean isEqual = true;
+        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof User)) {
             return false;
         }
         User other = (User) object;
         if ((this.idUser == null && other.idUser != null) || (this.idUser != null && !this.idUser.equals(other.idUser))) {
-            isEqual = false;
+            return false;
         }
-        return isEqual;
+        return true;
     }
 
     @Override

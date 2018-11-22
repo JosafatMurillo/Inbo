@@ -8,6 +8,7 @@ package mx.inbo.servidorrmi;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Answer;
 import mx.inbo.entities.Question;
 import mx.inbo.entities.Quiz;
