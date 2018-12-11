@@ -29,7 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import mx.inbo.entities.User;
 import mx.inbo.gui.tools.Mensaje;
-import mx.inbo.server.ServerConector;
+import mx.inbo.servidorrmi.ServerConector;
 import mx.inbo.servidorrmi.Operaciones;
 
 /**

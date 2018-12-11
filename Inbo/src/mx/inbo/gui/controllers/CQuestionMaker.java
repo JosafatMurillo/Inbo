@@ -17,18 +17,30 @@ package mx.inbo.gui.controllers;
 
 import animatefx.animation.BounceInLeft;
 import animatefx.animation.SlideInLeft;
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.InputMismatchException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import mx.inbo.domain.KeyGenerator;
+import mx.inbo.domain.Thumbnail;
+import mx.inbo.entities.Answer;
+import mx.inbo.entities.Question;
+import mx.inbo.entities.Quiz;
+import mx.inbo.gui.tools.FileHelper;
 import mx.inbo.gui.tools.Loader;
 
 /**
@@ -37,6 +49,8 @@ import mx.inbo.gui.tools.Loader;
  * @author adolf
  */
 public class CQuestionMaker implements Initializable {
+
+    private final String ANSWER_TYPE = "Answer";
 
     @FXML
     private BorderPane mainPane;
@@ -55,21 +69,37 @@ public class CQuestionMaker implements Initializable {
 
     @FXML
     private TextField titleField;
-    
+
     @FXML
     private TextField timeLimitField;
-    
+
     @FXML
     private TextField answer1Field;
-    
+
     @FXML
     private TextField answer2Field;
-    
+
     @FXML
     private TextField answer3Field;
-    
+
     @FXML
     private TextField answer4Field;
+
+    @FXML
+    private Label pathAnswer1;
+
+    @FXML
+    private Label pathAnswer2;
+
+    @FXML
+    private Label pathAnswer3;
+
+    @FXML
+    private Label pathAnswer4;
+
+    private Quiz quiz;
+    private File imageFile;
+    private FileChooser chooser;
 
     /**
      * Initializes the controller class.
@@ -85,39 +115,139 @@ public class CQuestionMaker implements Initializable {
 
             double infoWidth = width - 20;
             infoStack.setPrefWidth(infoWidth);
-            titleField.setPrefWidth(infoWidth/2);
-            timeLimitField.setPrefWidth(infoWidth/2);
-            answer1Field.setPrefWidth(infoWidth/2);
-            answer2Field.setPrefWidth(infoWidth/2);
-            answer3Field.setPrefWidth(infoWidth/2);
-            answer4Field.setPrefWidth(infoWidth/2);
+            titleField.setPrefWidth(infoWidth / 2);
+            timeLimitField.setPrefWidth(infoWidth / 2);
+            answer1Field.setPrefWidth(infoWidth / 2);
+            answer2Field.setPrefWidth(infoWidth / 2);
+            answer3Field.setPrefWidth(infoWidth / 2);
+            answer4Field.setPrefWidth(infoWidth / 2);
         });
-        
+
+        chooser = new FileChooser();
+
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Images", "*.*"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG", "*.png")
+        );
+
+        quiz = CQuizQuestions.getQuiz();
+
         playIntroAnimation();
     }
-    
-    private void playIntroAnimation(){
+
+    private void playIntroAnimation() {
         new BounceInLeft(mainPane).play();
         new SlideInLeft(thumbnailPane).play();
     }
-    
+
     @FXML
-    private void saveQuestion(){
-        
+    private void saveQuestion() {
+
         String title = titleField.getText();
-        String answer1 = answer1Field.getText();
-        String answer2 = answer2Field.getText();
-        
-        try{
-            Integer limit = Integer.parseInt(timeLimitField.getText());
-        }catch(InputMismatchException ex){
+        String answer1Text = answer1Field.getText();
+        String answer2Text = answer2Field.getText();
+
+        Integer limit = 20;
+
+        try {
+            limit = Integer.parseInt(timeLimitField.getText());
+        } catch (InputMismatchException ex) {
             Logger.getLogger(CQuestionMaker.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        if(title.isEmpty() && answer1.isEmpty() && answer2.isEmpty()){
+
+        if (!title.isEmpty() && !answer1Text.isEmpty() && !answer2Text.isEmpty()) {
+
+            Question question = new Question();
+
+            question.setPregunta(title);
+            question.setTiempo(limit);
             
+            Thumbnail thumb = new Thumbnail();
+            thumb.setType("Question");
+
+            if (imageFile == null) {
+                imageFile = new File(System.getProperty("user.dir") + "/src/mx/inbo/images/default_thumbnail_question.jpg");
+            }
+
+            String imageName = imageFile.getName();
+            String imagePath = imageFile.toURI().toString();
+            int extIndex = imageFile.getName().lastIndexOf(".");
+            String imageExtention = imageFile.getName().substring(extIndex + 1).toLowerCase();
+            thumb.setExtention(imageExtention);
+
+            byte[] image = FileHelper.parseFileToBytes(imageFile, imageExtention);
+            thumb.setImage(image);
             
+            int id = KeyGenerator.obtenerId();
             
+            question.setIdQuestion(id);
+            question.setImage(thumb);
+            question.setImagen(imagePath);
+
+            Answer answer1 = new Answer();
+            
+            answer1.setRespuesta(answer1Text);
+
+            Answer answer2 = new Answer();
+            answer2.setRespuesta(answer2Text);
+            
+            int idAnswer1 = KeyGenerator.obtenerId();
+            int idAnswer2 = KeyGenerator.obtenerId();
+
+            answer1 = setAnswerImage(answer1, pathAnswer1.getText());
+            answer2 = setAnswerImage(answer2, pathAnswer2.getText());
+            
+            answer1.setIdAnswer(idAnswer1);
+            answer2.setIdAnswer(idAnswer2);
+
+            String answer3Text = answer3Field.getText();
+            String answer4Text = answer4Field.getText();
+
+            Collection<Answer> answers = new ArrayList<>();
+
+            answers.add(answer1);
+            answers.add(answer2);
+
+            if (!answer3Text.isEmpty() && !answer4Text.isEmpty()) {
+                
+                Answer answer3 = new Answer();
+                answer3.setRespuesta(answer3Text);
+
+                Answer answer4 = new Answer();
+                answer4.setRespuesta(answer4Text);
+                
+                int idAnswer3 = KeyGenerator.obtenerId();
+                int idAnswer4 = KeyGenerator.obtenerId();
+
+                answer3 = setAnswerImage(answer3, pathAnswer4.getText());
+                answer4 = setAnswerImage(answer4, pathAnswer4.getText());
+                
+                answer3.setIdAnswer(idAnswer3);
+                answer4.setIdAnswer(idAnswer4);
+
+                answers.add(answer3);
+                answers.add(answer4);
+
+            }
+
+            question.setAnswerCollection(answers);
+
+            Collection<Question> questions = quiz.getQuestionCollection();
+
+            if (questions == null || questions.isEmpty()) {
+                questions = new ArrayList<>();
+            }
+
+            questions.add(question);
+
+            quiz.setQuestionCollection(questions);
+
+            Stage actualStage = (Stage) mainPane.getScene().getWindow();
+            quiz.setQuestionCollection(questions);
+            CQuizQuestions.setQuiz(quiz);
+            Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizQuestions.fxml", "Questions", actualStage);
+
         }
     }
 
@@ -126,4 +256,37 @@ public class CQuestionMaker implements Initializable {
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizQuestions.fxml", "Questions", actualStage);
     }
+
+    @FXML
+    private void changeImage() {
+
+        Stage actualStage = (Stage) mainPane.getScene().getWindow();
+
+        imageFile = chooser.showOpenDialog(actualStage);
+
+        Image image = new Image(imageFile.toURI().toString());
+
+        thumbnail.setImage(image);
+    }
+
+    private Answer setAnswerImage(Answer answer, String path) {
+
+        File image = null;
+        Thumbnail thumb = null;
+
+        if (!path.isEmpty()) {
+            int extIndex = path.lastIndexOf(".");
+            String extension = path.substring(extIndex + 1).toLowerCase();
+            image = new File(path);
+            thumb = new Thumbnail();
+            byte[] bytes = FileHelper.parseFileToBytes(image, extension);
+            thumb.setType(this.ANSWER_TYPE);
+            thumb.setImage(bytes);
+            thumb.setExtention(extension);
+            answer.setImage(thumb);
+        }
+
+        return answer;
+    }
+
 }

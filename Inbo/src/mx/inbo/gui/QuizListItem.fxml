@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import java.net.URL?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+
+<HBox id="itemPane"
+      prefHeight="100.0"
+      prefWidth="1000.0"
+      xmlns:fx="http://javafx.com/fxml/1">
+    
+    <stylesheets>
+        <URL value="@styles/sgeneral.css" />
+    </stylesheets>
+    
+    <ImageView fx:id="quizThumb"
+               fitHeight="100"
+               fitWidth="100"
+               smooth="true">
+        <image>
+            <Image url="/mx/inbo/images/question.png"/>
+        </image>
+        
+    </ImageView>
+    
+    <StackPane maxWidth="825"
+               prefHeight="100"
+               maxHeight="100"
+               style="-fx-background-color: #00819f;"
+               HBox.hgrow="ALWAYS">
+        
+        <Label fx:id="titleLabel"
+               text="title"
+               textFill="#FFFFFF"
+               StackPane.alignment="CENTER_LEFT">
+            
+            <font>
+                <Font name="Segoe UI Semilight" size="28"/>
+            </font>
+            
+            <StackPane.margin>
+                <Insets left="20"/>
+            </StackPane.margin>
+            
+        </Label>
+        
+    </StackPane>
+    
+    <VBox>
+        <JFXButton fx:id="playButton"
+                   text=""
+                   style="-fx-background-color: #000000;"
+                   textFill="#ffffff"
+                   prefWidth="50"
+                   prefHeight="30">
+            <font>
+                <Font name="Segoe MDL2 Assets" size="20"/>
+            </font>
+        </JFXButton>
+        <JFXButton fx:id="editButton"
+                   text=""
+                   style="-fx-background-color: #000000;"
+                   textFill="#ffffff"
+                   prefWidth="50"
+                   prefHeight="30">
+            <font>
+                <Font name="Segoe MDL2 Assets" size="20"/>
+            </font>
+        </JFXButton>
+        
+        <JFXButton fx:id="deleteButton"
+                   text=""
+                   style="-fx-background-color: #000000;"
+                   textFill="#ffffff"
+                   prefWidth="50"
+                   prefHeight="30">
+            <font>
+                <Font name="Segoe MDL2 Assets" size="20"/>
+            </font>
+        </JFXButton>  
+    </VBox>
+    
+</HBox>

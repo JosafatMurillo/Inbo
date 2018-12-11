@@ -17,13 +17,20 @@ package mx.inbo.gui.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import mx.inbo.entities.Question;
+import mx.inbo.entities.Quiz;
 import mx.inbo.entities.User;
 import mx.inbo.gui.tools.Loader;
 
@@ -35,6 +42,7 @@ import mx.inbo.gui.tools.Loader;
 public class CDashboard implements Initializable {
     
     private static User user;
+    private static List<Quiz> quizzes;
     
     public static void setUser(User actualUser){
         user = actualUser;
@@ -44,11 +52,22 @@ public class CDashboard implements Initializable {
         return user;
     }
     
+    public static void setQuizzes(List<Quiz> quizes){
+        quizzes = quizes;
+    }
+    
+    public static List<Quiz> getQuizzes(){
+        return quizzes;
+    }
+    
     @FXML
     private BorderPane mainPane;
     
     @FXML
     private VBox lateralMenu;
+    
+    @FXML
+    private ListView listaQuizzes;
     
     @FXML
     private JFXButton createQuizButton;
@@ -68,6 +87,28 @@ public class CDashboard implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
          usernameLabel.setText(user.getUsername());
          emailLabel.setText(user.getEmail());
+         
+         if(quizzes != null){
+            ObservableList<Quiz> observableQuiz = FXCollections.observableArrayList(quizzes);
+            listaQuizzes.setItems(observableQuiz);
+            
+            listaQuizzes.setCellFactory(celdas -> new ListCell<Quiz>() {
+            
+                @Override
+                protected void updateItem(Quiz quiz, boolean vacio) {
+                    super.updateItem(quiz, vacio);
+
+                    if (vacio || quiz == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        CQuizListItem listController = new CQuizListItem();
+                        listController.setInformation(quiz);
+                        setGraphic(listController.getBox());
+                    }
+                }
+            });
+        }
     }
     
     @FXML

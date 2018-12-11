@@ -18,17 +18,28 @@ package mx.inbo.gui.controllers;
 import animatefx.animation.BounceInLeft;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import mx.inbo.entities.Answer;
 import mx.inbo.entities.Question;
 import mx.inbo.entities.Quiz;
 import mx.inbo.gui.tools.Loader;
+import mx.inbo.servidorrmi.ServerConector;
+import mx.inbo.servidorrmi.Operaciones;
 
 /**
  * FXML Controller class
@@ -38,7 +49,6 @@ import mx.inbo.gui.tools.Loader;
 public class CQuizQuestions implements Initializable {
 
     private static Quiz quiz;
-    private static List<Question> questions;
     
     public static void setQuiz(Quiz quizz){
         quiz = quizz;
@@ -46,14 +56,6 @@ public class CQuizQuestions implements Initializable {
     
     public static Quiz getQuiz(){
         return quiz;
-    }
-    
-    public static List<Question> getQuestions(){
-        if(questions == null){
-            questions = new ArrayList<>();
-        }
-        
-        return questions;
     }
     
     
@@ -65,6 +67,11 @@ public class CQuizQuestions implements Initializable {
 
     @FXML
     private JFXButton backButton;
+    
+    @FXML
+    private ListView questionsList;
+    
+    private Collection<Question> questions;
 
     /**
      * Initializes the controller class.
@@ -73,6 +80,30 @@ public class CQuizQuestions implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         playIntroAnimation();
+        
+        questions = quiz.getQuestionCollection();
+        
+        if(questions != null){
+            ObservableList<Question> observableQuestion = FXCollections.observableArrayList(questions);
+            questionsList.setItems(observableQuestion);
+            
+            questionsList.setCellFactory(celdas -> new ListCell<Question>() {
+            
+                @Override
+                protected void updateItem(Question question, boolean vacio) {
+                    super.updateItem(question, vacio);
+
+                    if (vacio || question == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        CQuestionListItem listController = new CQuestionListItem();
+                        listController.setInformation(question);
+                        setGraphic(listController.getBox());
+                    }
+                }
+            });
+        }
     
     }
     
@@ -90,6 +121,56 @@ public class CQuizQuestions implements Initializable {
     private void loadQuestionMaker(){
         Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuestionMaker.fxml", "New Question", actualStage);
+    }
+    
+    @FXML
+    private void saveQuiz(){
+        
+        Operaciones stub = ServerConector.getStub();
+        
+        Collection<Question> emptyQuestions = new ArrayList<>();
+        
+        quiz.setQuestionCollection(emptyQuestions);
+        
+        try {
+            stub.agregarQuiz(CDashboard.getUser(), quiz);
+        } catch (RemoteException ex) {
+            Logger.getLogger(CQuizQuestions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(questions != null){
+            questions.forEach((question) -> {
+                Collection<Answer> answers = question.getAnswerCollection();
+                Collection<Answer> emptyAnswers = new ArrayList<>();
+                question.setAnswerCollection(emptyAnswers);
+                
+                try {
+                    stub.agregarPregunta(quiz, question);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(CQuizQuestions.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                answers.forEach((answer) -> {
+                    try {
+                        stub.agregarRespuesta(question, answer);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(CQuizQuestions.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            });
+        }
+        
+        List<Quiz> quizzes = CDashboard.getQuizzes();
+        
+        if(quizzes == null){
+            quizzes = new ArrayList<>();
+        }
+        
+        quizzes.add(quiz);
+        
+        CDashboard.setQuizzes(quizzes);
+        Stage actualStage = (Stage) backButton.getScene().getWindow();
+        Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
 
 }

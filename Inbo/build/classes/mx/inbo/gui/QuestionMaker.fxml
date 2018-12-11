@@ -43,6 +43,7 @@
                        text="%key.nextButton"
                        style="-fx-background-color: #000000;"
                        textFill="#FFFFFF"
+                       onAction="#saveQuestion"
                        StackPane.alignment="CENTER_RIGHT">
                 <font>
                     <Font name="Segoe UI" size="20"/>
@@ -73,6 +74,7 @@
             <JFXButton fx:id="changeImageButton"
                        text="%key.changeImageButton"
                        StackPane.alignment="TOP_LEFT"
+                       onAction="#changeImage"
                        style="-fx-background-color:#000000;"
                        textFill="#FFFFFF">
                                     
@@ -151,6 +153,12 @@
                                     </StackPane.margin>
                                 </JFXButton>
                             </StackPane>
+                            <Label fx:id="pathAnswer1"
+                                   textFill="#707070">
+                                <font>
+                                    <Font name="Segoe UI" size="10"/>
+                                </font>
+                            </Label>
                         </VBox>
                         <JFXCheckBox fx:id="answer1IsCorrect">
                             <HBox.margin>
@@ -179,6 +187,12 @@
                                     </StackPane.margin>
                                 </JFXButton>
                             </StackPane>
+                            <Label fx:id="pathAnswer2"
+                                   textFill="#707070">
+                                <font>
+                                    <Font name="Segoe UI" size="10"/>
+                                </font>
+                            </Label>
                             <HBox.margin>
                                 <Insets left="10"/>
                             </HBox.margin>
@@ -215,6 +229,12 @@
                                     </StackPane.margin>
                                 </JFXButton>
                             </StackPane>
+                            <Label fx:id="pathAnswer3"
+                                   textFill="#707070">
+                                <font>
+                                    <Font name="Segoe UI" size="10"/>
+                                </font>
+                            </Label>
                         </VBox>
                         <JFXCheckBox fx:id="answer3IsCorrect">
                             <HBox.margin>
@@ -243,6 +263,12 @@
                                     </StackPane.margin>
                                 </JFXButton>
                             </StackPane>
+                            <Label fx:id="pathAnswer4"
+                                   textFill="#707070">
+                                <font>
+                                    <Font name="Segoe UI" size="10"/>
+                                </font>
+                            </Label>
                             <HBox.margin>
                                 <Insets left="10"/>
                             </HBox.margin>

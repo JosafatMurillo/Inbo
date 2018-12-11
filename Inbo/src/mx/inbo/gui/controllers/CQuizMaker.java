@@ -41,6 +41,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
+import mx.inbo.domain.KeyGenerator;
 import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Quiz;
 import mx.inbo.gui.tools.FileHelper;
@@ -126,6 +127,10 @@ public class CQuizMaker implements Initializable {
         Thumbnail thumb = new Thumbnail();
         thumb.setType("Quiz");
         
+        if(imageFile == null){
+            imageFile = new File(System.getProperty("user.dir") + "/src/mx/inbo/images/default_thumbnail_question.jpg");
+        }
+        
         String imageName = imageFile.getName();
         int extIndex = imageFile.getName().lastIndexOf(".");
         String imageExtention = imageFile.getName().substring(extIndex + 1).toLowerCase();
@@ -134,6 +139,10 @@ public class CQuizMaker implements Initializable {
         byte[] image = FileHelper.parseFileToBytes(imageFile, imageExtention);
         thumb.setImage(image);
         
+        int id = KeyGenerator.obtenerId();
+        
+        quiz.setIdQuiz(id);
+        quiz.setIdUser(CDashboard.getUser());
         quiz.setImage(thumb);
 
         if (!title.isEmpty() && !description.isEmpty()) {

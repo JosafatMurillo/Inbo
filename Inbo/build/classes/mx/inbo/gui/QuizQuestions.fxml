@@ -38,6 +38,7 @@
                        text="%key.nextButton"
                        style="-fx-background-color: #000000;"
                        textFill="#FFFFFF"
+                       onAction="#saveQuiz"
                        StackPane.alignment="CENTER_RIGHT">
                 <font>
                     <Font name="Segoe UI" size="20"/>
@@ -79,6 +80,12 @@
                     <Insets top="20"/>
                 </StackPane.margin>
             </StackPane>
+            <ListView fx:id="questionsList"
+                      maxWidth="1000">
+                <StackPane.margin>
+                    <Insets top="105"/>
+                </StackPane.margin>
+            </ListView>
         </StackPane>
     </center>
     
