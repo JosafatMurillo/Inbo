@@ -5,11 +5,6 @@
  */
 package mx.inbo.controllers;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.SQLException;
 import javax.persistence.Query;
@@ -23,7 +18,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -245,9 +239,6 @@ public class QuizJpaController implements Serializable {
     }
 
     public void agregarQuiz(User idUser, Quiz quiz) {
-
-        int id = KeyGenerator.obtenerId();
-        quiz.setIdQuiz(id);
         
         Thumbnail thumb = quiz.getImage();
         

@@ -25,6 +25,9 @@ import javax.persistence.Persistence;
 import mx.inbo.controllers.exceptions.IllegalOrphanException;
 import mx.inbo.controllers.exceptions.NonexistentEntityException;
 import mx.inbo.datasource.DataBaseInbo;
+import mx.inbo.domain.FileSaver;
+import mx.inbo.domain.KeyGenerator;
+import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Question;
 
 /**
@@ -237,8 +240,17 @@ public class QuestionJpaController implements Serializable {
     }
     
     public void agregarPregunta(Quiz idQuiz, Question pregunta){
+        
+        Thumbnail thumb = pregunta.getImage();
+        
+        String filePath = FileSaver.createFilePath(thumb.getType(), pregunta.getIdQuestion(), idQuiz.getIdUser().getUsername(), thumb.getExtention());
+        
+        FileSaver.saveFile(thumb, filePath);
+        
+        pregunta.setImagen(filePath);
         pregunta.setIdQuiz(idQuiz);
         create(pregunta);
+        
     }
     
     public void actualizarPregunta(Question preguntaNueva){

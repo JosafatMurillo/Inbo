@@ -19,6 +19,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import mx.inbo.controllers.exceptions.NonexistentEntityException;
 import mx.inbo.datasource.DataBaseInbo;
+import mx.inbo.domain.FileSaver;
+import mx.inbo.domain.KeyGenerator;
+import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Answer;
 import mx.inbo.entities.Question;
 
@@ -171,8 +174,20 @@ public class AnswerJpaController implements Serializable {
     }
     
     public void agregarRespuesta(Question idQuestion, Answer respuesta){
+        
+        Thumbnail thumb = respuesta.getImage();
+        
+        String filePath = "";
+        
+        if(thumb != null){
+            filePath = FileSaver.createFilePath(thumb.getType(), respuesta.getIdAnswer(), respuesta.getIdQuestion().getIdQuiz().getIdUser().getUsername(), thumb.getExtention());
+            FileSaver.saveFile(thumb, filePath);
+        }
+        
+        respuesta.setImagen(filePath);
         respuesta.setIdQuestion(idQuestion);
         create(respuesta);
+        
     }
     
     public void actualizarRespuesta(Answer respuestaNueva){
