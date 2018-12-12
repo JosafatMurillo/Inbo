@@ -18,14 +18,21 @@ package mx.inbo.gui.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXSpinner;
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
@@ -80,7 +87,24 @@ public class CLogin implements Initializable {
 
     private void loadDashboard() {
         Stage actualStage = (Stage) loginButton.getScene().getWindow();
-        Loader.loadPageClosingCurrent("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
+        Locale locale = Locale.getDefault();
+        Stage newStage = new Stage();
+        try{
+            Parent root = FXMLLoader.load(Loader.class.getResource("/mx/inbo/gui/Dashboard.fxml"), ResourceBundle.getBundle("mx.inbo.lang.lang", locale));
+            
+            Scene scene = new Scene(root);
+            
+            newStage.setMinHeight(650);
+            newStage.setMinWidth(1050);
+            newStage.setScene(scene);
+            newStage.setMaximized(true);
+            newStage.setTitle("Dashboard");
+            newStage.show();
+            CDashboard.setStage(newStage);
+            actualStage.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML

@@ -5,6 +5,7 @@
  */
 package mx.inbo.controllers;
 
+import java.io.File;
 import java.io.Serializable;
 import java.sql.SQLException;
 import javax.persistence.Query;
@@ -25,6 +26,7 @@ import javax.persistence.Persistence;
 import mx.inbo.controllers.exceptions.IllegalOrphanException;
 import mx.inbo.controllers.exceptions.NonexistentEntityException;
 import mx.inbo.datasource.DataBaseInbo;
+import mx.inbo.domain.FileHelper;
 import mx.inbo.domain.FileSaver;
 import mx.inbo.domain.KeyGenerator;
 import mx.inbo.domain.Thumbnail;
@@ -243,7 +245,7 @@ public class QuestionJpaController implements Serializable {
         
         Thumbnail thumb = pregunta.getImage();
         
-        String filePath = FileSaver.createFilePath(thumb.getType(), pregunta.getIdQuestion(), idQuiz.getIdUser().getUsername(), thumb.getExtention());
+        String filePath = FileSaver.createFileName(thumb.getType(), pregunta.getIdQuestion(), idQuiz.getIdUser().getUsername(), thumb.getExtention());
         
         FileSaver.saveFile(thumb, filePath);
         
@@ -264,7 +266,7 @@ public class QuestionJpaController implements Serializable {
     public void eliminarPregunta(Question preguntaEliminar){
         AnswerJpaController ajc = new AnswerJpaController(emf);
         try {
-            ajc.eliminarTodasRespuestas(preguntaEliminar.getIdQuestion());
+            ajc.eliminarTodasRespuestas(preguntaEliminar);
             destroy(preguntaEliminar.getIdQuestion());
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(AnswerJpaController.class.getName()).log(Level.SEVERE, null, ex);
@@ -273,7 +275,7 @@ public class QuestionJpaController implements Serializable {
         }
     }
     
-    public void eliminarTodasPreguntas(int idQuiz) throws SQLException{
+    public void eliminarTodasPreguntas(Quiz idQuiz) throws SQLException{
         List<Question> preguntas;
         EntityManager em = getEntityManager();
         DataBaseInbo conexion = new DataBaseInbo();
@@ -294,7 +296,7 @@ public class QuestionJpaController implements Serializable {
         
         for (int i = 0; i < preguntas.size(); i++) {
             try {
-                ajc.eliminarTodasRespuestas(preguntas.get(i).getIdQuestion());
+                ajc.eliminarTodasRespuestas(preguntas.get(i));
                 destroy(preguntas.get(i).getIdQuestion());
             } catch (NonexistentEntityException ex) {
                 Logger.getLogger(AnswerJpaController.class.getName()).log(Level.SEVERE, null, ex);
@@ -304,7 +306,7 @@ public class QuestionJpaController implements Serializable {
         }
     }
     
-    public List<Question> obtenerPreguntas(int idQuiz) throws SQLException{
+    public List<Question> obtenerPreguntas(Quiz idQuiz) throws SQLException{
         List<Question> preguntas;
         EntityManager em = getEntityManager();
         DataBaseInbo conexion = new DataBaseInbo();
@@ -321,7 +323,31 @@ public class QuestionJpaController implements Serializable {
         } catch (NoResultException ex) {
             throw new NoResultException("Usuario no encontrado");
         }
+        
+        if(preguntas != null){
+            preguntas.forEach((pregunta) -> {
+                Thumbnail thumb = getThumb(pregunta.getImagen());
+                pregunta.setImage(thumb);
+            });
+        }
+        
         return preguntas;
+    }
+    
+    public Thumbnail getThumb(String fileName) {
+        Thumbnail thumb = new Thumbnail();
+        thumb.setType("Question");
+
+        File imageFile = new File(System.getProperty("user.home") + "/InboRepo/" + fileName);
+
+        int extIndex = fileName.lastIndexOf(".");
+        String imageExtention = fileName.substring(extIndex + 1).toLowerCase();
+        thumb.setExtention(imageExtention);
+
+        byte[] image = FileHelper.parseFileToBytes(imageFile, imageExtention);
+        thumb.setImage(image);
+
+        return thumb;
     }
     
 }

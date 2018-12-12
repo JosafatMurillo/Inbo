@@ -127,7 +127,7 @@ public class ServerInbo implements Operaciones{
     }
 
     @Override
-    public List<Quiz> obtenerQuizzes(int idUser) throws RemoteException {
+    public List<Quiz> obtenerQuizzes(User idUser) throws RemoteException {
         List<Quiz> quizzes = null;
         try {
             quizzes = qjc.obtenerQuizzes(idUser);
@@ -138,7 +138,7 @@ public class ServerInbo implements Operaciones{
     }
 
     @Override
-    public List<Question> obtenerPreguntas(int idQuiz) throws RemoteException {
+    public List<Question> obtenerPreguntas(Quiz idQuiz) throws RemoteException {
         List<Question> preguntas = null;
         try {
             qujc.obtenerPreguntas(idQuiz);
@@ -149,7 +149,7 @@ public class ServerInbo implements Operaciones{
     }
 
     @Override
-    public List<Answer> obtenerRespuestas(int idQuestion) throws RemoteException {
+    public List<Answer> obtenerRespuestas(Question idQuestion) throws RemoteException {
         List<Answer> respuestas = null;
         try {
             respuestas = ajc.obtenerRespuestas(idQuestion);

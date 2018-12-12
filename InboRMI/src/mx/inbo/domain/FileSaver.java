@@ -22,8 +22,8 @@ import mx.inbo.controllers.QuizJpaController;
  */
 public class FileSaver {
     
-    public static String createFilePath(String type, Integer id, String username, String extention){
-        return System.getProperty("user.home") + "/InboRepo/" + username + "_" + type + id + "." + extention;
+    public static String createFileName(String type, Integer id, String username, String extention){
+        return username + "_" + type + id + "." + extention;
     }
     
     public static String saveFile(Thumbnail thumb, String filePath) {
@@ -35,7 +35,7 @@ public class FileSaver {
         try {
             InputStream input = new ByteArrayInputStream(thumb.getImage());
             BufferedImage imageBuff = ImageIO.read(input);
-            File file = new File(filePath);
+            File file = new File(System.getProperty("user.home") + "/InboRepo/" + filePath);
             boolean created = file.createNewFile();
             if (created) {
                 ImageIO.write(imageBuff, thumb.getExtention(), file);

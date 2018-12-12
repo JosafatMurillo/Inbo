@@ -13,8 +13,8 @@
 <?import javafx.geometry.Insets?>
 
 <HBox id="itemPane"
-      prefHeight="100.0"
-      prefWidth="1000.0"
+      prefHeight="111.0"
+      prefWidth="1051.0"
       xmlns:fx="http://javafx.com/fxml/1">
     
     <stylesheets>
@@ -22,8 +22,8 @@
     </stylesheets>
     
     <ImageView fx:id="quizThumb"
-               fitHeight="100"
-               fitWidth="100"
+               fitHeight="111"
+               fitWidth="111"
                smooth="true">
         <image>
             <Image url="/mx/inbo/images/question.png"/>
@@ -31,9 +31,9 @@
         
     </ImageView>
     
-    <StackPane maxWidth="825"
-               prefHeight="100"
-               maxHeight="100"
+    <StackPane maxWidth="900"
+               prefHeight="111"
+               maxHeight="111"
                style="-fx-background-color: #00819f;"
                HBox.hgrow="ALWAYS">
         
@@ -60,7 +60,7 @@
                    style="-fx-background-color: #000000;"
                    textFill="#ffffff"
                    prefWidth="50"
-                   prefHeight="30">
+                   prefHeight="37">
             <font>
                 <Font name="Segoe MDL2 Assets" size="20"/>
             </font>
@@ -70,7 +70,7 @@
                    style="-fx-background-color: #000000;"
                    textFill="#ffffff"
                    prefWidth="50"
-                   prefHeight="30">
+                   prefHeight="37">
             <font>
                 <Font name="Segoe MDL2 Assets" size="20"/>
             </font>
@@ -78,10 +78,11 @@
         
         <JFXButton fx:id="deleteButton"
                    text=""
+                   onAction="#delete"
                    style="-fx-background-color: #000000;"
                    textFill="#ffffff"
                    prefWidth="50"
-                   prefHeight="30">
+                   prefHeight="37">
             <font>
                 <Font name="Segoe MDL2 Assets" size="20"/>
             </font>

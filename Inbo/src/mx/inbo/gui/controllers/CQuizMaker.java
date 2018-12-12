@@ -128,7 +128,7 @@ public class CQuizMaker implements Initializable {
         thumb.setType("Quiz");
         
         if(imageFile == null){
-            imageFile = new File(System.getProperty("user.dir") + "/src/mx/inbo/images/default_thumbnail_question.jpg");
+            imageFile = new File(System.getProperty("user.dir") + "/src/mx/inbo/images/default_thumbnail.png");
         }
         
         String imageName = imageFile.getName();
@@ -143,6 +143,7 @@ public class CQuizMaker implements Initializable {
         
         quiz.setIdQuiz(id);
         quiz.setIdUser(CDashboard.getUser());
+        quiz.setImagen(imageFile.toURI().toString());
         quiz.setImage(thumb);
 
         if (!title.isEmpty() && !description.isEmpty()) {

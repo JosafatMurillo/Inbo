@@ -5,6 +5,7 @@
  */
 package mx.inbo.controllers;
 
+import java.io.File;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
@@ -19,8 +20,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import mx.inbo.controllers.exceptions.NonexistentEntityException;
 import mx.inbo.datasource.DataBaseInbo;
+import mx.inbo.domain.FileHelper;
 import mx.inbo.domain.FileSaver;
-import mx.inbo.domain.KeyGenerator;
 import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Answer;
 import mx.inbo.entities.Question;
@@ -172,41 +173,41 @@ public class AnswerJpaController implements Serializable {
             em.close();
         }
     }
-    
-    public void agregarRespuesta(Question idQuestion, Answer respuesta){
-        
+
+    public void agregarRespuesta(Question idQuestion, Answer respuesta) {
+
         Thumbnail thumb = respuesta.getImage();
-        
+
         String filePath = "";
-        
-        if(thumb != null){
-            filePath = FileSaver.createFilePath(thumb.getType(), respuesta.getIdAnswer(), respuesta.getIdQuestion().getIdQuiz().getIdUser().getUsername(), thumb.getExtention());
+
+        if (thumb != null) {
+            filePath = FileSaver.createFileName(thumb.getType(), respuesta.getIdAnswer(), respuesta.getIdQuestion().getIdQuiz().getIdUser().getUsername(), thumb.getExtention());
             FileSaver.saveFile(thumb, filePath);
         }
-        
+
         respuesta.setImagen(filePath);
         respuesta.setIdQuestion(idQuestion);
         create(respuesta);
-        
+
     }
-    
-    public void actualizarRespuesta(Answer respuestaNueva){
+
+    public void actualizarRespuesta(Answer respuestaNueva) {
         try {
             edit(respuestaNueva);
         } catch (Exception ex) {
             Logger.getLogger(AnswerJpaController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void eliminarRespuesta(Answer respuestaEliminar){
+
+    public void eliminarRespuesta(Answer respuestaEliminar) {
         try {
             destroy(respuestaEliminar.getIdAnswer());
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(AnswerJpaController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void eliminarTodasRespuestas(int idQuestion) throws SQLException{
+
+    public void eliminarTodasRespuestas(Question idQuestion) throws SQLException {
         List<Answer> preguntas;
         EntityManager em = getEntityManager();
         DataBaseInbo conexion = new DataBaseInbo();
@@ -223,7 +224,7 @@ public class AnswerJpaController implements Serializable {
         } catch (NoResultException ex) {
             throw new NoResultException("Usuario no encontrado");
         }
-        
+
         for (int i = 0; i < preguntas.size(); i++) {
             try {
                 destroy(preguntas.get(i).getIdAnswer());
@@ -232,8 +233,8 @@ public class AnswerJpaController implements Serializable {
             }
         }
     }
-    
-    public List<Answer> obtenerRespuestas(int idQuestion) throws SQLException{
+
+    public List<Answer> obtenerRespuestas(Question idQuestion) throws SQLException {
         List<Answer> respuestas;
         EntityManager em = getEntityManager();
         DataBaseInbo conexion = new DataBaseInbo();
@@ -250,7 +251,30 @@ public class AnswerJpaController implements Serializable {
         } catch (NoResultException ex) {
             throw new NoResultException("Usuario no encontrado");
         }
+
+        if (respuestas != null) {
+            respuestas.forEach((respuesta) -> {
+                Thumbnail thumb = getThumb(respuesta.getImagen());
+                respuesta.setImage(thumb);
+            });
+        }
         return respuestas;
     }
-    
+
+    public Thumbnail getThumb(String fileName) {
+        Thumbnail thumb = new Thumbnail();
+        thumb.setType("Answer");
+
+        File imageFile = new File(System.getProperty("user.home") + "/InboRepo/" + fileName);
+
+        int extIndex = fileName.lastIndexOf(".");
+        String imageExtention = fileName.substring(extIndex + 1).toLowerCase();
+        thumb.setExtention(imageExtention);
+
+        byte[] image = FileHelper.parseFileToBytes(imageFile, imageExtention);
+        thumb.setImage(image);
+
+        return thumb;
+    }
+
 }

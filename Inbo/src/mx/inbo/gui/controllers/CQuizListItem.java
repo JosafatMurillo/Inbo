@@ -15,6 +15,7 @@
  */
 package mx.inbo.gui.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Quiz;
 
 
@@ -42,6 +44,8 @@ public class CQuizListItem{
     
     @FXML
     private Label titleLabel;
+    
+    private Quiz quiz;
 
     public CQuizListItem() {
         FXMLLoader loader = new FXMLLoader(CQuestionListItem.class.getClass().getResource("/mx/inbo/gui/QuizListItem.fxml"));
@@ -55,14 +59,20 @@ public class CQuizListItem{
     }
 
     public void setInformation(Quiz quiz){
-        String imagePath = quiz.getImagen();
-        Image image = new Image(imagePath);
+        this.quiz = quiz;
+        Thumbnail thumb = quiz.getImage();
+        Image image = new Image(new ByteArrayInputStream(thumb.getImage()));
         quizThumb.setImage(image);
         titleLabel.setText(quiz.getTitulo());
     }
     
     public HBox getBox(){
         return itemPane;
+    }
+    
+    @FXML
+    private void delete(){
+        CDashboard.deleteQuiz(quiz);
     }
     
 }

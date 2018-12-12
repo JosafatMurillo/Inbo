@@ -8,7 +8,6 @@ package mx.inbo.servidorrmi;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
-import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Answer;
 import mx.inbo.entities.Question;
 import mx.inbo.entities.Quiz;
@@ -33,7 +32,7 @@ public interface Operaciones extends Remote{
     
     public void eliminarQuiz(Quiz quizEliminar)throws RemoteException;
     
-    public List<Quiz> obtenerQuizzes(int idUser) throws RemoteException;
+    public List<Quiz> obtenerQuizzes(User idUser) throws RemoteException;
     
     public void agregarPregunta(Quiz idQuiz, Question pregunta)throws RemoteException;
     
@@ -41,7 +40,7 @@ public interface Operaciones extends Remote{
     
     public void eliminarPregunta(Question preguntaEliminar) throws RemoteException;
     
-    public List<Question> obtenerPreguntas(int idQuiz) throws RemoteException;
+    public List<Question> obtenerPreguntas(Quiz idQuiz) throws RemoteException;
     
     public void agregarRespuesta(Question idQuestion, Answer respuesta)throws RemoteException;
     
@@ -49,7 +48,7 @@ public interface Operaciones extends Remote{
     
     public void eliminarRespuesta(Answer respuestaEliminar) throws RemoteException;
     
-    public List<Answer> obtenerRespuestas(int idQuestion) throws RemoteException;
+    public List<Answer> obtenerRespuestas(Question idQuestion) throws RemoteException;
     
     public boolean validarLogin(String username, String contrasenia) throws RemoteException;
 }
