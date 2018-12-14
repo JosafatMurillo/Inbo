@@ -39,7 +39,7 @@ public class ServerConector {
     private static void initialize() {
         Registry registry;
         try {
-            registry = LocateRegistry.getRegistry("localhost");
+            registry = LocateRegistry.getRegistry("inbo.ddns.net");
             stub = (Operaciones) registry.lookup("servidorInbo");
         } catch (RemoteException | NotBoundException ex) {
             if(dialog != null){

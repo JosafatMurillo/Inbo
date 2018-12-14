@@ -20,6 +20,8 @@ import com.jfoenix.controls.JFXSpinner;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -93,6 +95,7 @@ public class CSignUp implements Initializable {
                         try {
                             stub.agregarUsario(user);
                         } catch (RemoteException | NullPointerException ex) {
+                            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                             if(ex.getClass() != NullPointerException.class){
                                 showError = true;
                             }

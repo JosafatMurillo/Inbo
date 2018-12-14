@@ -27,7 +27,9 @@ public class FileSaver {
     }
     
     public static String saveFile(Thumbnail thumb, String filePath) {
-        File directory = new File(System.getProperty("user.home") + "/InboRepo");
+        String directoryPath = System.getProperty("user.home") + "/InboRepo";
+        System.out.println(directoryPath);
+        File directory = new File(directoryPath);
         if (!directory.exists()) {
             directory.mkdir();
         }

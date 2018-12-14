@@ -19,8 +19,8 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="mx.inbo.gui.controllers.CSignUp">
     <stylesheets>
-        <URL value="@/mx/inbo/gui/styles/ssignup.css"/>
-        <URL value="@/mx/inbo/gui/styles/sgeneral.css"/>
+        <URL value="@styles/ssignup.css"/>
+        <URL value="@styles/sgeneral.css"/>
     </stylesheets>
     <center>
         <StackPane fx:id="contentPane">
