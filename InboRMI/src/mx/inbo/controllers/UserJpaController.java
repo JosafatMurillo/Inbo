@@ -5,6 +5,7 @@
  */
 package mx.inbo.controllers;
 
+import java.io.File;
 import java.io.Serializable;
 import java.sql.SQLException;
 import javax.persistence.Query;
@@ -30,6 +31,9 @@ import javax.persistence.NoResultException;
 import mx.inbo.controllers.exceptions.IllegalOrphanException;
 import mx.inbo.controllers.exceptions.NonexistentEntityException;
 import mx.inbo.datasource.DataBaseInbo;
+import mx.inbo.domain.FileHelper;
+import mx.inbo.domain.FileSaver;
+import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.User;
 import mx.inbo.exception.CustomException;
 
@@ -285,16 +289,30 @@ public class UserJpaController implements Serializable {
     }
 
     public void agregarUsuario(User usuario) throws MessagingException {
+
+        Thumbnail thumb = usuario.getImage();
+
+        String filePath = FileSaver.createFileName(thumb.getType(), usuario.getIdUser(), usuario.getUsername(), thumb.getExtention());
+
+        FileSaver.saveFile(thumb, filePath);
+
+        usuario.setImagen(filePath);
         usuario.setContrasenia(randomAlphaNumeric(15));
         create(usuario);
         correoSignup(usuario);
     }
 
-    public void cambiarContrasenia(User usuario, String contraseniaNueva) throws NonexistentEntityException {
-        usuario.setContrasenia(contraseniaNueva);
+    public void editarUsuario(User usuario) throws NonexistentEntityException {
         try {
+            Thumbnail thumb = usuario.getImage();
+
+            String filePath = FileSaver.createFileName(thumb.getType(), usuario.getIdUser(), usuario.getUsername(), thumb.getExtention());
+
+            FileSaver.saveFile(thumb, filePath);
+            
+            usuario.setImagen(filePath);
             edit(usuario);
-            System.out.println("Contraseña cambiada");
+            System.out.println("El usuario " + usuario.getUsername() + " fue actualizado");
         } catch (NonexistentEntityException ex) {
             throw new NonexistentEntityException("En este momento no es posible cambiar la contraseña");
         } catch (Exception ex) {
@@ -310,11 +328,29 @@ public class UserJpaController implements Serializable {
         User usuario = null;
         try {
             usuario = (User) query.getSingleResult();
+            Thumbnail thumb = getThumb(usuario.getImagen());
+            usuario.setImage(thumb);
         } catch (NoResultException ex) {
             throw new NoResultException("Usuario no encontrado");
         }
 
         return usuario;
+    }
+
+    public Thumbnail getThumb(String fileName) {
+        Thumbnail thumb = new Thumbnail();
+        thumb.setType("User");
+
+        File imageFile = new File(System.getProperty("user.home") + "/InboRepo/" + fileName);
+
+        int extIndex = fileName.lastIndexOf(".");
+        String imageExtention = fileName.substring(extIndex + 1).toLowerCase();
+        thumb.setExtention(imageExtention);
+
+        byte[] image = FileHelper.parseFileToBytes(imageFile, imageExtention);
+        thumb.setImage(image);
+
+        return thumb;
     }
 
 }

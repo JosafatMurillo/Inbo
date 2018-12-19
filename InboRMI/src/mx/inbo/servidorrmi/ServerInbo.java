@@ -65,9 +65,9 @@ public class ServerInbo implements Operaciones{
     }
 
     @Override
-    public void cambiarContrasenia(User usuario, String contraseniaNueva) throws RemoteException {
+    public void editarUsuario(User usuario) throws RemoteException {
         try {
-            ujc.cambiarContrasenia(usuario, contraseniaNueva);
+            ujc.editarUsuario(usuario);
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(ServerInbo.class.getName()).log(Level.SEVERE, null, ex);
         }

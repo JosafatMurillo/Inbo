@@ -34,7 +34,7 @@ public class ProbarLogin {
             System.out.println(ex.getMessage());
         }
         User usuario = ujc.findUser(1);
-        ujc.cambiarContrasenia(usuario, "Dash");
+        //ujc.cambiarContrasenia(usuario, "Dash");
         /*try {
             ujc.correoSignup(usuario);
         } catch (MessagingException ex) {

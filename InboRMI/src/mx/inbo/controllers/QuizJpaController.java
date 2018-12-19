@@ -271,7 +271,7 @@ public class QuizJpaController implements Serializable {
         }
 
         ajc.eliminarTodasPreguntas(quizEliminar);
-        
+
         try {
             destroy(quizEliminar.getIdQuiz());
         } catch (IllegalOrphanException ex) {
@@ -301,17 +301,26 @@ public class QuizJpaController implements Serializable {
 
         if (quizzes != null) {
             quizzes.forEach((quiz) -> {
-                Thumbnail thumb = getThumb(quiz.getImagen());
+                Thumbnail thumb = getThumb(quiz.getImagen(), "Quiz");
                 quiz.setImage(thumb);
+
+                List<Question> preguntas = (List<Question>) quiz.getQuestionCollection();
+
+                if (preguntas != null) {
+                    preguntas.forEach(pregunta -> {
+                        Thumbnail thumbQuestion = getThumb(pregunta.getImagen(), "Question");
+                        pregunta.setImage(thumbQuestion);
+                    });
+                }
             });
         }
 
         return quizzes;
     }
 
-    public Thumbnail getThumb(String fileName) {
+    public Thumbnail getThumb(String fileName, String type) {
         Thumbnail thumb = new Thumbnail();
-        thumb.setType("Quiz");
+        thumb.setType(type);
 
         File imageFile = new File(System.getProperty("user.home") + "/InboRepo/" + fileName);
 

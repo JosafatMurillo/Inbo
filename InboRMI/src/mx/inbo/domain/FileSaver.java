@@ -7,7 +7,6 @@ package mx.inbo.domain;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +36,8 @@ public class FileSaver {
         try {
             InputStream input = new ByteArrayInputStream(thumb.getImage());
             BufferedImage imageBuff = ImageIO.read(input);
+            File oldFile = new File(System.getProperty("user.home") + "/InboRepo/" + filePath);
+            oldFile.delete();
             File file = new File(System.getProperty("user.home") + "/InboRepo/" + filePath);
             boolean created = file.createNewFile();
             if (created) {

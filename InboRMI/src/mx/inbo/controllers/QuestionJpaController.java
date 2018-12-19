@@ -325,7 +325,7 @@ public class QuestionJpaController implements Serializable {
         }
         
         if(preguntas != null){
-            preguntas.forEach((pregunta) -> {
+            preguntas.forEach(pregunta -> {
                 Thumbnail thumb = getThumb(pregunta.getImagen());
                 pregunta.setImage(thumb);
             });

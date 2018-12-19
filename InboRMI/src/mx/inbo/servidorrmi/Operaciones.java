@@ -23,8 +23,7 @@ public interface Operaciones extends Remote{
     
     public User obtenerUsario(String username) throws RemoteException;
     
-    public void cambiarContrasenia(User usuario, String contraseniaNueva)
-            throws RemoteException;
+    public void editarUsuario(User usuario) throws RemoteException;
     
     public void agregarQuiz(User idUser, Quiz quiz) throws RemoteException;
     
