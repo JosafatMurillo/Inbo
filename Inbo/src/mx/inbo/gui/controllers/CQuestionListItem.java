@@ -15,6 +15,7 @@
  */
 package mx.inbo.gui.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Question;
 
 /**
@@ -54,8 +56,8 @@ public class CQuestionListItem {
     }
     
     public void setInformation(Question question){
-        String imagePath = question.getImagen();
-        Image image = new Image(imagePath);
+        Thumbnail thumb = question.getImage();
+        Image image = new Image(new ByteArrayInputStream(thumb.getImage()));
         questionThumb.setImage(image);
         titleLabel.setText(question.getPregunta());
     }

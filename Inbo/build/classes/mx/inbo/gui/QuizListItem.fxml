@@ -57,6 +57,7 @@
     <VBox>
         <JFXButton fx:id="playButton"
                    text=""
+                   onAction="#play"
                    style="-fx-background-color: #000000;"
                    textFill="#ffffff"
                    prefWidth="50"
@@ -67,6 +68,7 @@
         </JFXButton>
         <JFXButton fx:id="editButton"
                    text=""
+                   onAction="#edit"
                    style="-fx-background-color: #000000;"
                    textFill="#ffffff"
                    prefWidth="50"

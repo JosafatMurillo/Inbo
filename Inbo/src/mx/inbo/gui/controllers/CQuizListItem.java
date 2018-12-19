@@ -25,8 +25,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Quiz;
+import mx.inbo.gui.tools.Loader;
 
 
 /**
@@ -75,4 +77,17 @@ public class CQuizListItem{
         CDashboard.deleteQuiz(quiz);
     }
     
+    @FXML
+    private void edit(){
+        Stage stage = CDashboard.getStage();
+        CQuizMaker.setQuiz(quiz);
+        Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizMaker.fxml", "New Quiz", stage);
+    }
+    
+    @FXML
+    private void play(){
+        Stage stage = CDashboard.getStage();
+        CStartQuiz.setQuiz(quiz);
+        Loader.loadPageInCurrentStage("/mx/inbo/gui/StartQuiz.fxml", "Start Quiz", stage);
+    }
 }

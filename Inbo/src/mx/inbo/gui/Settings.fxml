@@ -41,6 +41,7 @@
             </JFXButton>
             <JFXButton fx:id="saveBuuton"
                        text="%key.saveButton"
+                       onAction="#save"
                        style="-fx-background-color: #000000;"
                        textFill="#FFFFFF"
                        StackPane.alignment="CENTER_RIGHT">
@@ -65,7 +66,7 @@
                     scaleX="1.2"
                     scaleY="1.2">
                 <fill>
-                    <ImagePattern>
+                    <ImagePattern fx:id="userThumb">
                         <image>
                             <Image url="/mx/inbo/images/dog.jpg" />
                         </image>
@@ -80,6 +81,7 @@
             </Circle>
             <JFXButton fx:id="changeImageButton"
                        text="%key.changeImageButton"
+                       onAction="#changeImage"
                        StackPane.alignment="TOP_CENTER"
                        style="-fx-background-color:#000000;"
                        textFill="#FFFFFF">
@@ -90,108 +92,109 @@
         </StackPane>
     </left>
     <center>
-        
-        <VBox>
-            <Label text="%key.settingsTitle">
-                <font>
-                    <Font name="Segoe UI Semilight" size="42"/>
-                </font>
-                <VBox.margin>
-                    <Insets top="25" left="25"/>
-                </VBox.margin>
-            </Label>
-            <Label text="%key.userLabel"
-                   textFill="#707070">
-                <font>
-                    <Font name="Segoe UI" size="15"/>
-                </font>
-                <VBox.margin>
-                    <Insets top="10" left="30"/>
-                </VBox.margin>
-            </Label>
-            <TextField fx:id="usernameField"
-                       maxWidth="400"
-                       prefHeight="28">
-                <VBox.margin>
-                    <Insets top="5" left="30"/>
-                </VBox.margin>
-            </TextField>
-            <Label text="%key.emailLabel"
-                   textFill="#707070">
-                <font>
-                    <Font name="Segoe UI" size="15"/>
-                </font>
-                <VBox.margin>
-                    <Insets top="10" left="30"/>
-                </VBox.margin>
-            </Label>
-            <TextField fx:id="emailField"
-                       maxWidth="400"
-                       prefHeight="28">
-                <VBox.margin>
-                    <Insets top="5" left="30"/>
-                </VBox.margin>
-            </TextField>
-            <Label text="%key.changePasswordTitle">
-                <font>
-                    <Font name="Segoe UI Semilight" size="24"/>
-                </font>
-                <VBox.margin>
-                    <Insets top="45" left="25"/>
-                </VBox.margin>
-            </Label>
-            <Label text="%key.currentPassword"
-                   textFill="#707070">
-                <font>
-                    <Font name="Segoe UI" size="15"/>
-                </font>
-                <VBox.margin>
-                    <Insets top="10" left="30"/>
-                </VBox.margin>
-            </Label>
-            <PasswordField fx:id="curentPasswordField"
+        <StackPane fx:id="centerPane">
+            <VBox>
+                <Label text="%key.settingsTitle">
+                    <font>
+                        <Font name="Segoe UI Semilight" size="42"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets top="25" left="25"/>
+                    </VBox.margin>
+                </Label>
+                <Label text="%key.userLabel"
+                       textFill="#707070">
+                    <font>
+                        <Font name="Segoe UI" size="15"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10" left="30"/>
+                    </VBox.margin>
+                </Label>
+                <TextField fx:id="usernameField"
                            maxWidth="400"
                            prefHeight="28">
-                <VBox.margin>
-                    <Insets top="5" left="30"/>
-                </VBox.margin>
-            </PasswordField>
-            <Label text="%key.newPassword"
-                   textFill="#707070">
-                <font>
-                    <Font name="Segoe UI" size="15"/>
-                </font>
-                <VBox.margin>
-                    <Insets top="10" left="30"/>
-                </VBox.margin>
-            </Label>
-            <PasswordField fx:id="newPasswordField"
+                    <VBox.margin>
+                        <Insets top="5" left="30"/>
+                    </VBox.margin>
+                </TextField>
+                <Label text="%key.emailLabel"
+                       textFill="#707070">
+                    <font>
+                        <Font name="Segoe UI" size="15"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10" left="30"/>
+                    </VBox.margin>
+                </Label>
+                <TextField fx:id="emailField"
                            maxWidth="400"
                            prefHeight="28">
-                <VBox.margin>
-                    <Insets top="5" left="30"/>
-                </VBox.margin>
-            </PasswordField>
-            <Label text="%key.passwordVerification"
-                   textFill="#707070">
-                <font>
-                    <Font name="Segoe UI" size="15"/>
-                </font>
-                <VBox.margin>
-                    <Insets top="10" left="30"/>
-                </VBox.margin>
-            </Label>
-            <PasswordField fx:id="passwordVerificationField"
-                           maxWidth="400"
-                           prefHeight="28">
-                <VBox.margin>
-                    <Insets top="5" left="30"/>
-                </VBox.margin>
-            </PasswordField>
-            <BorderPane.margin>
-                <Insets right="20"/>
-            </BorderPane.margin>
-        </VBox>
+                    <VBox.margin>
+                        <Insets top="5" left="30"/>
+                    </VBox.margin>
+                </TextField>
+                <Label text="%key.changePasswordTitle">
+                    <font>
+                        <Font name="Segoe UI Semilight" size="24"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets top="45" left="25"/>
+                    </VBox.margin>
+                </Label>
+                <Label text="%key.currentPassword"
+                       textFill="#707070">
+                    <font>
+                        <Font name="Segoe UI" size="15"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10" left="30"/>
+                    </VBox.margin>
+                </Label>
+                <PasswordField fx:id="currentPasswordField"
+                               maxWidth="400"
+                               prefHeight="28">
+                    <VBox.margin>
+                        <Insets top="5" left="30"/>
+                    </VBox.margin>
+                </PasswordField>
+                <Label text="%key.newPassword"
+                       textFill="#707070">
+                    <font>
+                        <Font name="Segoe UI" size="15"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10" left="30"/>
+                    </VBox.margin>
+                </Label>
+                <PasswordField fx:id="newPasswordField"
+                               maxWidth="400"
+                               prefHeight="28">
+                    <VBox.margin>
+                        <Insets top="5" left="30"/>
+                    </VBox.margin>
+                </PasswordField>
+                <Label text="%key.passwordVerification"
+                       textFill="#707070">
+                    <font>
+                        <Font name="Segoe UI" size="15"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10" left="30"/>
+                    </VBox.margin>
+                </Label>
+                <PasswordField fx:id="passwordVerificationField"
+                               maxWidth="400"
+                               prefHeight="28">
+                    <VBox.margin>
+                        <Insets top="5" left="30"/>
+                    </VBox.margin>
+                </PasswordField>
+                <BorderPane.margin>
+                    <Insets right="20"/>
+                </BorderPane.margin>
+            </VBox>
+        </StackPane>
         
     </center>
     

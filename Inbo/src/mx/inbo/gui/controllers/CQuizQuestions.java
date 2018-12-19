@@ -139,7 +139,7 @@ public class CQuizQuestions implements Initializable {
         }
         
         if(questions != null){
-            questions.forEach((question) -> {
+            questions.forEach(question -> {
                 Collection<Answer> answers = question.getAnswerCollection();
                 Collection<Answer> emptyAnswers = new ArrayList<>();
                 question.setAnswerCollection(emptyAnswers);
@@ -150,7 +150,7 @@ public class CQuizQuestions implements Initializable {
                     Logger.getLogger(CQuizQuestions.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                answers.forEach((answer) -> {
+                answers.forEach(answer -> {
                     try {
                         stub.agregarRespuesta(question, answer);
                     } catch (RemoteException ex) {

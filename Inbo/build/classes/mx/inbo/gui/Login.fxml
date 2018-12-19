@@ -107,7 +107,7 @@
                                 <JFXButton fx:id="loginButton"
                                            prefHeight="28"
                                            style="-fx-background-color: #000000;"
-                                           text="%key.loginButton"
+                                           text="%key.enterButton"
                                            textFill="#95989A"
                                            onAction="#login">
                                 </JFXButton>

@@ -17,6 +17,7 @@ package mx.inbo.gui.controllers;
 
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXSpinner;
+import java.io.File;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
@@ -29,7 +30,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.User;
+import mx.inbo.gui.tools.FileHelper;
 import mx.inbo.gui.tools.Mensaje;
 import mx.inbo.servidorrmi.ServerConector;
 import mx.inbo.servidorrmi.Operaciones;
@@ -79,7 +82,9 @@ public class CSignUp implements Initializable {
 
         user.setUsername(username);
         user.setEmail(email);
-        user.setImagen("/mx/inbo/image/dog.jpg");
+        
+        Thumbnail thumb = createUserImage();
+        user.setImage(thumb);
 
         Service<Void> serv = new Service<Void>() {
 
@@ -124,6 +129,20 @@ public class CSignUp implements Initializable {
 
         serv.reset();
         serv.start();
+    }
+    
+    private Thumbnail createUserImage(){
+        File imageFile = new File(System.getProperty("user.dir") + "/src/mx/inbo/images/dog.jpg");
+        
+        Thumbnail thumb = new Thumbnail();
+        
+        thumb.setType("User");
+        thumb.setExtention("jpg");
+        
+        byte[] image = FileHelper.parseFileToBytes(imageFile, thumb.getExtention());
+        thumb.setImage(image);
+        
+        return thumb;
     }
 
 }

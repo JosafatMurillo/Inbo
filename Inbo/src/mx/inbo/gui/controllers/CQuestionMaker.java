@@ -50,7 +50,7 @@ import mx.inbo.gui.tools.Loader;
  */
 public class CQuestionMaker implements Initializable {
 
-    private final String ANSWER_TYPE = "Answer";
+    private static final String ANSWERTYPE = "Answer";
 
     @FXML
     private BorderPane mainPane;
@@ -170,9 +170,8 @@ public class CQuestionMaker implements Initializable {
                 imageFile = new File(System.getProperty("user.dir") + "/src/mx/inbo/images/default_thumbnail_question.jpg");
             }
 
-            String imageName = imageFile.getName();
             String imagePath = imageFile.toURI().toString();
-            int extIndex = imageFile.getName().lastIndexOf(".");
+            int extIndex = imageFile.getName().lastIndexOf('.');
             String imageExtention = imageFile.getName().substring(extIndex + 1).toLowerCase();
             thumb.setExtention(imageExtention);
 
@@ -275,12 +274,12 @@ public class CQuestionMaker implements Initializable {
         Thumbnail thumb = null;
 
         if (!path.isEmpty()) {
-            int extIndex = path.lastIndexOf(".");
+            int extIndex = path.lastIndexOf('.');
             String extension = path.substring(extIndex + 1).toLowerCase();
             image = new File(path);
             thumb = new Thumbnail();
             byte[] bytes = FileHelper.parseFileToBytes(image, extension);
-            thumb.setType(this.ANSWER_TYPE);
+            thumb.setType(ANSWERTYPE);
             thumb.setImage(bytes);
             thumb.setExtention(extension);
             answer.setImage(thumb);

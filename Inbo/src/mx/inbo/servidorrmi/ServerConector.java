@@ -23,7 +23,6 @@ import java.rmi.registry.Registry;
 import java.util.ResourceBundle;
 import javafx.scene.layout.StackPane;
 import mx.inbo.gui.tools.Mensaje;
-import mx.inbo.servidorrmi.Operaciones;
 
 /**
  *
@@ -39,7 +38,7 @@ public class ServerConector {
     private static void initialize() {
         Registry registry;
         try {
-            registry = LocateRegistry.getRegistry("localhost");
+            registry = LocateRegistry.getRegistry("192.168.43.204");
             stub = (Operaciones) registry.lookup("servidorInbo");
         } catch (RemoteException | NotBoundException ex) {
             if(dialog != null){

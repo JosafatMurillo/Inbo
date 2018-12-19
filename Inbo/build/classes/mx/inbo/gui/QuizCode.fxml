@@ -6,6 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -27,13 +28,13 @@
     
     <top>
         <StackPane prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #00819f;" BorderPane.alignment="CENTER">
-           <children>
-               <JFXButton fx:id="backButton" onAction="#stepBack" text="" textFill="#FFFFFF" StackPane.alignment="CENTER_LEFT">
-                   <font>
-                       <Font name="Segoe MDL2 Assets" size="32" />
-                   </font>
-               </JFXButton>
-           </children>
+            <children>
+                <JFXButton fx:id="backButton" onAction="#stepBack" text="" textFill="#FFFFFF" StackPane.alignment="CENTER_LEFT">
+                    <font>
+                        <Font name="Segoe MDL2 Assets" size="32" />
+                    </font>
+                </JFXButton>
+            </children>
         </StackPane>
     </top>
     <center>
@@ -41,7 +42,7 @@
             <children>
                 <ImageView fx:id="background">
                     <image>
-                        <Image url="/mx/inbo/images/background.jpg" />
+                        <Image url="/mx/inbo/images/background.png" />
                     </image>
                     <effect>
                         <Lighting bumpInput="$null">
@@ -59,7 +60,22 @@
                             </image>
                         </ImagePattern>
                     </fill>
+                    <StackPane.margin>
+                        <Insets bottom="220"/>
+                    </StackPane.margin>
                 </Circle>
+                <TextField fx:id="codeField"
+                           prefWidth="350"
+                           promptText="%key.codeFieldPrompt"
+                           maxWidth="350"
+                           prefHeight="30">
+                </TextField>
+                <JFXButton fx:id="enterButton"
+                           text="%key.enterButton">
+                    <StackPane.margin>
+                        <Insets top="120"/>
+                    </StackPane.margin>
+                </JFXButton>
             </children>
         </StackPane>
     </center>

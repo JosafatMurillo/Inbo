@@ -18,6 +18,7 @@ package mx.inbo.gui.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -34,11 +35,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Quiz;
 import mx.inbo.entities.User;
 import mx.inbo.gui.tools.Loader;
@@ -59,6 +64,10 @@ public class CDashboard implements Initializable {
     private static Operaciones stub;
     private static List<Quiz> quizzes;
 
+    /***
+     * Asigna el valor de un objeto User a la variable interna.
+     * @param actualUser    Objeto a asignar a la variable interna.
+     */
     public static void setUser(User actualUser) {
         user = actualUser;
     }
@@ -69,6 +78,10 @@ public class CDashboard implements Initializable {
     
     public static void setStage(Stage actualS) {
         actualStage = actualS;
+    }
+    
+    public static Stage getStage() {
+        return actualStage;
     }
 
     public static void setQuizzes(List<Quiz> quizes) {
@@ -84,6 +97,9 @@ public class CDashboard implements Initializable {
 
     @FXML
     private VBox lateralMenu;
+    
+    @FXML
+    private Circle userImage;
 
     @FXML
     private ListView listaQuizzes;
@@ -149,20 +165,29 @@ public class CDashboard implements Initializable {
         
         dialog = new JFXDialog();
         dialog.setDialogContainer(centerPane);
+        
+        Thumbnail thumb = user.getImage();
+        Image image = new Image(new ByteArrayInputStream(thumb.getImage()));
+        ImagePattern imagePattern = new ImagePattern(image);
+        userImage.setFill(imagePattern);
+        
     }
 
     @FXML
     private void loadQuizMaker() {
+        CQuizMaker.setQuiz(null);
         loadPage("/mx/inbo/gui/QuizMaker.fxml", "New Quiz");
     }
 
     @FXML
     private void loadSettings() {
+        CSettings.setUser(user);
         loadPage("/mx/inbo/gui/Settings.fxml", "Settings");
     }
 
     @FXML
     private void loadPlayWithCode() {
+        CQuizCode.setUser(user);
         loadPage("/mx/inbo/gui/QuizCode.fxml", "Play with code");
     }
 

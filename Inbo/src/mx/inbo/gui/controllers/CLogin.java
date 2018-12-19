@@ -26,6 +26,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -78,6 +80,22 @@ public class CLogin implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         bundle = rb;
+        
+        passwordField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            if (newValue.intValue() > oldValue.intValue()) {
+                if (passwordField.getText().length() >= 20) {
+                    passwordField.setText(passwordField.getText().substring(0, 20));
+                }
+            }
+        });
+        
+        userField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            if (newValue.intValue() > oldValue.intValue()) {
+                if (userField.getText().length() >= 20) {
+                    userField.setText(userField.getText().substring(0, 20));
+                }
+            }
+        });
     }
 
     @FXML
@@ -117,8 +135,9 @@ public class CLogin implements Initializable {
     private void login() {
         String username = userField.getText();
         String password = passwordField.getText();
-        Service<Void> serv = new Service<Void>() {
-
+        Service<Void> serv;
+        serv = new Service<Void>() {
+            
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -134,6 +153,7 @@ public class CLogin implements Initializable {
                                 user = stub.obtenerUsario(username);
                             }
                         } catch (RemoteException | NullPointerException ex) {
+                            Logger.getLogger(CDashboard.class.getName()).log(Level.SEVERE, null, ex);
                             showError = true;
                         }
 

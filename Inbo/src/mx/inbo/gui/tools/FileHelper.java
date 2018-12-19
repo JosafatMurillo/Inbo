@@ -29,12 +29,15 @@ import javax.imageio.ImageIO;
  */
 public class FileHelper {
     
-    public static byte[] parseFileToBytes(File file, String fileExtention){
-        
+    //This method hides the public constructor
+    private FileHelper(){}
+
+    public static byte[] parseFileToBytes(File file, String fileExtention) {
+
         byte[] fileBytes = {};
-        
+
         ByteArrayOutputStream byteArrayOut = null;
-        
+
         try {
             BufferedImage imageBuff = ImageIO.read(file);
             byteArrayOut = new ByteArrayOutputStream();
@@ -43,15 +46,17 @@ public class FileHelper {
             fileBytes = byteArrayOut.toByteArray();
         } catch (IOException ex) {
             Logger.getLogger(FileHelper.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+        } finally {
             try {
-                byteArrayOut.close();
+                if (byteArrayOut != null) {
+                    byteArrayOut.close();
+                }
             } catch (IOException ex) {
                 Logger.getLogger(FileHelper.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return fileBytes;
     }
-    
+
 }

@@ -16,13 +16,25 @@
 package mx.inbo.gui.controllers;
 
 import animatefx.animation.BounceInLeft;
+import animatefx.animation.FadeInDown;
+import animatefx.animation.Jello;
+import animatefx.animation.Pulse;
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import mx.inbo.domain.Thumbnail;
+import mx.inbo.entities.User;
 import mx.inbo.gui.tools.Loader;
 
 /**
@@ -32,11 +44,20 @@ import mx.inbo.gui.tools.Loader;
  */
 public class CQuizCode implements Initializable {
 
+    private static User user;
+
+    public static void setUser(User usr) {
+        user = usr;
+    }
+    
     @FXML
     private BorderPane mainPane;
     
     @FXML
     private ImageView background;
+    
+    @FXML
+    private Circle userImage;
     
     /**
      * Initializes the controller class.
@@ -49,6 +70,18 @@ public class CQuizCode implements Initializable {
         
         playIntroAnimation();
         
+        Thumbnail thumb = user.getImage();
+        Image image = new Image(new ByteArrayInputStream(thumb.getImage()));
+        ImagePattern imagePattern = new ImagePattern(image);
+        userImage.setFill(imagePattern);
+        
+        userImage.setOnMouseClicked((MouseEvent e) -> {
+            new Jello(userImage).play();
+        });
+        
+        new FadeInDown(userImage).play();
+        
+        new Pulso().start();
     }
     
     private void playIntroAnimation(){
@@ -59,6 +92,32 @@ public class CQuizCode implements Initializable {
     public void stepBack(){
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
+    }
+    
+    class Pulso extends Thread {
+        
+        int count = 1;
+        
+        @Override
+        public void run(){
+            while(true){
+                try {
+                    new Pulse(userImage).play();
+                    Thread.sleep(800);
+                    
+                    count += 1;
+                    
+                    if(count > 3){
+                        count = 0;
+                        Thread.sleep(2100);
+                    }
+                    
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(CQuizCode.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
     }
     
 }

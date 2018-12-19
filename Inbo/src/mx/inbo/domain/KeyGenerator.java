@@ -9,6 +9,9 @@ import java.util.logging.Logger;
 public class KeyGenerator {
     
     private static int key = -1;
+    
+    // This hides the implicit public constructor
+    private KeyGenerator(){}
         
     public static int obtenerId(){
         
@@ -24,7 +27,5 @@ public class KeyGenerator {
         
         return key;
     }
-    
-    public KeyGenerator(){}
     
 }
