@@ -1,0 +1,9 @@
+PruebasTontas
+mx.inbo.clientermi
+mx.inbo.controllers
+mx.inbo.controllers.exceptions
+mx.inbo.datasource
+mx.inbo.domain
+mx.inbo.entities
+mx.inbo.exception
+mx.inbo.servidorrmi
