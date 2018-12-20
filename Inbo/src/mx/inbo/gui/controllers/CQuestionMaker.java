@@ -44,7 +44,7 @@ import mx.inbo.gui.tools.FileHelper;
 import mx.inbo.gui.tools.Loader;
 
 /**
- * FXML Controller class
+ * Clase controladora FXML del Question Maker.
  *
  * @author adolf
  */
@@ -136,11 +136,17 @@ public class CQuestionMaker implements Initializable {
         playIntroAnimation();
     }
 
+    /**
+     * Reproduce la animación de entrada
+     */
     private void playIntroAnimation() {
         new BounceInLeft(mainPane).play();
         new SlideInLeft(thumbnailPane).play();
     }
 
+    /**
+     * Guarda la pregunta en la lista del quiz
+     */
     @FXML
     private void saveQuestion() {
 
@@ -162,7 +168,7 @@ public class CQuestionMaker implements Initializable {
 
             question.setPregunta(title);
             question.setTiempo(limit);
-            
+
             Thumbnail thumb = new Thumbnail();
             thumb.setType("Question");
 
@@ -177,26 +183,26 @@ public class CQuestionMaker implements Initializable {
 
             byte[] image = FileHelper.parseFileToBytes(imageFile, imageExtention);
             thumb.setImage(image);
-            
+
             int id = KeyGenerator.obtenerId();
-            
+
             question.setIdQuestion(id);
             question.setImage(thumb);
             question.setImagen(imagePath);
 
             Answer answer1 = new Answer();
-            
+
             answer1.setRespuesta(answer1Text);
 
             Answer answer2 = new Answer();
             answer2.setRespuesta(answer2Text);
-            
+
             int idAnswer1 = KeyGenerator.obtenerId();
             int idAnswer2 = KeyGenerator.obtenerId();
 
             answer1 = setAnswerImage(answer1, pathAnswer1.getText());
             answer2 = setAnswerImage(answer2, pathAnswer2.getText());
-            
+
             answer1.setIdAnswer(idAnswer1);
             answer2.setIdAnswer(idAnswer2);
 
@@ -209,19 +215,19 @@ public class CQuestionMaker implements Initializable {
             answers.add(answer2);
 
             if (!answer3Text.isEmpty() && !answer4Text.isEmpty()) {
-                
+
                 Answer answer3 = new Answer();
                 answer3.setRespuesta(answer3Text);
 
                 Answer answer4 = new Answer();
                 answer4.setRespuesta(answer4Text);
-                
+
                 int idAnswer3 = KeyGenerator.obtenerId();
                 int idAnswer4 = KeyGenerator.obtenerId();
 
                 answer3 = setAnswerImage(answer3, pathAnswer4.getText());
                 answer4 = setAnswerImage(answer4, pathAnswer4.getText());
-                
+
                 answer3.setIdAnswer(idAnswer3);
                 answer4.setIdAnswer(idAnswer4);
 
@@ -250,12 +256,18 @@ public class CQuestionMaker implements Initializable {
         }
     }
 
+    /**
+     * Regresa a la página anterior
+     */
     @FXML
     private void stepBack() {
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizQuestions.fxml", "Questions", actualStage);
     }
 
+    /**
+     * Cambia la imágen de portada
+     */
     @FXML
     private void changeImage() {
 
@@ -268,6 +280,14 @@ public class CQuestionMaker implements Initializable {
         thumbnail.setImage(image);
     }
 
+    /**
+     * Obtiene e inicializa las imágenes que le fueron asignadas a las
+     * preguntas.
+     *
+     * @param answer Pregunta a asignar portada.
+     * @param path Dirección de la imágen.
+     * @return Respuesta con portada.
+     */
     private Answer setAnswerImage(Answer answer, String path) {
 
         File image = null;

@@ -8,37 +8,40 @@ package mx.inbo.domain;
 import java.io.Serializable;
 
 /**
+ * Clase que representa las portadas o thumbnails de los quiz, preguntas y
+ * respuestas. Esta clase almecena un arreglo de bytes de un archivo de imagen,
+ * así como su extensión o formato y el tipo de portada que representa.
  *
  * @author adolf
  */
-public class Thumbnail implements Serializable{
-    
+public class Thumbnail implements Serializable {
+
     private byte[] image;
     private String type;
     private String extention;
-    
-    public void setImage(byte[] image){
+
+    public void setImage(byte[] image) {
         this.image = image;
     }
-    
-    public void setType(String type){
+
+    public void setType(String type) {
         this.type = type;
     }
-    
-    public void setExtention(String extention){
+
+    public void setExtention(String extention) {
         this.extention = extention;
     }
-    
-    public byte[] getImage(){
+
+    public byte[] getImage() {
         return image;
     }
-    
-    public String getType(){
+
+    public String getType() {
         return type;
     }
-    
-    public String getExtention(){
+
+    public String getExtention() {
         return extention;
     }
-    
+
 }

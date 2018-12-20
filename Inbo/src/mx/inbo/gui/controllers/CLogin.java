@@ -46,7 +46,7 @@ import mx.inbo.servidorrmi.ServerConector;
 import mx.inbo.servidorrmi.Operaciones;
 
 /**
- * FXML Controller class
+ * Controlador FXML de Login.
  *
  * @author adolf
  */
@@ -97,12 +97,18 @@ public class CLogin implements Initializable {
             }
         });
     }
-
+    
+    /**
+     * Carga en pantalla la página Sign Up
+     */
     @FXML
     private void loadSignUpPage() {
         Loader.loadNonResizablePage("/mx/inbo/gui/SignUp.fxml", "Sign Up");
     }
-
+    
+    /**
+     * Carga en pantalla la p+agina Dashboard
+     */
     private void loadDashboard() {
         Stage actualStage = (Stage) loginButton.getScene().getWindow();
         Locale locale = Locale.getDefault();
@@ -124,13 +130,19 @@ public class CLogin implements Initializable {
             Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /**
+     * Declara las operaciones correspondientes al cerrar la ventana actual.
+     */
     @FXML
     private void closeOperation() {
         Platform.exit();
         System.exit(0);
     }
-
+    
+    /**
+     * Inicia sesión en el sistema.
+     */
     @FXML
     private void login() {
         String username = userField.getText();
@@ -179,6 +191,9 @@ public class CLogin implements Initializable {
         serv.start();
     }
 
+    /**
+     * Muestra los mensajes de error en caso de fallar el inicio de sesión.
+     */
     private void showErrorMessage() {
         if (showError) {
             Mensaje alerta = new Mensaje();

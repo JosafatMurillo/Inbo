@@ -27,23 +27,31 @@ import javafx.stage.Stage;
 import mx.inbo.gui.controllers.CSettings;
 
 /**
+ * Clase que carga las pantallas en los stages.
  *
  * @author adolf
  */
-public class Loader{
-    
+public class Loader {
+
     private static final String LANG_ADDRESS = "mx.inbo.lang.lang";
-    
-    private Loader(){}
-    
-    public static void loadNonResizablePage(String fxmlURL, String pageTitle){
+
+    private Loader() {
+    }
+
+    /**
+     * Carga una página que no puede aumentar o diminuir su tanaño.
+     *
+     * @param fxmlURL URL del archivo fxml
+     * @param pageTitle Titulo de la página
+     */
+    public static void loadNonResizablePage(String fxmlURL, String pageTitle) {
         Locale locale = Locale.getDefault();
         Stage newStage = new Stage();
-        try{
+        try {
             Parent root = FXMLLoader.load(Loader.class.getResource(fxmlURL), ResourceBundle.getBundle(LANG_ADDRESS, locale));
-            
+
             Scene scene = new Scene(root);
-            
+
             newStage.setScene(scene);
             newStage.setResizable(false);
             newStage.setTitle(pageTitle);
@@ -52,15 +60,23 @@ public class Loader{
             Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static void loadPageClosingCurrent(String fxmlURL, String pageTitle, Stage actualStage){
+
+    /**
+     * Carga una pantalla en un nuevo stage y cierra la página que le es
+     * transferida.
+     *
+     * @param fxmlURL URL del archivo fxml
+     * @param pageTitle Titulo de la página
+     * @param actualStage Stage actual a cerrar
+     */
+    public static void loadPageClosingCurrent(String fxmlURL, String pageTitle, Stage actualStage) {
         Locale locale = Locale.getDefault();
         Stage newStage = new Stage();
-        try{
+        try {
             Parent root = FXMLLoader.load(Loader.class.getResource(fxmlURL), ResourceBundle.getBundle(LANG_ADDRESS, locale));
-            
+
             Scene scene = new Scene(root);
-            
+
             newStage.setMinHeight(650);
             newStage.setMinWidth(1050);
             newStage.setScene(scene);
@@ -72,19 +88,26 @@ public class Loader{
             Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static void loadPageInCurrentStage(String fxmlURL, String pageTitle, Stage actualStage){
+
+    /**
+     * Carga una nueva pantalla en el stage actual.
+     *
+     * @param fxmlURL URL del archivo fxml
+     * @param pageTitle Título de la página
+     * @param actualStage Stage actual
+     */
+    public static void loadPageInCurrentStage(String fxmlURL, String pageTitle, Stage actualStage) {
         Locale locale = Locale.getDefault();
-        try{
+        try {
             Parent root = FXMLLoader.load(Loader.class.getResource(fxmlURL), ResourceBundle.getBundle(LANG_ADDRESS, locale));
-            
+
             Scene scene = new Scene(root, actualStage.getWidth(), actualStage.getHeight());
-            
+
             actualStage.setScene(scene);
             actualStage.setTitle(pageTitle);
         } catch (IOException ex) {
             Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

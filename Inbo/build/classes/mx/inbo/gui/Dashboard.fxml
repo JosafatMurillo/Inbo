@@ -182,6 +182,7 @@
                 <StackPane>
                     <JFXButton fx:id="disconnectButton"
                                alignment="CENTER_LEFT"
+                               onAction="#logOut"
                                text="%key.disconnectButton"
                                style="-fx-background-color: #000000;"
                                textFill="#95989A"

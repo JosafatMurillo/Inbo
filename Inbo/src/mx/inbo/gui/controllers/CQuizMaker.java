@@ -43,7 +43,7 @@ import mx.inbo.gui.tools.FileHelper;
 import mx.inbo.gui.tools.Loader;
 
 /**
- * FXML Controller class
+ * Clase FXML controladora de la página Quiz Maker.
  *
  * @author adolf
  */
@@ -112,7 +112,10 @@ public class CQuizMaker implements Initializable {
         }
 
     }
-
+    
+    /**
+     * Reproduce la animación de inicio.
+     */
     private void playIntroAnimation() {
 
         new BounceInLeft(mainPane).play();
@@ -120,12 +123,18 @@ public class CQuizMaker implements Initializable {
 
     }
 
+    /**
+     * Regresa a la página anterior.
+     */
     @FXML
     private void stepBack() {
         Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
 
+    /**
+     * Avanza al siguiente paso del registro.
+     */
     @FXML
     private void nextPage() {
 
@@ -168,7 +177,10 @@ public class CQuizMaker implements Initializable {
         }
 
     }
-
+    
+    /**
+     * Cambia la imagen de portada del Quiz.
+     */
     @FXML
     private void changeImage() {
 

@@ -42,7 +42,7 @@ import mx.inbo.servidorrmi.ServerConector;
 import mx.inbo.servidorrmi.Operaciones;
 
 /**
- * FXML Controller class
+ * Clase controladora FXML de la página Quiz Questions.
  *
  * @author adolf
  */
@@ -107,22 +107,34 @@ public class CQuizQuestions implements Initializable {
     
     }
     
+    /**
+     * Reproduce la animación de entrada.
+     */
     private void playIntroAnimation(){
         new BounceInLeft(mainPane).play();
     }
 
+    /**
+     * Regresa a la página anterior.
+     */
     @FXML
     private void stepBack() {
         Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizMaker.fxml", "New Quiz", actualStage);
     }
     
+    /**
+     * Carga la página Question Maker para añadir una nueva pregunta.
+     */
     @FXML
     private void loadQuestionMaker(){
         Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuestionMaker.fxml", "New Question", actualStage);
     }
     
+    /**
+     * Registra la información del Quiz en el servidor.
+     */
     @FXML
     private void saveQuiz(){
         

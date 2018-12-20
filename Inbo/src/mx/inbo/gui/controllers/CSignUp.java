@@ -38,7 +38,7 @@ import mx.inbo.servidorrmi.ServerConector;
 import mx.inbo.servidorrmi.Operaciones;
 
 /**
- * FXML Controller class
+ * Página controladora de Sign Up.
  *
  * @author adolf
  */
@@ -66,14 +66,17 @@ public class CSignUp implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         bundle = rb;
-        
+
         user = new User();
         ServerConector.useErrorMessage(contentPane, bundle);
-        
+
     }
 
+    /**
+     * Registra un usuario en el servidor.
+     */
     @FXML
     private void signUp() {
 
@@ -82,7 +85,7 @@ public class CSignUp implements Initializable {
 
         user.setUsername(username);
         user.setEmail(email);
-        
+
         Thumbnail thumb = createUserImage();
         user.setImage(thumb);
 
@@ -94,14 +97,14 @@ public class CSignUp implements Initializable {
 
                     @Override
                     protected Void call() throws Exception {
-                        
+
                         stub = ServerConector.getStub();
-                        
+
                         try {
                             stub.agregarUsario(user);
                         } catch (RemoteException | NullPointerException ex) {
                             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                            if(ex.getClass() != NullPointerException.class){
+                            if (ex.getClass() != NullPointerException.class) {
                                 showError = true;
                             }
                         }
@@ -114,7 +117,7 @@ public class CSignUp implements Initializable {
                                 JFXDialog dialog = new JFXDialog(contentPane, alerta, JFXDialog.DialogTransition.CENTER);
 
                                 dialog.show();
-                            }else{
+                            } else {
                                 ServerConector.useErrorMessage(contentPane, bundle);
                             }
                         });
@@ -130,18 +133,23 @@ public class CSignUp implements Initializable {
         serv.reset();
         serv.start();
     }
-    
-    private Thumbnail createUserImage(){
+
+    /**
+     * Crea la icon del nuevo usuario registrado.
+     *
+     * @return Un {@code Thumbnail} con los datos de la imágen.
+     */
+    private Thumbnail createUserImage() {
         File imageFile = new File(System.getProperty("user.dir") + "/src/mx/inbo/images/dog.jpg");
-        
+
         Thumbnail thumb = new Thumbnail();
-        
+
         thumb.setType("User");
         thumb.setExtention("jpg");
-        
+
         byte[] image = FileHelper.parseFileToBytes(imageFile, thumb.getExtention());
         thumb.setImage(image);
-        
+
         return thumb;
     }
 

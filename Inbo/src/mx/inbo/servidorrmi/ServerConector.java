@@ -41,6 +41,7 @@ public class ServerConector {
             registry = LocateRegistry.getRegistry("192.168.43.204");
             stub = (Operaciones) registry.lookup("servidorInbo");
         } catch (RemoteException | NotBoundException ex) {
+            ex.printStackTrace();
             if(dialog != null){
                 dialog.show();
             }

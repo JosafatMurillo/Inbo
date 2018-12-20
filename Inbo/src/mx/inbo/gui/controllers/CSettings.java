@@ -47,7 +47,7 @@ import mx.inbo.servidorrmi.Operaciones;
 import mx.inbo.servidorrmi.ServerConector;
 
 /**
- * FXML Controller class
+ * Clase controladora FXML de la página Settings.
  *
  * @author adolf
  */
@@ -88,7 +88,7 @@ public class CSettings implements Initializable {
 
     @FXML
     private PasswordField passwordVerificationField;
-    
+
     /**
      * Initializes the controller class.
      */
@@ -103,7 +103,7 @@ public class CSettings implements Initializable {
         Image image = new Image(new ByteArrayInputStream(thumb.getImage()));
         ImagePattern imagePattern = new ImagePattern(image);
         userImage.setFill(imagePattern);
-        
+
         usernameField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if (newValue.intValue() > oldValue.intValue()) {
                 if (usernameField.getText().length() >= 20) {
@@ -111,7 +111,7 @@ public class CSettings implements Initializable {
                 }
             }
         });
-        
+
         currentPasswordField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if (newValue.intValue() > oldValue.intValue()) {
                 if (currentPasswordField.getText().length() >= 20) {
@@ -119,7 +119,7 @@ public class CSettings implements Initializable {
                 }
             }
         });
-        
+
         newPasswordField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if (newValue.intValue() > oldValue.intValue()) {
                 if (newPasswordField.getText().length() >= 20) {
@@ -127,7 +127,7 @@ public class CSettings implements Initializable {
                 }
             }
         });
-        
+
         passwordVerificationField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if (newValue.intValue() > oldValue.intValue()) {
                 if (passwordVerificationField.getText().length() >= 20) {
@@ -135,7 +135,7 @@ public class CSettings implements Initializable {
                 }
             }
         });
-        
+
         emailField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if (newValue.intValue() > oldValue.intValue()) {
                 if (emailField.getText().length() >= 50) {
@@ -145,16 +145,25 @@ public class CSettings implements Initializable {
         });
     }
 
+    /**
+     * Reproduce la animación inicial.
+     */
     private void playIntroAnimation() {
         new BounceInLeft(mainPane).play();
     }
 
+    /**
+     * Regresa a la página anterior.
+     */
     @FXML
     public void stepBack() {
         Stage actualStage = (Stage) changeImageButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
 
+    /**
+     * Guarda los cambios realizados al perfil.
+     */
     @FXML
     private void save() {
         Operaciones stub;
@@ -237,9 +246,12 @@ public class CSettings implements Initializable {
         }
     }
 
+    /**
+     * Cambia el icon de usuario.
+     */
     @FXML
     private void changeImage() {
-        
+
         File imageFile;
 
         Stage actualStage = (Stage) mainPane.getScene().getWindow();

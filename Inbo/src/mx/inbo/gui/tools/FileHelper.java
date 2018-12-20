@@ -24,15 +24,20 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
+ * Clase soporte para la conversión de archivos a arreglos de bytes
  *
- * @author adolf
+ * @author Adolfo Ángel
  */
 public class FileHelper {
-    
-    //This method hides the public constructor
-    private FileHelper(){}
 
-    public static byte[] parseFileToBytes(File file, String fileExtention) {
+    /**
+     * Clase que transforma un archivo dado en un arreglo de bytes
+     *
+     * @param file Archivo a convertir
+     * @param fileExtension Extensión o formato del archivo
+     * @return Arreglo de bytes de la información del archivp
+     */
+    public static byte[] parseFileToBytes(File file, String fileExtension) {
 
         byte[] fileBytes = {};
 
@@ -41,16 +46,14 @@ public class FileHelper {
         try {
             BufferedImage imageBuff = ImageIO.read(file);
             byteArrayOut = new ByteArrayOutputStream();
-            ImageIO.write(imageBuff, fileExtention, byteArrayOut);
+            ImageIO.write(imageBuff, fileExtension, byteArrayOut);
             byteArrayOut.flush();
             fileBytes = byteArrayOut.toByteArray();
         } catch (IOException ex) {
             Logger.getLogger(FileHelper.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                if (byteArrayOut != null) {
-                    byteArrayOut.close();
-                }
+                byteArrayOut.close();
             } catch (IOException ex) {
                 Logger.getLogger(FileHelper.class.getName()).log(Level.SEVERE, null, ex);
             }

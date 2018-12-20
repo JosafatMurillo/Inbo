@@ -30,62 +30,80 @@ import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Quiz;
 import mx.inbo.gui.tools.Loader;
 
-
 /**
- * FXML Controller class
+ * Clase FXML controladora de un item de una lista de Quizzes.
  *
  * @author adolf
  */
-public class CQuizListItem{
-    
+public class CQuizListItem {
+
     @FXML
     private HBox itemPane;
-    
+
     @FXML
     private ImageView quizThumb;
-    
+
     @FXML
     private Label titleLabel;
-    
+
     private Quiz quiz;
 
     public CQuizListItem() {
         FXMLLoader loader = new FXMLLoader(CQuestionListItem.class.getClass().getResource("/mx/inbo/gui/QuizListItem.fxml"));
         loader.setController(this);
-        
-        try{
+
+        try {
             itemPane = loader.load();
-        }catch(IOException ex){
+        } catch (IOException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void setInformation(Quiz quiz){
+    /**
+     * Obtiene e inicializa la información que será presentada en pantalla.
+     *
+     * @param quiz Objeto que contiene la información requerida.
+     */
+    public void setInformation(Quiz quiz) {
         this.quiz = quiz;
         Thumbnail thumb = quiz.getImage();
         Image image = new Image(new ByteArrayInputStream(thumb.getImage()));
         quizThumb.setImage(image);
         titleLabel.setText(quiz.getTitulo());
     }
-    
-    public HBox getBox(){
+
+    /**
+     * Retorna el pane principal.
+     *
+     * @return Pane principal
+     */
+    public HBox getBox() {
         return itemPane;
     }
-    
+
+    /**
+     * Elimina el elemento actual de la lista
+     */
     @FXML
-    private void delete(){
+    private void delete() {
         CDashboard.deleteQuiz(quiz);
     }
-    
+
+    /**
+     * Edita el elemento actual de la lista.
+     */
     @FXML
-    private void edit(){
+    private void edit() {
         Stage stage = CDashboard.getStage();
         CQuizMaker.setQuiz(quiz);
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizMaker.fxml", "New Quiz", stage);
     }
-    
+
+    /**
+     * Inicia la partida del elemento actual de la lista.
+     */
     @FXML
-    private void play(){
+    private void play() {
         Stage stage = CDashboard.getStage();
         CStartQuiz.setQuiz(quiz);
         Loader.loadPageInCurrentStage("/mx/inbo/gui/StartQuiz.fxml", "Start Quiz", stage);

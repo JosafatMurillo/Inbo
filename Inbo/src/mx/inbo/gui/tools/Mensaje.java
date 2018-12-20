@@ -13,7 +13,7 @@ import javafx.event.EventHandler;
 import javafx.scene.text.Text;
 
 /**
- *
+ * Clase tipo Dialog que representa un mensaje en pantalla.
  * @author adolf
  */
 public class Mensaje extends JFXDialogLayout {

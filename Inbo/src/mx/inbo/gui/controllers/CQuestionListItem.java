@@ -29,41 +29,52 @@ import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Question;
 
 /**
- * FXML Controller class
+ * Controlador de un item de lista de Preguntas.
  *
  * @author adolf
  */
 public class CQuestionListItem {
-    
+
     @FXML
     private HBox itemPane;
-    
+
     @FXML
     private ImageView questionThumb;
-    
+
     @FXML
     private Label titleLabel;
-    
-    public CQuestionListItem(){
+
+    public CQuestionListItem() {
         FXMLLoader loader = new FXMLLoader(CQuestionListItem.class.getClass().getResource("/mx/inbo/gui/QuestionListItem.fxml"));
         loader.setController(this);
-        
-        try{
+
+        try {
             itemPane = loader.load();
-        }catch(IOException ex){
+        } catch (IOException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void setInformation(Question question){
+
+    /**
+     * Obtiene e inicializa la información que se visualizará en pantalla
+     *
+     * @param question Clase {@code Question} que contiene la información que
+     * será desplegada.
+     */
+    public void setInformation(Question question) {
         Thumbnail thumb = question.getImage();
         Image image = new Image(new ByteArrayInputStream(thumb.getImage()));
         questionThumb.setImage(image);
         titleLabel.setText(question.getPregunta());
     }
-    
-    public HBox getBox(){
+
+    /**
+     * Obtiene el pane principal
+     *
+     * @return Pane principal
+     */
+    public HBox getBox() {
         return itemPane;
     }
-    
+
 }

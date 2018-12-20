@@ -38,7 +38,7 @@ import mx.inbo.entities.User;
 import mx.inbo.gui.tools.Loader;
 
 /**
- * FXML Controller class
+ * Clase FXML controladora de la página Quiz Code.
  *
  * @author adolf
  */
@@ -46,78 +46,92 @@ public class CQuizCode implements Initializable {
 
     private static User user;
 
+    /**
+     * Asigna el usuario que juega el quiz
+     *
+     * @param usr Usuario jugador
+     */
     public static void setUser(User usr) {
         user = usr;
     }
-    
+
     @FXML
     private BorderPane mainPane;
-    
+
     @FXML
     private ImageView background;
-    
+
     @FXML
     private Circle userImage;
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         background.fitHeightProperty().bind(mainPane.heightProperty());
         background.fitWidthProperty().bind(mainPane.widthProperty());
-        
+
         playIntroAnimation();
-        
+
         Thumbnail thumb = user.getImage();
         Image image = new Image(new ByteArrayInputStream(thumb.getImage()));
         ImagePattern imagePattern = new ImagePattern(image);
         userImage.setFill(imagePattern);
-        
+
         userImage.setOnMouseClicked((MouseEvent e) -> {
             new Jello(userImage).play();
         });
-        
+
         new FadeInDown(userImage).play();
-        
+
         new Pulso().start();
     }
-    
-    private void playIntroAnimation(){
+
+    /**
+     * Reproduce la animación de inicio.
+     */
+    private void playIntroAnimation() {
         new BounceInLeft(mainPane).play();
     }
 
+    /**
+     * Regresa a la página anterior.
+     */
     @FXML
-    public void stepBack(){
+    public void stepBack() {
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
-    
+
+    /**
+     * Hilo que controla la animación de pulso de la imágen del usuario.
+     */
     class Pulso extends Thread {
-        
+
         int count = 1;
-        
+
         @Override
-        public void run(){
-            while(true){
+        public void run() {
+            while (true) {
                 try {
                     new Pulse(userImage).play();
                     Thread.sleep(800);
-                    
+
                     count += 1;
-                    
-                    if(count > 3){
+
+                    if (count > 3) {
                         count = 0;
                         Thread.sleep(2100);
                     }
-                    
+
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CQuizCode.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
-        
+
     }
-    
+
 }
