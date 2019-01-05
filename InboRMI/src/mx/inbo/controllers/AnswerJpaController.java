@@ -1,7 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Clase del controlador de la entidad Answer
+ * 
+ * De La Cruz Díaz Adolfo Ángel; Murillo Hernández Josafat
+ * 
+ * Versión 1.0
+ * 
+ * 19/12/2018
+ * 
+ * Inbo
  */
 package mx.inbo.controllers;
 
@@ -28,7 +34,7 @@ import mx.inbo.entities.Question;
 
 /**
  *
- * @author BODEGA
+ * @author Josafat
  */
 public class AnswerJpaController implements Serializable {
 
@@ -174,6 +180,11 @@ public class AnswerJpaController implements Serializable {
         }
     }
 
+    /**
+     * 
+     * @param idQuestion
+     * @param respuesta 
+     */
     public void agregarRespuesta(Question idQuestion, Answer respuesta) {
 
         Thumbnail thumb = respuesta.getImage();
@@ -191,6 +202,10 @@ public class AnswerJpaController implements Serializable {
 
     }
 
+    /**
+     * 
+     * @param respuestaNueva 
+     */
     public void actualizarRespuesta(Answer respuestaNueva) {
         try {
             edit(respuestaNueva);
@@ -199,6 +214,10 @@ public class AnswerJpaController implements Serializable {
         }
     }
 
+    /**
+     * 
+     * @param respuestaEliminar 
+     */
     public void eliminarRespuesta(Answer respuestaEliminar) {
         try {
             destroy(respuestaEliminar.getIdAnswer());
@@ -207,6 +226,11 @@ public class AnswerJpaController implements Serializable {
         }
     }
 
+    /**
+     * 
+     * @param idQuestion
+     * @throws SQLException 
+     */
     public void eliminarTodasRespuestas(Question idQuestion) throws SQLException {
         List<Answer> preguntas;
         EntityManager em = getEntityManager();
@@ -234,6 +258,12 @@ public class AnswerJpaController implements Serializable {
         }
     }
 
+    /**
+     * 
+     * @param idQuestion
+     * @return
+     * @throws SQLException 
+     */
     public List<Answer> obtenerRespuestas(Question idQuestion) throws SQLException {
         List<Answer> respuestas;
         EntityManager em = getEntityManager();
@@ -261,6 +291,11 @@ public class AnswerJpaController implements Serializable {
         return respuestas;
     }
 
+    /**
+     * 
+     * @param fileName
+     * @return 
+     */
     public Thumbnail getThumb(String fileName) {
         Thumbnail thumb = new Thumbnail();
         thumb.setType("Answer");

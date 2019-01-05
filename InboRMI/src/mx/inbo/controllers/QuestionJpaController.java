@@ -1,7 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Clase del controlador de la entidad Question
+ * 
+ * De La Cruz Díaz Adolfo Ángel; Murillo Hernández Josafat
+ * 
+ * Versión 1.0
+ * 
+ * 19/12/2018
+ * 
+ * Inbo
  */
 package mx.inbo.controllers;
 
@@ -34,7 +40,7 @@ import mx.inbo.entities.Question;
 
 /**
  *
- * @author BODEGA
+ * @author Josafat
  */
 public class QuestionJpaController implements Serializable {
 
@@ -241,6 +247,11 @@ public class QuestionJpaController implements Serializable {
         }
     }
     
+    /**
+     * 
+     * @param idQuiz
+     * @param pregunta 
+     */
     public void agregarPregunta(Quiz idQuiz, Question pregunta){
         
         Thumbnail thumb = pregunta.getImage();
@@ -255,6 +266,10 @@ public class QuestionJpaController implements Serializable {
         
     }
     
+    /**
+     * 
+     * @param preguntaNueva 
+     */
     public void actualizarPregunta(Question preguntaNueva){
         try {
             edit(preguntaNueva);
@@ -263,6 +278,10 @@ public class QuestionJpaController implements Serializable {
         }
     }
     
+    /**
+     * 
+     * @param preguntaEliminar 
+     */
     public void eliminarPregunta(Question preguntaEliminar){
         AnswerJpaController ajc = new AnswerJpaController(emf);
         try {
@@ -275,6 +294,11 @@ public class QuestionJpaController implements Serializable {
         }
     }
     
+    /**
+     * 
+     * @param idQuiz
+     * @throws SQLException 
+     */
     public void eliminarTodasPreguntas(Quiz idQuiz) throws SQLException{
         List<Question> preguntas;
         EntityManager em = getEntityManager();
@@ -306,6 +330,12 @@ public class QuestionJpaController implements Serializable {
         }
     }
     
+    /**
+     * 
+     * @param idQuiz
+     * @return
+     * @throws SQLException 
+     */
     public List<Question> obtenerPreguntas(Quiz idQuiz) throws SQLException{
         List<Question> preguntas;
         EntityManager em = getEntityManager();
@@ -334,6 +364,11 @@ public class QuestionJpaController implements Serializable {
         return preguntas;
     }
     
+    /**
+     * 
+     * @param fileName
+     * @return 
+     */
     public Thumbnail getThumb(String fileName) {
         Thumbnail thumb = new Thumbnail();
         thumb.setType("Question");

@@ -63,6 +63,8 @@ public class CQuizCode implements Initializable {
 
     @FXML
     private Circle userImage;
+    
+    private boolean playUserAnimation = true;
 
     /**
      * Initializes the controller class.
@@ -101,6 +103,7 @@ public class CQuizCode implements Initializable {
      */
     @FXML
     public void stepBack() {
+        playUserAnimation = false;
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
@@ -114,7 +117,7 @@ public class CQuizCode implements Initializable {
 
         @Override
         public void run() {
-            while (true) {
+            while (playUserAnimation) {
                 try {
                     new Pulse(userImage).play();
                     Thread.sleep(800);
@@ -128,6 +131,7 @@ public class CQuizCode implements Initializable {
 
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CQuizCode.class.getName()).log(Level.SEVERE, null, ex);
+                    Thread.currentThread().interrupt();
                 }
             }
         }

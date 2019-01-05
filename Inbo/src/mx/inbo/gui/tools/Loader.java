@@ -20,10 +20,14 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import mx.inbo.gui.controllers.CSettings;
 
 /**
@@ -34,6 +38,9 @@ import mx.inbo.gui.controllers.CSettings;
 public class Loader {
 
     private static final String LANG_ADDRESS = "mx.inbo.lang.lang";
+
+    private static double xOffset = 0;
+    private static double yOffset = 0;
 
     private Loader() {
     }
@@ -69,18 +76,27 @@ public class Loader {
      * @param pageTitle Titulo de la página
      * @param actualStage Stage actual a cerrar
      */
-    public static void loadPageClosingCurrent(String fxmlURL, String pageTitle, Stage actualStage) {
+    public static void loadUndecoratedPageClosingCurrent(String fxmlURL, String pageTitle, Stage actualStage) {
         Locale locale = Locale.getDefault();
         Stage newStage = new Stage();
+
         try {
             Parent root = FXMLLoader.load(Loader.class.getResource(fxmlURL), ResourceBundle.getBundle(LANG_ADDRESS, locale));
 
+            root.setOnMousePressed((MouseEvent event) -> {
+                xOffset = newStage.getX() - event.getScreenX();
+                yOffset = newStage.getY() - event.getScreenY();
+            });
+
+            root.setOnMouseDragged((MouseEvent event) -> {
+                newStage.setX(event.getScreenX() + xOffset);
+                newStage.setY(event.getScreenY() + yOffset);
+            });
+
             Scene scene = new Scene(root);
 
-            newStage.setMinHeight(650);
-            newStage.setMinWidth(1050);
+            newStage.initStyle(StageStyle.UNDECORATED);
             newStage.setScene(scene);
-            newStage.setMaximized(true);
             newStage.setTitle(pageTitle);
             newStage.show();
             actualStage.close();
@@ -104,6 +120,10 @@ public class Loader {
             Scene scene = new Scene(root, actualStage.getWidth(), actualStage.getHeight());
 
             actualStage.setScene(scene);
+            actualStage.setOnCloseRequest((WindowEvent t) -> {
+                Platform.exit();
+                System.exit(0);
+            });
             actualStage.setTitle(pageTitle);
         } catch (IOException ex) {
             Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);

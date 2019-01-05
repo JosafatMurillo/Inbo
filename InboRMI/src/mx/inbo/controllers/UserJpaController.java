@@ -1,7 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Clase del controlador de la entidad User
+ * 
+ * De La Cruz Díaz Adolfo Ángel; Murillo Hernández Josafat
+ * 
+ * Versión 1.0
+ * 
+ * 19/12/2018
+ * 
+ * Inbo
  */
 package mx.inbo.controllers;
 
@@ -39,7 +45,7 @@ import mx.inbo.exception.CustomException;
 
 /**
  *
- * @author BODEGA
+ * @author Josafat
  */
 public class UserJpaController implements Serializable {
 
@@ -220,6 +226,14 @@ public class UserJpaController implements Serializable {
         }
     }
 
+    /**
+     * Funcion validadora que verifica el inicio de sesión
+     * @param userName Cadena de caracteres que son el nombre del usuario
+     * @param contrasenia Cadena de caracteres que son la contraseña del usuario
+     * @throws SQLException Excepcion en caso de no establecer una conexion con la base de datos
+     * @throws CustomException Excepcion personalizada para cualquier otra excepcion que no se pueda tratar
+     * @throws NoResultException Excepcion enc aso de que no se localizara el usuario
+     */
     public void validarLogin(String userName, String contrasenia) throws SQLException,
             CustomException, NoResultException {
         EntityManager em = getEntityManager();
@@ -244,6 +258,11 @@ public class UserJpaController implements Serializable {
         }
     }
 
+    /**
+     * Funcion que se encarga de mandar correos electronicos a los nuevos usuarios de Inbo
+     * @param usuario Objeto del tipo User que será el destinatario del correo
+     * @throws MessagingException  Excepcion en caso de que no se pueda enviar un correo electronico
+     */
     public void correoSignup(User usuario) throws MessagingException {
         try {
             Properties props = new Properties();
@@ -279,6 +298,11 @@ public class UserJpaController implements Serializable {
 
     }
 
+    /**
+     * Funcion que crea una contraseña aleatoria basandose en el alfabeto con numeros
+     * @param count Limite de caracteres que posee la clave
+     * @return Regresa una cadena que será la nueva contraseña
+     */
     public static String randomAlphaNumeric(int count) {
         StringBuilder builder = new StringBuilder();
         while (count-- != 0) {
@@ -288,6 +312,11 @@ public class UserJpaController implements Serializable {
         return builder.toString();
     }
 
+    /**
+     * Fucnión que agrega a un usuario nuevo a la base de datos
+     * @param usuario Objeto de tipo User que será agregado a la base de datos
+     * @throws MessagingException Excepción en caso de que no se pueda enviar un correo electronico
+     */
     public void agregarUsuario(User usuario) throws MessagingException {
 
         Thumbnail thumb = usuario.getImage();
@@ -302,6 +331,11 @@ public class UserJpaController implements Serializable {
         correoSignup(usuario);
     }
 
+    /**
+     * Función que modifica a un usuario
+     * @param usuario Objeto del tipo User que modifica sus valores por unos nuevos
+     * @throws NonexistentEntityException 
+     */
     public void editarUsuario(User usuario) throws NonexistentEntityException {
         try {
             Thumbnail thumb = usuario.getImage();
@@ -320,6 +354,11 @@ public class UserJpaController implements Serializable {
         }
     }
 
+    /**
+     * Funcion que busca un usuario basado en su nombre de usuario
+     * @param username Cadena de caracteres que sirve como indice de busqueda
+     * @return Regresa un objeto del tipo User que es el usuario encontrado.
+     */
     public User obtenerUsuario(String username) {
         EntityManager em = getEntityManager();
         String queryName = "User.findByUsername";
@@ -337,6 +376,11 @@ public class UserJpaController implements Serializable {
         return usuario;
     }
 
+    /**
+     * 
+     * @param fileName
+     * @return 
+     */
     public Thumbnail getThumb(String fileName) {
         Thumbnail thumb = new Thumbnail();
         thumb.setType("User");

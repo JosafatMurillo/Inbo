@@ -109,7 +109,7 @@
                                            style="-fx-background-color: #000000;"
                                            text="%key.enterButton"
                                            textFill="#95989A"
-                                           onAction="#login">
+                                           onAction="#verifyFields">
                                 </JFXButton>
                             </children>
                         </StackPane>

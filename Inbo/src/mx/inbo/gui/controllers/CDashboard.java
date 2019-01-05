@@ -208,8 +208,7 @@ public class CDashboard implements Initializable {
      */
     @FXML
     private void logOut() {
-        Loader.loadNonResizablePage("/mx/inbo/gui/Login.fxml", "Login");
-        actualStage.close();
+        Loader.loadUndecoratedPageClosingCurrent("/mx/inbo/gui/Login.fxml", "Login", actualStage);
     }
 
     /**

@@ -80,7 +80,7 @@ public class CLogin implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         bundle = rb;
-        
+
         passwordField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if (newValue.intValue() > oldValue.intValue()) {
                 if (passwordField.getText().length() >= 20) {
@@ -88,7 +88,7 @@ public class CLogin implements Initializable {
                 }
             }
         });
-        
+
         userField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if (newValue.intValue() > oldValue.intValue()) {
                 if (userField.getText().length() >= 20) {
@@ -97,7 +97,7 @@ public class CLogin implements Initializable {
             }
         });
     }
-    
+
     /**
      * Carga en pantalla la página Sign Up
      */
@@ -105,7 +105,7 @@ public class CLogin implements Initializable {
     private void loadSignUpPage() {
         Loader.loadNonResizablePage("/mx/inbo/gui/SignUp.fxml", "Sign Up");
     }
-    
+
     /**
      * Carga en pantalla la p+agina Dashboard
      */
@@ -113,11 +113,11 @@ public class CLogin implements Initializable {
         Stage actualStage = (Stage) loginButton.getScene().getWindow();
         Locale locale = Locale.getDefault();
         Stage newStage = new Stage();
-        try{
+        try {
             Parent root = FXMLLoader.load(Loader.class.getResource("/mx/inbo/gui/Dashboard.fxml"), ResourceBundle.getBundle("mx.inbo.lang.lang", locale));
-            
+
             Scene scene = new Scene(root);
-            
+
             newStage.setMinHeight(650);
             newStage.setMinWidth(1050);
             newStage.setScene(scene);
@@ -130,7 +130,7 @@ public class CLogin implements Initializable {
             Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Declara las operaciones correspondientes al cerrar la ventana actual.
      */
@@ -139,17 +139,42 @@ public class CLogin implements Initializable {
         Platform.exit();
         System.exit(0);
     }
-    
+
     /**
      * Inicia sesión en el sistema.
      */
     @FXML
-    private void login() {
+    private void verifyFields() {
         String username = userField.getText();
         String password = passwordField.getText();
+
+        boolean showEmptyMessage = false;
+
+        if (username != null && password != null) {
+            if (!username.isEmpty() && !password.isEmpty()) {
+                login(username, password);
+            } else {
+                showEmptyMessage = true;
+            }
+        } else {
+            showEmptyMessage = true;
+        }
+
+        if (showEmptyMessage) {
+            Mensaje alerta = new Mensaje();
+            alerta.setHeader(bundle.getString("key.emptyFieldTitle"));
+            alerta.setBody(bundle.getString("key.emptyField"));
+            JFXDialog dialog = new JFXDialog(contentPane, alerta, JFXDialog.DialogTransition.CENTER);
+
+            dialog.show();
+        }
+
+    }
+
+    private void login(String username, String password) {
         Service<Void> serv;
         serv = new Service<Void>() {
-            
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {

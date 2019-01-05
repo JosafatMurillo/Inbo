@@ -23,6 +23,8 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -83,12 +85,53 @@ public class CSignUp implements Initializable {
         String username = usernameField.getText();
         String email = emailField.getText();
 
-        user.setUsername(username);
-        user.setEmail(email);
+        String emailPattern = "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$";
 
-        Thumbnail thumb = createUserImage();
-        user.setImage(thumb);
+        boolean showEmptyMessage = false;
 
+        if (email != null && username != null) {
+
+            if (!email.isEmpty() && !username.isEmpty()) {
+
+                Pattern pattern = Pattern.compile(emailPattern);
+                Matcher matcher = pattern.matcher(email);
+
+                if (matcher.matches()) {
+                    user.setUsername(username);
+                    user.setEmail(email);
+
+                    Thumbnail thumb = createUserImage();
+                    user.setImage(thumb);
+
+                    registerUser();
+                } else {
+                    Mensaje alerta = new Mensaje();
+                    alerta.setHeader(bundle.getString("key.emailIssue"));
+                    alerta.setBody(bundle.getString("key.wrongEmailFormat"));
+                    JFXDialog dialog = new JFXDialog(contentPane, alerta, JFXDialog.DialogTransition.CENTER);
+
+                    dialog.show();
+                }
+
+            } else {
+                showEmptyMessage = true;
+            }
+        } else {
+            showEmptyMessage = true;
+        }
+
+        if (showEmptyMessage) {
+            Mensaje alerta = new Mensaje();
+            alerta.setHeader(bundle.getString("key.emptyFieldTitle"));
+            alerta.setBody(bundle.getString("key.emptyField"));
+            JFXDialog dialog = new JFXDialog(contentPane, alerta, JFXDialog.DialogTransition.CENTER);
+
+            dialog.show();
+        }
+
+    }
+
+    private void registerUser() {
         Service<Void> serv = new Service<Void>() {
 
             @Override

@@ -48,5 +48,83 @@
             </JFXButton>
         </StackPane>
     </top>
+    <left>
+        <StackPane fx:id="leftPane"
+                   prefWidth="600"
+                   maxWidth="2000"
+                   prefHeight="700"
+                   maxHeight="1000">
+            <VBox  maxHeight="280.0"
+                   maxWidth="450.0"
+                   prefHeight="100.0"
+                   prefWidth="200.0"
+                   style="-fx-background-color: #00819f;">
+                <Label text="%key.inviteTitle"
+                       textFill="#FFFFFF">
+                    <font>
+                        <Font name="Segoe UI"
+                              size="46.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets left="35" top="15"/>
+                    </VBox.margin>
+                </Label>
+                <Label text="%key.inviteDescription"
+                       wrapText="true"
+                       prefWidth="350"
+                       textFill="#FFFFFF">
+                    <font>
+                        <Font name="Segoe UI" size="15"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets top="15" left="45"/>
+                    </VBox.margin>
+                </Label>
+                <TextField fx:id="emailField"
+                           prefWidth="350"
+                           promptText="Email"
+                           maxWidth="350"
+                           prefHeight="30">
+                    <VBox.margin>
+                        <Insets top="30" left="45"/>
+                    </VBox.margin>
+                </TextField>
+                <JFXButton fx:id="enterButton"
+                           onAction="#addFriend"
+                           text="%key.enterButton">
+                    <VBox.margin>
+                        <Insets top="20" left="195"/>
+                    </VBox.margin>
+                </JFXButton>
+            </VBox>
+        </StackPane>
+    </left>
+    <right>
+        <StackPane prefWidth="2000"
+                   maxWidth="2000"
+                   prefHeight="700"
+                   maxHeight="1000"
+                   style="-fx-background-color: white;">
+            <VBox prefWidth="1995"
+                  maxWidth="1995"
+                  maxHeight="800">
+                <Label text="%key.inviteTitle">
+                    <font>
+                        <Font name="Segoe UI"
+                              size="46.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets left="35" top="15"/>
+                    </VBox.margin>
+                </Label>
+                <ListView fx:id="friendsList"
+                          prefWidth="600"
+                          maxWidth="600"
+                          prefHeight="700">
+                    
+                </ListView>
+            </VBox>
+        </StackPane>
+    </right>
     
 </BorderPane>

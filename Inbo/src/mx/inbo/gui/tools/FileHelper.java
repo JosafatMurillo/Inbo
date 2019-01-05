@@ -41,11 +41,10 @@ public class FileHelper {
 
         byte[] fileBytes = {};
 
-        ByteArrayOutputStream byteArrayOut = null;
+        ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
 
         try {
             BufferedImage imageBuff = ImageIO.read(file);
-            byteArrayOut = new ByteArrayOutputStream();
             ImageIO.write(imageBuff, fileExtension, byteArrayOut);
             byteArrayOut.flush();
             fileBytes = byteArrayOut.toByteArray();

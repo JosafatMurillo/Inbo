@@ -1,7 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Clase del controlador de la entidad Quiz
+ * 
+ * De La Cruz Díaz Adolfo Ángel; Murillo Hernández Josafat
+ * 
+ * Versión 1.0
+ * 
+ * 19/12/2018
+ * 
+ * Inbo
  */
 package mx.inbo.controllers;
 
@@ -32,7 +38,7 @@ import mx.inbo.entities.Quiz;
 
 /**
  *
- * @author BODEGA
+ * @author Josafat
  */
 public class QuizJpaController implements Serializable {
 
@@ -239,6 +245,11 @@ public class QuizJpaController implements Serializable {
         }
     }
 
+    /**
+     * Funcion que agrega un nuevo quiz a la base de datos
+     * @param idUser Objeto del tipo User que sirve como indicador de quien es el autor
+     * @param quiz Objeto del tipo Quiz que será almacenado en la base de datos
+     */
     public void agregarQuiz(User idUser, Quiz quiz) {
 
         Thumbnail thumb = quiz.getImage();
@@ -252,6 +263,11 @@ public class QuizJpaController implements Serializable {
         create(quiz);
     }
 
+    /**
+     * Funcion que modifica un quiz ya existente
+     * @param quizNuevo Objeto del tipo Quiz que contiene la informacion necesaria para modificar un quiz existente
+     * @throws NonexistentEntityException Excepion en caso de que el quiz a modificar no exista.
+     */
     public void actualizarQuiz(Quiz quizNuevo) throws NonexistentEntityException {
         try {
             edit(quizNuevo);
@@ -262,6 +278,11 @@ public class QuizJpaController implements Serializable {
         }
     }
 
+    /**
+     * Funcion que elimina de la base datoss un quiz en especifico
+     * @param quizEliminar Objeto del tipo Quiz que será eliminado permantemente
+     * @throws SQLException  Excepcion en caso de que no se estableciese una conexion con la base de datos
+     */
     public void eliminarQuiz(Quiz quizEliminar) throws SQLException {
         DataBaseInbo conexion = new DataBaseInbo();
         QuestionJpaController ajc = new QuestionJpaController(emf);
@@ -281,6 +302,12 @@ public class QuizJpaController implements Serializable {
         }
     }
 
+    /**
+     * Funcion que muestra todos los quizzes hechos por un usuario
+     * @param idUser Objeto de tipo User que sirve como indice para localizar los quizzes
+     * @return Regresa una lista con todos los quizzes encontrados
+     * @throws SQLException Excepcion en caso de que no se estableciera una conexión con la base de datos
+     */
     public List<Quiz> obtenerQuizzes(User idUser) throws SQLException {
         List<Quiz> quizzes;
         EntityManager em = getEntityManager();
@@ -318,6 +345,12 @@ public class QuizJpaController implements Serializable {
         return quizzes;
     }
 
+    /**
+     * 
+     * @param fileName
+     * @param type
+     * @return 
+     */
     public Thumbnail getThumb(String fileName, String type) {
         Thumbnail thumb = new Thumbnail();
         thumb.setType(type);

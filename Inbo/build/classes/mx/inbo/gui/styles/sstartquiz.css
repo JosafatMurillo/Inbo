@@ -5,3 +5,31 @@
 .mainFxmlClass {
 
 }
+
+#leftPane {
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: #707070;
+    -fx-background-color: white;
+}
+
+.text-field {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.text-field .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-field .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+.text-field .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+#enterButton {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
