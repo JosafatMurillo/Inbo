@@ -19,13 +19,17 @@ import animatefx.animation.BounceInLeft;
 import animatefx.animation.FadeInDown;
 import animatefx.animation.Jello;
 import animatefx.animation.Pulse;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 import java.io.ByteArrayInputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -33,6 +37,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import mx.inbo.domain.KeyGenerator;
 import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.User;
 import mx.inbo.gui.tools.Loader;
@@ -63,7 +68,10 @@ public class CQuizCode implements Initializable {
 
     @FXML
     private Circle userImage;
-    
+
+    @FXML
+    private TextField codeField;
+
     private boolean playUserAnimation = true;
 
     /**
@@ -107,12 +115,19 @@ public class CQuizCode implements Initializable {
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
-    
+
     @FXML
-    private void startGame(){
-        playUserAnimation = false;
-        Stage actualStage = (Stage) mainPane.getScene().getWindow();
-        Loader.loadPageInCurrentStage("/mx/inbo/gui/GameScreen.fxml", "Game", actualStage);
+    private void startGame() {
+        String code = codeField.getText();
+
+        if (code != null) {
+            if (!code.isEmpty()) {
+                playUserAnimation = false;
+                enterRoom(code);
+                Stage actualStage = (Stage) mainPane.getScene().getWindow();
+                Loader.loadPageInCurrentStage("/mx/inbo/gui/GameScreen.fxml", "Game", actualStage);
+            }
+        }
     }
 
     /**
@@ -143,6 +158,20 @@ public class CQuizCode implements Initializable {
             }
         }
 
+    }
+
+    private void enterRoom(String code) {
+        try {
+            Socket socket = IO.socket("http://localhost:5000");
+
+            String args[] = {code,
+                user.getUsername()
+            };
+
+            socket.emit("addUser", (Object[]) args);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(CGameLobby.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

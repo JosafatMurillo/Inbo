@@ -16,14 +16,20 @@
 package mx.inbo.gui.controllers;
 
 import animatefx.animation.BounceInUp;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
+import javax.swing.Timer;
+import mx.inbo.entities.Quiz;
 
 /**
  * FXML Controller class
@@ -34,37 +40,41 @@ public class CGameInProgress implements Initializable {
 
     @FXML
     private StackPane mainPane;
-    
+
     @FXML
     private StackPane labelPane;
-    
+
     @FXML
     private ImageView background;
-    
+
     @FXML
     private Label gameInProgress;
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        
+
         mainPane.widthProperty().addListener((objects, oldValue, newValue) -> {
             background.setFitWidth((double) newValue);
         });
-        
-        mainPane.heightProperty().addListener((objects, oldValue, newValue) ->{
+
+        mainPane.heightProperty().addListener((objects, oldValue, newValue) -> {
             background.setFitHeight((double) newValue);
         });
         
+        Quiz quiz = CStartQuiz.getQuiz();
+
+        Image image = new Image(new ByteArrayInputStream(quiz.getImage().getImage()));
+        background.setImage(image);
+
         Font customFont = Font.loadFont(CGameInProgress.class.getResource("/mx/inbo/fonts/Friendly Font.otf").toExternalForm(), 58);
-        
+
         gameInProgress.setFont(customFont);
+
         
-        new BounceInUp(labelPane).play();
         
-    }   
-    
+    }
+
 }

@@ -16,8 +16,13 @@
 package mx.inbo.gui.controllers;
 
 import animatefx.animation.BounceInLeft;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -35,33 +40,33 @@ public class CGameLobby implements Initializable {
 
     @FXML
     private BorderPane mainPane;
-    
+
     @FXML
     private StackPane thumbnailPane;
-    
+
     @FXML
     private StackPane rightPane;
-    
+
     @FXML
     private ImageView thumbnail;
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         mainPane.widthProperty().addListener((objects, oldValue, newValue) -> {
             double width = (double) newValue / 2;
             thumbnail.setFitWidth(width - 10);
             thumbnailPane.setPrefWidth(width);
             rightPane.setPrefWidth(width);
         });
-        
+
         playIntroAnimation();
-        
+
     }
-    
+
     /**
      * Reproduce la animación inicial.
      */
@@ -80,5 +85,4 @@ public class CGameLobby implements Initializable {
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
-    
 }

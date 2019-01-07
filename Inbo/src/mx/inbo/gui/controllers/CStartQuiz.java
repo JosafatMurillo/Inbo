@@ -18,8 +18,15 @@ package mx.inbo.gui.controllers;
 import animatefx.animation.BounceInLeft;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
@@ -32,6 +39,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import mx.inbo.domain.KeyGenerator;
 import mx.inbo.entities.Quiz;
 import mx.inbo.gui.tools.Loader;
 import mx.inbo.gui.tools.Mensaje;
@@ -47,6 +63,10 @@ public class CStartQuiz implements Initializable {
 
     public static void setQuiz(Quiz quizz) {
         quiz = quizz;
+    }
+
+    public static Quiz getQuiz() {
+        return quiz;
     }
 
     @FXML
@@ -68,6 +88,7 @@ public class CStartQuiz implements Initializable {
     private ListView friendsList;
 
     private ResourceBundle bundle;
+    private Transport transport = null;
 
     /**
      * Initializes the controller class.
@@ -104,10 +125,10 @@ public class CStartQuiz implements Initializable {
                 }
             }
         });
-        
+
         playIntroAnimation();
     }
-    
+
     /**
      * Reproduce la animación inicial.
      */
@@ -117,6 +138,7 @@ public class CStartQuiz implements Initializable {
 
     @FXML
     private void nextPage() {
+        createQuizRoom();
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/GameLobby.fxml", "Lobby", actualStage);
     }
@@ -169,6 +191,81 @@ public class CStartQuiz implements Initializable {
             JFXDialog dialog = new JFXDialog(leftPane, alerta, JFXDialog.DialogTransition.CENTER);
 
             dialog.show();
+        }
+    }
+
+    private void createQuizRoom() {
+        try {
+            Socket socket = IO.socket("http://localhost:5000");
+
+            int gameKey = KeyGenerator.obtenerId();
+
+            socket.emit("crearSala", gameKey);
+            
+            sentEmails(gameKey);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(CGameLobby.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void sentEmails(int gameKey) {
+        ObservableList<String> friends = friendsList.getItems();
+
+        Properties props = new Properties();
+        props.setProperty("mail.smtp.host", "smtp.gmail.com");
+        props.setProperty("mail.smtp.starttls.enable", "true");
+        props.setProperty("mail.smtp.port", "587");
+        props.setProperty("mail.smtp.auth", "true");
+
+        Session session = Session.getInstance(props);
+
+        Properties emailProperties = new Properties();
+        try {
+            emailProperties.load(this.getClass().getResourceAsStream("/mx/inbo/server/EmailServer.properties"));
+        } catch (IOException ex) {
+            Logger.getLogger(CStartQuiz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        String correoRemitente = emailProperties.getProperty("email");
+        String passwordRemitente = emailProperties.getProperty("password");
+
+        String asunto = "Invitación para jugar un quiz: Inbo";
+        String mensaje = "¡Hola!<br>"
+                + "Has sido invitado a participar en el quiz <b>" + quiz.getTitulo() + "</b>"
+                + ", para comenzar a jugar solo debes ingresar a la aplicación de Inbo e ingresar"
+                + " el siguiente código <b>" + gameKey + "</b>";
+
+        try {
+            transport = session.getTransport("smtp");
+        } catch (NoSuchProviderException ex) {
+            Logger.getLogger(CStartQuiz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (transport != null) {
+            if (friends != null) {
+                friends.forEach(friend -> {
+
+                    try {
+                        MimeMessage message = new MimeMessage(session);
+
+                        message.setFrom(new InternetAddress(correoRemitente));
+                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(friend));
+                        message.setSubject(asunto);
+                        message.setText(mensaje, "ISO-8859-1", "html");
+
+                        transport.connect(correoRemitente, passwordRemitente);
+                        transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(CStartQuiz.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            }
+            
+            try {
+                transport.close();
+            } catch (MessagingException ex) {
+                Logger.getLogger(CStartQuiz.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

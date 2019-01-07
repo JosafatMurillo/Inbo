@@ -68,6 +68,6 @@ io.on("connection", function (socket) {
         socket.join(nuevaSala);
         socket.emit('actualizado', 'SERVER', 'Te has conectado a la sala '+nuevaSala);
         socket.broadcast.to(salaActual).emit('actualizar', 'SERVER', socket.username+' ha abandonado la sala');
-        socket.broadcast.to(nuevaSala).emit('actualizar', 'SERVER,' socket.username+ 'se ha unido a la sala');
+        socket.broadcast.to(nuevaSala).emit('actualizar', 'SERVER', socket.username+ 'se ha unido a la sala');
     });
 });
