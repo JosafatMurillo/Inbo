@@ -20,6 +20,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
@@ -50,28 +51,22 @@ public class ServerInbo implements Operaciones {
     AnswerJpaController ajc = new AnswerJpaController(emf);
 
     public static void main(String args[]) {
-
-        InetAddress ip = null;
+        
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Ingresa la ip del servidor: ");
+        String ip = scanner.nextLine();
+        
+        System.setProperty("java.rmi.server.hostname", ip);
+        ServerInbo server = new ServerInbo();
 
         try {
-            ip = InetAddress.getLocalHost();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(ServerInbo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (ip != null) {
-            System.out.println(ip.getHostAddress());
-            System.setProperty("java.rmi.server.hostname", ip.getHostAddress());
-            ServerInbo server = new ServerInbo();
-
-            try {
-                Operaciones stub = (Operaciones) UnicastRemoteObject.exportObject(server, 0);
-                Registry registry = LocateRegistry.getRegistry();
-                registry.bind("servidorInbo", stub);
-                System.out.println("Server is listening...");
-            } catch (RemoteException | AlreadyBoundException ex) {
-                ex.getMessage();
-            }
+            Operaciones stub = (Operaciones) UnicastRemoteObject.exportObject(server, 0);
+            Registry registry = LocateRegistry.getRegistry();
+            registry.bind("servidorInbo", stub);
+            System.out.println("Server is listening...");
+        } catch (RemoteException | AlreadyBoundException ex) {
+            ex.getMessage();
         }
     }
 

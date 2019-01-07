@@ -107,6 +107,13 @@ public class CQuizCode implements Initializable {
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }
+    
+    @FXML
+    private void startGame(){
+        playUserAnimation = false;
+        Stage actualStage = (Stage) mainPane.getScene().getWindow();
+        Loader.loadPageInCurrentStage("/mx/inbo/gui/GameScreen.fxml", "Game", actualStage);
+    }
 
     /**
      * Hilo que controla la animación de pulso de la imágen del usuario.

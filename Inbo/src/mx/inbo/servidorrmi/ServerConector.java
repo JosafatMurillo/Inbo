@@ -31,14 +31,19 @@ import mx.inbo.gui.tools.Mensaje;
 public class ServerConector {
     
     private static Operaciones stub;
-    private  static JFXDialog dialog;
+    private static JFXDialog dialog;
+    private static String ip = "";
+    
+    public static void setIP(String ipv4){
+        ip = ipv4;
+    }
     
     private ServerConector(){}
 
     private static void initialize() {
         Registry registry;
         try {
-            registry = LocateRegistry.getRegistry("192.168.0.29");
+            registry = LocateRegistry.getRegistry(ip);
             stub = (Operaciones) registry.lookup("servidorInbo");
         } catch (RemoteException | NotBoundException ex) {
             if(dialog != null){

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import java.net.URL?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.paint.ImagePattern?>
+
+<StackPane id="itemPane"
+           prefHeight="50.0"
+           prefWidth="460.0"
+           xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@styles/sgeneral.css" />
+        <URL value="@/mx/inbo/gui/styles/sinvitedfrienditem.css"/>
+    </stylesheets>
+    
+    <Circle radius="20.0"
+            StackPane.alignment="CENTER_LEFT" >
+        <fill>
+            <ImagePattern>
+                <image>
+                    <Image url="/mx/inbo/images/invited_icon.png" />
+                </image>
+            </ImagePattern>
+        </fill>
+    </Circle>
+    
+    <Label fx:id="emailLabel"
+           StackPane.alignment="CENTER" >
+        <font>
+            <Font name="Segoe UI Semilight" size="20"/>
+        </font>
+    </Label>
+    
+    <JFXButton fx:id="deleteButton"
+               text=""
+               style="-fx-background-color: #000000;"
+               textFill="#ffffff"
+               prefWidth="60"
+               prefHeight="50"
+               StackPane.alignment="CENTER_RIGHT" >
+        <font>
+            <Font name="Segoe MDL2 Assets" size="20"/>
+        </font>
+    </JFXButton>
+    
+    
+</StackPane>

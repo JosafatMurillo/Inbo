@@ -51,7 +51,7 @@
     <left>
         <StackPane fx:id="leftPane"
                    prefWidth="600"
-                   maxWidth="2000"
+                   maxWidth="600"
                    prefHeight="700"
                    maxHeight="1000">
             <VBox  maxHeight="280.0"
@@ -100,15 +100,16 @@
         </StackPane>
     </left>
     <right>
-        <StackPane prefWidth="2000"
-                   maxWidth="2000"
+        <StackPane fx:id="rightPane"
+                   prefWidth="600"
+                   maxWidth="800"
                    prefHeight="700"
                    maxHeight="1000"
                    style="-fx-background-color: white;">
-            <VBox prefWidth="1995"
-                  maxWidth="1995"
+            <VBox prefWidth="480"
+                  maxWidth="480"
                   maxHeight="800">
-                <Label text="%key.inviteTitle">
+                <Label text="%key.invitedFriends">
                     <font>
                         <Font name="Segoe UI"
                               size="46.0" />

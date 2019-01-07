@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright 2018 adolf.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +19,15 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
+import mx.inbo.gui.tools.Loader;
 
 /**
  * Clase principal que lanza la aplicación, ya sea la página principal o la
@@ -33,10 +36,10 @@ import javafx.stage.StageStyle;
  * @author adolf
  */
 public class Osiyru extends Application {
-    
+
     private double xOffset = 0;
     private double yOffset = 0;
-    
+
     /**
      * Inicializa la página inicial que se muestra al usuario.
      *
@@ -65,6 +68,9 @@ public class Osiyru extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
+        primaryStage.setOnShowing((WindowEvent event) -> {
+            Loader.loadNonResizablePage("/mx/inbo/gui/IPConfiguration.fxml", "IP Configuration");
+        });
         primaryStage.show();
 
     }

@@ -6,9 +6,47 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.inbo.gui.controllers.CGameScreen">
+<StackPane fx:id="mainPane"
+           prefHeight="400.0"
+           prefWidth="600.0"
+           styleClass="mainFxmlClass"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="mx.inbo.gui.controllers.CGameScreen">
     <stylesheets>
         <URL value="@/mx/inbo/gui/styles/sgamescreen.css"/>
     </stylesheets>
-</AnchorPane>
+    
+    <ImageView fx:id="background">
+        <image>
+            <Image url="/mx/inbo/images/background.png" />
+        </image>
+        <effect>
+            <Lighting bumpInput="$null">
+                <light>
+                    <Light.Distant color="#5b5959" />
+                </light>
+            </Lighting>
+        </effect>
+    </ImageView>
+    
+    <StackPane fx:id="labelPane"
+               prefWidth="200"
+               prefHeight="100" 
+               maxHeight="100"
+               style="-fx-background-color: white;"
+               StackPane.alignment="BOTTOM_CENTER">
+        <Label fx:id="quizTitle"
+               text="QuizTitle">
+            <font>
+                <Font name="Segoe UI"
+                      size="46.0" />
+            </font>
+        </Label>
+    </StackPane>
+</StackPane>

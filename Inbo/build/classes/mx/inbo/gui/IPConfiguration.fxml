@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane"
+            prefHeight="250.0"
+            prefWidth="350.0"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.inbo.gui.controllers.CIPConfiguration">
+    
+    <StackPane fx:id="contentPane">
+        <VBox maxWidth="300"
+              maxHeight="350">
+            <Label text="%key.ipConfigTitle">
+                <font>
+                    <Font name="Segoe UI"
+                          size="26.0" />
+                </font>
+                <VBox.margin>
+                    <Insets top="10" left="35" right="35"/>
+                </VBox.margin>
+            </Label>
+            <TextField fx:id="ipField"
+                       promptText="%key.ipConfigField">
+                <VBox.margin>
+                    <Insets top="40" left="20" right="20"/>
+                </VBox.margin>
+            </TextField>
+            <JFXButton fx:id="signUpButton"
+                       textFill="#95989A"
+                       onAction="#setIP" 
+                       text="%key.enterButton">
+                <VBox.margin>
+                    <Insets top="35" left="110" right="110"/>
+                </VBox.margin>
+            </JFXButton>
+        </VBox>
+    </StackPane>
+    
+</AnchorPane>

@@ -15,9 +15,16 @@
  */
 package mx.inbo.gui.controllers;
 
+import animatefx.animation.BounceInLeft;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import mx.inbo.gui.tools.Loader;
 
 /**
  * FXML Controller class
@@ -26,12 +33,52 @@ import javafx.fxml.Initializable;
  */
 public class CGameLobby implements Initializable {
 
+    @FXML
+    private BorderPane mainPane;
+    
+    @FXML
+    private StackPane thumbnailPane;
+    
+    @FXML
+    private StackPane rightPane;
+    
+    @FXML
+    private ImageView thumbnail;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        
+        mainPane.widthProperty().addListener((objects, oldValue, newValue) -> {
+            double width = (double) newValue / 2;
+            thumbnail.setFitWidth(width - 10);
+            thumbnailPane.setPrefWidth(width);
+            rightPane.setPrefWidth(width);
+        });
+        
+        playIntroAnimation();
+        
+    }
+    
+    /**
+     * Reproduce la animación inicial.
+     */
+    private void playIntroAnimation() {
+        new BounceInLeft(mainPane).play();
+    }
+
+    @FXML
+    private void nextPage() {
+        Stage actualStage = (Stage) mainPane.getScene().getWindow();
+        Loader.loadPageInCurrentStage("/mx/inbo/gui/GameInProgress.fxml", "Game", actualStage);
+    }
+
+    @FXML
+    private void stepBack() {
+        Stage actualStage = (Stage) mainPane.getScene().getWindow();
+        Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
+    }
     
 }

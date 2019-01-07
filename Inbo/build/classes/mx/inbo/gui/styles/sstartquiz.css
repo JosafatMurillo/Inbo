@@ -33,3 +33,8 @@
     -fx-background-color: black;
     -fx-text-fill: white;
 }
+
+ListView {
+    -fx-border-width: 0px;
+    -fx-background-color: #FFFFFF;
+}

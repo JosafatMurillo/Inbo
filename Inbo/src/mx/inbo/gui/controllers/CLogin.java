@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -96,6 +95,7 @@ public class CLogin implements Initializable {
                 }
             }
         });
+        
     }
 
     /**

@@ -15,6 +15,7 @@
  */
 package mx.inbo.gui.controllers;
 
+import animatefx.animation.BounceInLeft;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -172,7 +173,16 @@ public class CDashboard implements Initializable {
         Image image = new Image(new ByteArrayInputStream(thumb.getImage()));
         ImagePattern imagePattern = new ImagePattern(image);
         userImage.setFill(imagePattern);
+        
+        playIntroAnimation();
 
+    }
+    
+    /**
+     * Reproduce la animación inicial.
+     */
+    private void playIntroAnimation() {
+        new BounceInLeft(mainPane).play();
     }
 
     /**

@@ -15,9 +15,14 @@
  */
 package mx.inbo.gui.controllers;
 
+import animatefx.animation.BounceInLeft;
+import animatefx.animation.SlideInLeft;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 
 /**
  * FXML Controller class
@@ -26,12 +31,35 @@ import javafx.fxml.Initializable;
  */
 public class CGameScreen implements Initializable {
 
+    @FXML
+    private StackPane mainPane;
+    
+    @FXML
+    private StackPane labelPane;
+    
+    @FXML
+    private ImageView background;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        
+        mainPane.widthProperty().addListener((objects, oldValue, newValue) -> {
+            background.setFitWidth((double) newValue);
+            labelPane.setPrefWidth((double) newValue);
+        });
+        
+        mainPane.heightProperty().addListener((objects, oldValue, newValue) ->{
+            background.setFitHeight((double) newValue);
+        });
+        
+        new BounceInLeft(mainPane).play();
+        new SlideInLeft(labelPane).play();
+        
+    }
+    
+    
     
 }

@@ -71,6 +71,7 @@
                            prefHeight="30">
                 </TextField>
                 <JFXButton fx:id="enterButton"
+                           onAction="#startGame"
                            text="%key.enterButton">
                     <StackPane.margin>
                         <Insets top="120"/>

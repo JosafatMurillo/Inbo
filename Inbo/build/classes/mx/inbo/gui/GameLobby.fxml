@@ -1,14 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.paint.ImagePattern?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.inbo.gui.controllers.CGameLobby">
+<BorderPane fx:id="mainPane"
+            prefHeight="400.0"
+            prefWidth="600.0"
+            styleClass="mainFxmlClass"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.inbo.gui.controllers.CGameLobby">
     <stylesheets>
         <URL value="@/mx/inbo/gui/styles/sgamelobby.css"/>
     </stylesheets>
-</AnchorPane>
+    
+    <top>
+        <StackPane prefHeight="55"
+                   style="-fx-background-color:#00819f;">
+            <JFXButton fx:id="backButton"
+                       text=""
+                       textFill="#FFFFFF"
+                       onAction="#stepBack"
+                       StackPane.alignment="CENTER_LEFT">
+                <font>
+                    <Font name="Segoe MDL2 Assets" size="32"/>
+                </font>
+            </JFXButton>
+            <JFXButton fx:id="buttonNext"
+                       text="%key.nextButton"
+                       onAction="#nextPage"
+                       style="-fx-background-color: #000000;"
+                       textFill="#FFFFFF"
+                       StackPane.alignment="CENTER_RIGHT">
+                <font>
+                    <Font name="Segoe UI" size="20"/>
+                </font>
+                <StackPane.margin>
+                    <Insets right="10"/>
+                </StackPane.margin>
+            </JFXButton>
+        </StackPane>
+    </top>
+    <left>
+        <StackPane fx:id="thumbnailPane"
+                   style="-fx-background-color: #000000;">
+            <ImageView fx:id="thumbnail"
+                       preserveRatio="true">
+                <image>
+                    <Image url="/mx/inbo/images/default_thumbnail.png"/>
+                </image>
+                <effect>
+                    <Lighting bumpInput="$null">
+                        <light>
+                            <Light.Distant />
+                        </light>
+                    </Lighting>
+                </effect>
+            </ImageView>
+        </StackPane>
+    </left>
+    <right>
+        <StackPane fx:id="rightPane"
+                   prefWidth="600"
+                   prefHeight="700"
+                   maxHeight="700"
+                   style="-fx-background-color: white;">
+            <VBox prefWidth="480"
+                  maxWidth="480"
+                  maxHeight="600">
+                <Circle fx:id="userImage" radius="50.0">
+                    <fill>
+                        <ImagePattern>
+                            <image>
+                                <Image url="/mx/inbo/images/dog.jpg" />
+                            </image>
+                        </ImagePattern>
+                    </fill>
+                    <VBox.margin>
+                        <Insets left="160" bottom="20" top="10"/>
+                    </VBox.margin>
+                </Circle>
+                <ListView fx:id="friendsList"
+                          prefWidth="600"
+                          maxWidth="600"
+                          prefHeight="700">
+                    
+                </ListView>
+            </VBox>
+        </StackPane>
+    </right>
+</BorderPane>

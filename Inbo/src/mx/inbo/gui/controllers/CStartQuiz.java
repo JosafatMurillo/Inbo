@@ -15,6 +15,7 @@
  */
 package mx.inbo.gui.controllers;
 
+import animatefx.animation.BounceInLeft;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import java.net.URL;
@@ -25,6 +26,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -54,6 +56,9 @@ public class CStartQuiz implements Initializable {
     private StackPane leftPane;
 
     @FXML
+    private StackPane rightPane;
+
+    @FXML
     private TextField emailField;
 
     @FXML
@@ -74,11 +79,46 @@ public class CStartQuiz implements Initializable {
         friendsList.setItems(list);
 
         bundle = rb;
+
+        mainPane.widthProperty().addListener((objects, oldValue, newValue) -> {
+            double width = (double) newValue / 2;
+            leftPane.setPrefWidth(width);
+            leftPane.setMaxWidth(width);
+            rightPane.setPrefWidth(width);
+            rightPane.setMaxWidth(width);
+        });
+
+        friendsList.setCellFactory(celdas -> new ListCell<String>() {
+
+            @Override
+            protected void updateItem(String email, boolean vacio) {
+                super.updateItem(email, vacio);
+
+                if (vacio || email == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    CInvitedFriendItem listController = new CInvitedFriendItem();
+                    listController.setInformation(email);
+                    setGraphic(listController.getMainPane());
+                }
+            }
+        });
+        
+        playIntroAnimation();
+    }
+    
+    /**
+     * Reproduce la animación inicial.
+     */
+    private void playIntroAnimation() {
+        new BounceInLeft(mainPane).play();
     }
 
     @FXML
     private void nextPage() {
-        System.out.println("Pressed");
+        Stage actualStage = (Stage) mainPane.getScene().getWindow();
+        Loader.loadPageInCurrentStage("/mx/inbo/gui/GameLobby.fxml", "Lobby", actualStage);
     }
 
     @FXML

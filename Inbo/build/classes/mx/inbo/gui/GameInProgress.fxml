@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane fx:id="mainPane"
+           prefHeight="400.0"
+           prefWidth="600.0"
+           styleClass="mainFxmlClass"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="mx.inbo.gui.controllers.CGameInProgress">
+    <stylesheets>
+        <URL value="@/mx/inbo/gui/styles/sgameinprogress.css"/>
+    </stylesheets>
+    
+    <ImageView fx:id="background">
+        <image>
+            <Image url="/mx/inbo/images/background.png" />
+        </image>
+        <effect>
+            <Lighting bumpInput="$null">
+                <light>
+                    <Light.Distant color="#5b5959" />
+                </light>
+            </Lighting>
+        </effect>
+    </ImageView>
+    
+    <StackPane fx:id="labelPane"
+               prefWidth="200"
+               maxWidth="500"
+               prefHeight="80" 
+               maxHeight="80"
+               style="-fx-background-color: white;"
+               StackPane.alignment="BOTTOM_CENTER">
+        <Label fx:id="gameInProgress"
+               text="Game in progress..."/>
+        
+        <StackPane.margin>
+            <Insets bottom="100" />
+        </StackPane.margin>
+    </StackPane>
+</StackPane>
