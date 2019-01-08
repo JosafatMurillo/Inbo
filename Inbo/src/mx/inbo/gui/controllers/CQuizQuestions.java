@@ -49,16 +49,28 @@ import mx.inbo.servidorrmi.Operaciones;
 public class CQuizQuestions implements Initializable {
 
     private static Quiz quiz;
-    
-    public static void setQuiz(Quiz quizz){
+    private static boolean isEditing = false;
+
+    public static void setQuiz(Quiz quizz) {
         quiz = quizz;
     }
-    
-    public static Quiz getQuiz(){
+
+    public static Quiz getQuiz() {
         return quiz;
     }
-    
-    
+
+    public static void toCreate() {
+        isEditing = false;
+    }
+
+    public static void toEdit() {
+        isEditing = true;
+    }
+
+    public static boolean gonnaEdit() {
+        return isEditing;
+    }
+
     @FXML
     private BorderPane mainPane;
 
@@ -67,10 +79,10 @@ public class CQuizQuestions implements Initializable {
 
     @FXML
     private JFXButton backButton;
-    
+
     @FXML
     private ListView questionsList;
-    
+
     private Collection<Question> questions;
 
     /**
@@ -78,17 +90,17 @@ public class CQuizQuestions implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         playIntroAnimation();
-        
+
         questions = quiz.getQuestionCollection();
-        
-        if(questions != null){
+
+        if (questions != null) {
             ObservableList<Question> observableQuestion = FXCollections.observableArrayList(questions);
             questionsList.setItems(observableQuestion);
-            
+
             questionsList.setCellFactory(celdas -> new ListCell<Question>() {
-            
+
                 @Override
                 protected void updateItem(Question question, boolean vacio) {
                     super.updateItem(question, vacio);
@@ -104,13 +116,13 @@ public class CQuizQuestions implements Initializable {
                 }
             });
         }
-    
+
     }
-    
+
     /**
      * Reproduce la animación de entrada.
      */
-    private void playIntroAnimation(){
+    private void playIntroAnimation() {
         new BounceInLeft(mainPane).play();
     }
 
@@ -122,65 +134,74 @@ public class CQuizQuestions implements Initializable {
         Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizMaker.fxml", "New Quiz", actualStage);
     }
-    
+
     /**
      * Carga la página Question Maker para añadir una nueva pregunta.
      */
     @FXML
-    private void loadQuestionMaker(){
+    private void loadQuestionMaker() {
         Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuestionMaker.fxml", "New Question", actualStage);
     }
-    
+
     /**
      * Registra la información del Quiz en el servidor.
      */
     @FXML
-    private void saveQuiz(){
-        
+    private void saveQuiz() {
+
         Operaciones stub = ServerConector.getStub();
-        
-        Collection<Question> emptyQuestions = new ArrayList<>();
-        
-        quiz.setQuestionCollection(emptyQuestions);
-        
-        try {
-            stub.agregarQuiz(CDashboard.getUser(), quiz);
-        } catch (RemoteException ex) {
-            Logger.getLogger(CQuizQuestions.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        if(questions != null){
-            questions.forEach(question -> {
-                Collection<Answer> answers = question.getAnswerCollection();
-                Collection<Answer> emptyAnswers = new ArrayList<>();
-                question.setAnswerCollection(emptyAnswers);
-                
-                try {
-                    stub.agregarPregunta(quiz, question);
-                } catch (RemoteException ex) {
-                    Logger.getLogger(CQuizQuestions.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                answers.forEach(answer -> {
+
+        if (!isEditing) {
+            Collection<Question> emptyQuestions = new ArrayList<>();
+
+            quiz.setQuestionCollection(emptyQuestions);
+
+            try {
+                stub.agregarQuiz(CDashboard.getUser(), quiz);
+            } catch (RemoteException ex) {
+                Logger.getLogger(CQuizQuestions.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (questions != null) {
+                questions.forEach(question -> {
+                    Collection<Answer> answers = question.getAnswerCollection();
+                    Collection<Answer> emptyAnswers = new ArrayList<>();
+                    question.setAnswerCollection(emptyAnswers);
+
                     try {
-                        stub.agregarRespuesta(question, answer);
+                        stub.agregarPregunta(quiz, question);
                     } catch (RemoteException ex) {
                         Logger.getLogger(CQuizQuestions.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
+                    answers.forEach(answer -> {
+                        try {
+                            stub.agregarRespuesta(question, answer);
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(CQuizQuestions.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
                 });
-            });
+            }
+
+            List<Quiz> quizzes = CDashboard.getQuizzes();
+
+            if (quizzes == null) {
+                quizzes = new ArrayList<>();
+            }
+
+            quizzes.add(quiz);
+
+            CDashboard.setQuizzes(quizzes);
+        } else {
+            try {
+                stub.actualizarQuiz(quiz);
+            } catch (RemoteException ex) {
+                Logger.getLogger(CQuizQuestions.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
-        List<Quiz> quizzes = CDashboard.getQuizzes();
-        
-        if(quizzes == null){
-            quizzes = new ArrayList<>();
-        }
-        
-        quizzes.add(quiz);
-        
-        CDashboard.setQuizzes(quizzes);
+
         Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
     }

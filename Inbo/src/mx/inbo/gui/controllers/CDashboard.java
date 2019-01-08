@@ -191,6 +191,7 @@ public class CDashboard implements Initializable {
     @FXML
     private void loadQuizMaker() {
         CQuizMaker.setQuiz(null);
+        CQuizQuestions.toCreate();
         loadPage("/mx/inbo/gui/QuizMaker.fxml", "New Quiz");
     }
 

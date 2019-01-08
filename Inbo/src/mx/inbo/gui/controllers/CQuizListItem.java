@@ -96,6 +96,7 @@ public class CQuizListItem {
     private void edit() {
         Stage stage = CDashboard.getStage();
         CQuizMaker.setQuiz(quiz);
+        CQuizQuestions.toEdit();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizMaker.fxml", "New Quiz", stage);
     }
 

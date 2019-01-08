@@ -76,5 +76,10 @@ public class CQuestionListItem {
     public HBox getBox() {
         return itemPane;
     }
+    
+    @FXML
+    private void editQuestion(){
+        
+    }
 
 }

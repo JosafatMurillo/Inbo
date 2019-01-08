@@ -112,7 +112,7 @@ public class CQuizMaker implements Initializable {
         }
 
     }
-    
+
     /**
      * Reproduce la animación de inicio.
      */
@@ -144,26 +144,28 @@ public class CQuizMaker implements Initializable {
         Thumbnail thumb = quiz.getImage();
 
         if (thumb == null) {
-            
+
             thumb = new Thumbnail();
             imageFile = new File(System.getProperty("user.dir") + "/src/mx/inbo/images/default_thumbnail.png");
             thumb.setType("Quiz");
         }
-        
-        if(imageFile != null){
+
+        if (imageFile != null) {
             int extIndex = imageFile.getName().lastIndexOf('.');
             String imageExtention = imageFile.getName().substring(extIndex + 1).toLowerCase();
             thumb.setExtention(imageExtention);
 
             byte[] image = FileHelper.parseFileToBytes(imageFile, imageExtention);
             thumb.setImage(image);
-            
+
             quiz.setImagen(imageFile.toURI().toString());
         }
 
-        int id = KeyGenerator.obtenerId();
+        if (!CQuizQuestions.gonnaEdit()) {
+            int id = KeyGenerator.obtenerId();
 
-        quiz.setIdQuiz(id);
+            quiz.setIdQuiz(id);
+        }
         quiz.setIdUser(CDashboard.getUser());
         quiz.setImage(thumb);
 
@@ -177,7 +179,7 @@ public class CQuizMaker implements Initializable {
         }
 
     }
-    
+
     /**
      * Cambia la imagen de portada del Quiz.
      */
