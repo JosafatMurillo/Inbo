@@ -38,6 +38,10 @@ public class ServerConector {
         ip = ipv4;
     }
     
+    public static String getIP(){
+        return ip;
+    }
+    
     private ServerConector(){}
 
     private static void initialize() {

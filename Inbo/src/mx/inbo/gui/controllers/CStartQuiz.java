@@ -51,6 +51,7 @@ import mx.inbo.domain.KeyGenerator;
 import mx.inbo.entities.Quiz;
 import mx.inbo.gui.tools.Loader;
 import mx.inbo.gui.tools.Mensaje;
+import mx.inbo.servidorrmi.ServerConector;
 
 /**
  * FXML Controller class
@@ -195,8 +196,11 @@ public class CStartQuiz implements Initializable {
     }
 
     private void createQuizRoom() {
+        
+        String ip = ServerConector.getIP();
+        
         try {
-            Socket socket = IO.socket("http://localhost:5000");
+            Socket socket = IO.socket("http://" + ip + ":5000");
 
             int gameKey = KeyGenerator.obtenerId();
 
