@@ -21,6 +21,7 @@ import animatefx.animation.Jello;
 import animatefx.animation.Pulse;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import java.io.ByteArrayInputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -41,6 +42,7 @@ import mx.inbo.domain.KeyGenerator;
 import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.User;
 import mx.inbo.gui.tools.Loader;
+import mx.inbo.servidorrmi.ServerConector;
 
 /**
  * Clase FXML controladora de la página Quiz Code.
@@ -124,8 +126,6 @@ public class CQuizCode implements Initializable {
             if (!code.isEmpty()) {
                 playUserAnimation = false;
                 enterRoom(code);
-                Stage actualStage = (Stage) mainPane.getScene().getWindow();
-                Loader.loadPageInCurrentStage("/mx/inbo/gui/GameScreen.fxml", "Game", actualStage);
             }
         }
     }
@@ -161,17 +161,69 @@ public class CQuizCode implements Initializable {
     }
 
     private void enterRoom(String code) {
-        try {
-            Socket socket = IO.socket("http://localhost:5000");
 
-            String args[] = {code,
-                user.getUsername()
+        GameConector conector = new GameConector();
+        conector.setInfo(code, user.getUsername());
+        conector.start();
+        
+    }
+
+    class GameConector extends Thread {
+
+        private final String ip = ServerConector.getIP();
+        private Socket socket;
+        private String[] args;
+
+        @Override
+        public void run() {
+
+            try {
+
+                if (socket == null) {
+                    socket = IO.socket("http://" + ip + ":5000");
+                }
+
+                socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... os) {
+                        socket.emit("addUser", (Object[]) args);
+                    }
+
+                }).on("actualizarSala", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... os) {
+                        String message = (String) os[0];
+
+                        System.out.println(message);
+                    }
+                }).on("quiz", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... os) {
+                        String quiz = (String) os[0];
+
+                        CGameScreen.setQuizTitle(quiz);
+                        Stage actualStage = (Stage) mainPane.getScene().getWindow();
+                        Loader.loadPageInCurrentStage("/mx/inbo/gui/GameScreen.fxml", "Game", actualStage);
+                    }
+                });
+
+                socket.connect();
+
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(CGameLobby.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        public void setInfo(String code, String username) {
+            
+            args = new String[]{
+                username,
+                code
             };
 
-            socket.emit("addUser", (Object[]) args);
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(CGameLobby.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
 }

@@ -1,17 +1,15 @@
 
 var io = require("socket.io")(5000);
 
-var namespace = io.of("/");
+var id = 1;
+var quizName;
+var quizImage;
+var question;
+var questionImage = [];
+var answers = [];
+var answerImages = {};
 
 io.on("connection", function (socket) {
-
-    var id = 1;
-    var quizName;
-    var quizImage;
-    var question;
-    var questionImage = [];
-    var answers = [];
-    var answerImages = {};
 
     console.log("usuario conectado...");
 
@@ -36,7 +34,7 @@ io.on("connection", function (socket) {
         this.questionImage = questionThumb;
     });
 
-    socket.on("", function(){
+    socket.on("", function () {
 
     });
 });

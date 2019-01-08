@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
@@ -31,6 +32,12 @@ import javafx.scene.layout.StackPane;
  */
 public class CGameScreen implements Initializable {
 
+    private static String quizTitle;
+    
+    public static void setQuizTitle(String title){
+        quizTitle = title;
+    }
+    
     @FXML
     private StackPane mainPane;
     
@@ -39,6 +46,9 @@ public class CGameScreen implements Initializable {
     
     @FXML
     private ImageView background;
+    
+    @FXML
+    private Label quizTitleLabel;
     
     /**
      * Initializes the controller class.
@@ -57,6 +67,12 @@ public class CGameScreen implements Initializable {
         
         new BounceInLeft(mainPane).play();
         new SlideInLeft(labelPane).play();
+        
+        if(quizTitle == null){
+            quizTitle = "Quiz Title";
+        }
+        
+        quizTitleLabel.setText(quizTitle);
         
     }
     

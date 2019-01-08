@@ -45,7 +45,7 @@ io.on("connection", function (socket) {
 
     //Se supone que con esto se transmite la información a todos los usuarios de la sala
     socket.on("iniciarQuiz", function (quiz, quizId){
-        socket.broadcast.to(quizId).emit('Preguntas', socket.question);
+        socket.broadcast.to(quizId).emit('Preguntas', quiz);
     });
 
     //El cliente sale de la sala con el mismo id por el cual entró

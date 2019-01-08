@@ -196,16 +196,24 @@ public class CStartQuiz implements Initializable {
     }
 
     private void createQuizRoom() {
-        
+
         String ip = ServerConector.getIP();
-        
+
         try {
             Socket socket = IO.socket("http://" + ip + ":5000");
 
             int gameKey = KeyGenerator.obtenerId();
 
-            socket.emit("crearSala", gameKey);
+            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener(){
+                @Override
+                public void call(Object... os) {
+                    socket.emit("crearSala", gameKey);
+                }
+
+            });
             
+            socket.connect();
+
             sentEmails(gameKey);
         } catch (URISyntaxException ex) {
             Logger.getLogger(CGameLobby.class.getName()).log(Level.SEVERE, null, ex);
@@ -239,37 +247,25 @@ public class CStartQuiz implements Initializable {
                 + ", para comenzar a jugar solo debes ingresar a la aplicación de Inbo e ingresar"
                 + " el siguiente código <b>" + gameKey + "</b>";
 
-        try {
-            transport = session.getTransport("smtp");
-        } catch (NoSuchProviderException ex) {
-            Logger.getLogger(CStartQuiz.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (friends != null) {
+            friends.forEach(friend -> {
 
-        if (transport != null) {
-            if (friends != null) {
-                friends.forEach(friend -> {
+                try {
+                    MimeMessage message = new MimeMessage(session);
 
-                    try {
-                        MimeMessage message = new MimeMessage(session);
+                    message.setFrom(new InternetAddress(correoRemitente));
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(friend));
+                    message.setSubject(asunto);
+                    message.setText(mensaje, "ISO-8859-1", "html");
 
-                        message.setFrom(new InternetAddress(correoRemitente));
-                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(friend));
-                        message.setSubject(asunto);
-                        message.setText(mensaje, "ISO-8859-1", "html");
-
-                        transport.connect(correoRemitente, passwordRemitente);
-                        transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
-                    } catch (MessagingException ex) {
-                        Logger.getLogger(CStartQuiz.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                });
-            }
-            
-            try {
-                transport.close();
-            } catch (MessagingException ex) {
-                Logger.getLogger(CStartQuiz.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    transport = session.getTransport("smtp");
+                    transport.connect(correoRemitente, passwordRemitente);
+                    transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+                    transport.close();
+                } catch (MessagingException ex) {
+                    Logger.getLogger(CStartQuiz.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
         }
     }
 }
