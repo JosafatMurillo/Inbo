@@ -202,7 +202,7 @@ public class CStartQuiz implements Initializable {
         try {
             Socket socket = IO.socket("http://" + ip + ":5000");
 
-            int gameKey = KeyGenerator.obtenerId();
+            String gameKey = String.valueOf(KeyGenerator.obtenerId());
 
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener(){
                 @Override
@@ -215,12 +215,14 @@ public class CStartQuiz implements Initializable {
             socket.connect();
 
             sentEmails(gameKey);
+            CGameLobby.setGameKey(gameKey);
+            
         } catch (URISyntaxException ex) {
             Logger.getLogger(CGameLobby.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void sentEmails(int gameKey) {
+    private void sentEmails(String gameKey) {
         ObservableList<String> friends = friendsList.getItems();
 
         Properties props = new Properties();

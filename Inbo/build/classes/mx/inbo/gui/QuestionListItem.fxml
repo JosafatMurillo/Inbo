@@ -68,6 +68,7 @@
         
         <JFXButton fx:id="deleteButton"
                    text=""
+                   onAction="#delete" 
                    style="-fx-background-color: #000000;"
                    textFill="#ffffff"
                    prefWidth="50"

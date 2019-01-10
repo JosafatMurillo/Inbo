@@ -17,6 +17,8 @@ package mx.inbo.gui.controllers;
 
 import animatefx.animation.BounceInLeft;
 import animatefx.animation.SlideInLeft;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXDialog;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,16 +27,19 @@ import java.util.InputMismatchException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
 import mx.inbo.domain.KeyGenerator;
 import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Answer;
@@ -42,6 +47,7 @@ import mx.inbo.entities.Question;
 import mx.inbo.entities.Quiz;
 import mx.inbo.gui.tools.FileHelper;
 import mx.inbo.gui.tools.Loader;
+import mx.inbo.gui.tools.Mensaje;
 
 /**
  * Clase controladora FXML del Question Maker.
@@ -97,9 +103,22 @@ public class CQuestionMaker implements Initializable {
     @FXML
     private Label pathAnswer4;
 
+    @FXML
+    private JFXCheckBox answer1IsCorrect;
+
+    @FXML
+    private JFXCheckBox answer2IsCorrect;
+
+    @FXML
+    private JFXCheckBox answer3IsCorrect;
+
+    @FXML
+    private JFXCheckBox answer4IsCorrect;
+
     private Quiz quiz;
     private File imageFile;
     private FileChooser chooser;
+    private ResourceBundle bundle;
 
     /**
      * Initializes the controller class.
@@ -133,6 +152,13 @@ public class CQuestionMaker implements Initializable {
 
         quiz = CQuizQuestions.getQuiz();
 
+        TextFormatter<Integer> formatter = new TextFormatter<>(new IntegerStringConverter(),
+                20, p -> Pattern.matches("\\d*", p.getText()) ? p : null);
+
+        timeLimitField.setTextFormatter(formatter);
+
+        bundle = rb;
+
         playIntroAnimation();
     }
 
@@ -153,16 +179,21 @@ public class CQuestionMaker implements Initializable {
         String title = titleField.getText();
         String answer1Text = answer1Field.getText();
         String answer2Text = answer2Field.getText();
+        String answer3Text = answer3Field.getText();
+        String answer4Text = answer4Field.getText();
 
         Integer limit = 20;
 
         try {
             limit = Integer.parseInt(timeLimitField.getText());
-        } catch (InputMismatchException ex) {
-            Logger.getLogger(CQuestionMaker.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InputMismatchException | NumberFormatException ex) {
+            limit = 20;
+            timeLimitField.setText(limit.toString());
         }
 
-        if (!title.isEmpty() && !answer1Text.isEmpty() && !answer2Text.isEmpty()) {
+        boolean canContinue = !areThereEmptyFields(title) && isThereACorrectAnswer();
+
+        if (canContinue) {
 
             Question question = new Question();
 
@@ -205,36 +236,34 @@ public class CQuestionMaker implements Initializable {
 
             answer1.setIdAnswer(idAnswer1);
             answer2.setIdAnswer(idAnswer2);
+            
+            answer1.setEsCorrecta(answer1IsCorrect.isSelected());
+            answer2.setEsCorrecta(answer2IsCorrect.isSelected());
 
-            String answer3Text = answer3Field.getText();
-            String answer4Text = answer4Field.getText();
+            Answer answer3 = new Answer();
+            answer3.setRespuesta(answer3Text);
+
+            Answer answer4 = new Answer();
+            answer4.setRespuesta(answer4Text);
+
+            int idAnswer3 = KeyGenerator.obtenerId();
+            int idAnswer4 = KeyGenerator.obtenerId();
+
+            answer3 = setAnswerImage(answer3, pathAnswer4.getText());
+            answer4 = setAnswerImage(answer4, pathAnswer4.getText());
+
+            answer3.setIdAnswer(idAnswer3);
+            answer4.setIdAnswer(idAnswer4);
+            
+            answer3.setEsCorrecta(answer3IsCorrect.isSelected());
+            answer4.setEsCorrecta(answer4IsCorrect.isSelected());
 
             Collection<Answer> answers = new ArrayList<>();
 
             answers.add(answer1);
             answers.add(answer2);
-
-            if (!answer3Text.isEmpty() && !answer4Text.isEmpty()) {
-
-                Answer answer3 = new Answer();
-                answer3.setRespuesta(answer3Text);
-
-                Answer answer4 = new Answer();
-                answer4.setRespuesta(answer4Text);
-
-                int idAnswer3 = KeyGenerator.obtenerId();
-                int idAnswer4 = KeyGenerator.obtenerId();
-
-                answer3 = setAnswerImage(answer3, pathAnswer4.getText());
-                answer4 = setAnswerImage(answer4, pathAnswer4.getText());
-
-                answer3.setIdAnswer(idAnswer3);
-                answer4.setIdAnswer(idAnswer4);
-
-                answers.add(answer3);
-                answers.add(answer4);
-
-            }
+            answers.add(answer3);
+            answers.add(answer4);
 
             question.setAnswerCollection(answers);
 
@@ -254,6 +283,59 @@ public class CQuestionMaker implements Initializable {
             Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizQuestions.fxml", "Questions", actualStage);
 
         }
+    }
+
+    /**
+     * Retorna si hay campos vacíos que son necesarios para continuar
+     *
+     * @param title Campo a evaluar
+     * @return Si hay campos vacíos
+     */
+    private boolean areThereEmptyFields(String title) {
+        boolean areThere = false;
+        String answer1Text = answer1Field.getText();
+        String answer2Text = answer2Field.getText();
+        String answer3Text = answer3Field.getText();
+        String answer4Text = answer4Field.getText();
+
+        if (title.isEmpty() && answer1Text.isEmpty() && answer2Text.isEmpty()
+                && answer3Text.isEmpty() && answer4Text.isEmpty()) {
+            areThere = true;
+
+            Mensaje alerta = new Mensaje();
+            alerta.setHeader(bundle.getString("key.emptyFieldTitle"));
+            alerta.setBody(bundle.getString("key.emptyField"));
+            JFXDialog dialog = new JFXDialog(centerPane, alerta, JFXDialog.DialogTransition.CENTER);
+
+            dialog.show();
+        }
+
+        return areThere;
+    }
+
+    /**
+     * Retorna {@code true} si el usuario seleccionó una respuesta correcta, de
+     * lo contrario regresa {@code false}
+     *
+     * @return Si se seleccionó una respuesta correcta
+     */
+    private boolean isThereACorrectAnswer() {
+
+        boolean isThere = true;
+
+        if (answer1IsCorrect.isSelected() == false && answer2IsCorrect.isSelected() == false
+                && answer3IsCorrect.isSelected() == false && answer4IsCorrect.isSelected() == false) {
+            isThere = false;
+
+            Mensaje alerta = new Mensaje();
+            alerta.setHeader(bundle.getString("key.theresNoCorrectAnswer"));
+            alerta.setBody(bundle.getString("key.selectACorrectAnswer"));
+            JFXDialog dialog = new JFXDialog(centerPane, alerta, JFXDialog.DialogTransition.CENTER);
+
+            dialog.show();
+        }
+
+        return isThere;
     }
 
     /**

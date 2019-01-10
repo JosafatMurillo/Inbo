@@ -43,6 +43,8 @@ public class CQuestionListItem {
 
     @FXML
     private Label titleLabel;
+    
+    private Question question;
 
     public CQuestionListItem() {
         FXMLLoader loader = new FXMLLoader(CQuestionListItem.class.getClass().getResource("/mx/inbo/gui/QuestionListItem.fxml"));
@@ -62,6 +64,9 @@ public class CQuestionListItem {
      * será desplegada.
      */
     public void setInformation(Question question) {
+        
+        this.question = question;
+        
         Thumbnail thumb = question.getImage();
         Image image = new Image(new ByteArrayInputStream(thumb.getImage()));
         questionThumb.setImage(image);
@@ -78,8 +83,8 @@ public class CQuestionListItem {
     }
     
     @FXML
-    private void editQuestion(){
-        
+    private void delete(){
+        CQuizQuestions.deleteQuestion(question);
     }
 
 }

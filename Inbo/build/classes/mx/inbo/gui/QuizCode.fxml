@@ -38,7 +38,7 @@
         </StackPane>
     </top>
     <center>
-        <StackPane>
+        <StackPane fx:id="centerPane">
             <children>
                 <ImageView fx:id="background">
                     <image>
@@ -77,6 +77,22 @@
                         <Insets top="120"/>
                     </StackPane.margin>
                 </JFXButton>
+                <Label fx:id="waitingLabel"
+                       text="%key.waitingLabel"
+                       textFill="white"
+                       visible="false">
+                    <StackPane.margin>
+                        <Insets top="260"/>
+                    </StackPane.margin>
+                </Label>
+                <JFXSpinner fx:id="progressIndicator"
+                            visible="false"
+                            prefHeight="550" 
+                            maxHeight="150">
+                    <StackPane.margin>
+                        <Insets bottom="220"/>
+                    </StackPane.margin>
+                </JFXSpinner>
             </children>
         </StackPane>
     </center>

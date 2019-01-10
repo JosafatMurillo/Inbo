@@ -12,11 +12,10 @@
 <?import javafx.scene.effect.*?>
 <?import javafx.geometry.Insets?>
 
-<StackPane fx:id="mainPane"
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane"
            prefHeight="400.0"
            prefWidth="600.0"
            styleClass="mainFxmlClass"
-           xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="mx.inbo.gui.controllers.CGameScreen">
     <stylesheets>
         <URL value="@/mx/inbo/gui/styles/sgamescreen.css"/>
@@ -40,12 +39,29 @@
                prefHeight="100" 
                maxHeight="100"
                style="-fx-background-color: white;"
-               StackPane.alignment="BOTTOM_CENTER">
+               StackPane.alignment="TOP_CENTER">
+        <Label fx:id="counterLabel" 
+               StackPane.alignment="CENTER_LEFT" >
+            <font>
+                <Font name="Segoe UI"
+                      size="36.0" />
+            </font>
+            <StackPane.margin>
+                <Insets left="15"/>
+            </StackPane.margin>
+        </Label>
         <Label fx:id="quizTitleLabel"
                text="QuizTitle">
             <font>
                 <Font name="Segoe UI"
                       size="46.0" />
+            </font>
+        </Label>
+        <Label fx:id="numQuestionsLabel"
+               StackPane.margin="RIGHT_CENTER">
+            <font>
+                <Font name="Segoe UI"
+                      size="36.0" />
             </font>
         </Label>
     </StackPane>

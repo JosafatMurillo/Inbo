@@ -40,22 +40,22 @@ import mx.inbo.servidorrmi.ServerConector;
  * @author adolf
  */
 public class CGameLobby implements Initializable {
-
-    private static int gameKey = 0;
     
-    public static void setGameKey(int key){
+    private static String gameKey = "";
+    
+    public static void setGameKey(String key) {
         gameKey = key;
     }
     
     @FXML
     private BorderPane mainPane;
-
+    
     @FXML
     private StackPane thumbnailPane;
-
+    
     @FXML
     private StackPane rightPane;
-
+    
     @FXML
     private ImageView thumbnail;
 
@@ -64,16 +64,16 @@ public class CGameLobby implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
         mainPane.widthProperty().addListener((objects, oldValue, newValue) -> {
             double width = (double) newValue / 2;
             thumbnail.setFitWidth(width - 10);
             thumbnailPane.setPrefWidth(width);
             rightPane.setPrefWidth(width);
         });
-
+        
         playIntroAnimation();
-
+        
     }
 
     /**
@@ -82,21 +82,28 @@ public class CGameLobby implements Initializable {
     private void playIntroAnimation() {
         new BounceInLeft(mainPane).play();
     }
-
+    
     @FXML
     private void nextPage() {
         
         String ip = ServerConector.getIP();
-
+        
         try {
             Socket socket = IO.socket("http://" + ip + ":5000");
-
-            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener(){
+            
+            Object args[] = {
+                CStartQuiz.getQuiz().getTitulo(),
+                gameKey,
+                CStartQuiz.getQuiz().getQuestionCollection().size(),
+                CStartQuiz.getQuiz().getImage().getImage()
+            };
+            
+            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override
                 public void call(Object... os) {
-                    socket.emit("iniciarQuiz", gameKey);
+                    socket.emit("iniciarQuiz", args);
                 }
-
+                
             });
             
             socket.connect();
@@ -108,7 +115,7 @@ public class CGameLobby implements Initializable {
         Stage actualStage = (Stage) mainPane.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/GameInProgress.fxml", "Game", actualStage);
     }
-
+    
     @FXML
     private void stepBack() {
         Stage actualStage = (Stage) mainPane.getScene().getWindow();

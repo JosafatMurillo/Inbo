@@ -28,6 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import mx.inbo.LanguageController;
 import mx.inbo.gui.controllers.CSettings;
 
 /**
@@ -52,7 +53,7 @@ public class Loader {
      * @param pageTitle Titulo de la página
      */
     public static void loadNonResizablePage(String fxmlURL, String pageTitle) {
-        Locale locale = Locale.getDefault();
+        Locale locale = Locale.forLanguageTag(LanguageController.getLanguageTag());
         Stage newStage = new Stage();
         try {
             Parent root = FXMLLoader.load(Loader.class.getResource(fxmlURL), ResourceBundle.getBundle(LANG_ADDRESS, locale));
@@ -77,7 +78,7 @@ public class Loader {
      * @param actualStage Stage actual a cerrar
      */
     public static void loadUndecoratedPageClosingCurrent(String fxmlURL, String pageTitle, Stage actualStage) {
-        Locale locale = Locale.getDefault();
+        Locale locale = Locale.forLanguageTag(LanguageController.getLanguageTag());
         Stage newStage = new Stage();
 
         try {
@@ -113,7 +114,7 @@ public class Loader {
      * @param actualStage Stage actual
      */
     public static void loadPageInCurrentStage(String fxmlURL, String pageTitle, Stage actualStage) {
-        Locale locale = Locale.getDefault();
+        Locale locale = Locale.forLanguageTag(LanguageController.getLanguageTag());
         try {
             Parent root = FXMLLoader.load(Loader.class.getResource(fxmlURL), ResourceBundle.getBundle(LANG_ADDRESS, locale));
 

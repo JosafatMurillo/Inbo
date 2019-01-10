@@ -124,6 +124,7 @@ public class CLogin implements Initializable {
             newStage.setMaximized(true);
             newStage.setTitle("Dashboard");
             newStage.show();
+            CDashboard.setQuizzes(null);
             CDashboard.setStage(newStage);
             actualStage.close();
         } catch (IOException ex) {

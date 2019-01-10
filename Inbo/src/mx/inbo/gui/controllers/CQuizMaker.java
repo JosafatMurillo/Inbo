@@ -22,6 +22,7 @@ package mx.inbo.gui.controllers;
 import animatefx.animation.BounceInLeft;
 import animatefx.animation.SlideInLeft;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.net.URL;
@@ -41,6 +42,7 @@ import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.Quiz;
 import mx.inbo.gui.tools.FileHelper;
 import mx.inbo.gui.tools.Loader;
+import mx.inbo.gui.tools.Mensaje;
 
 /**
  * Clase FXML controladora de la página Quiz Maker.
@@ -80,6 +82,7 @@ public class CQuizMaker implements Initializable {
     private TextArea descriptionField;
 
     private File imageFile;
+    private ResourceBundle bundle;
 
     /**
      * Initializes the controller class.
@@ -110,6 +113,8 @@ public class CQuizMaker implements Initializable {
         } else {
             quiz = new Quiz();
         }
+        
+        bundle = rb;
 
     }
 
@@ -175,7 +180,15 @@ public class CQuizMaker implements Initializable {
 
             Stage actualStage = (Stage) backButton.getScene().getWindow();
             CQuizQuestions.setQuiz(quiz);
+            CQuizQuestions.setStage(actualStage);
             Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizQuestions.fxml", "Questions", actualStage);
+        }else{
+            Mensaje alerta = new Mensaje();
+            alerta.setHeader(bundle.getString("key.emptyFieldTitle"));
+            alerta.setBody(bundle.getString("key.emptyField"));
+            JFXDialog dialog = new JFXDialog(centerPane, alerta, JFXDialog.DialogTransition.CENTER);
+
+            dialog.show();
         }
 
     }

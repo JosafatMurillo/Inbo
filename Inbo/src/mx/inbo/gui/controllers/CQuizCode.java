@@ -19,6 +19,9 @@ import animatefx.animation.BounceInLeft;
 import animatefx.animation.FadeInDown;
 import animatefx.animation.Jello;
 import animatefx.animation.Pulse;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXSpinner;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -28,13 +31,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -42,6 +48,7 @@ import mx.inbo.domain.KeyGenerator;
 import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.User;
 import mx.inbo.gui.tools.Loader;
+import mx.inbo.gui.tools.Mensaje;
 import mx.inbo.servidorrmi.ServerConector;
 
 /**
@@ -66,6 +73,9 @@ public class CQuizCode implements Initializable {
     private BorderPane mainPane;
 
     @FXML
+    private StackPane centerPane;
+
+    @FXML
     private ImageView background;
 
     @FXML
@@ -74,7 +84,17 @@ public class CQuizCode implements Initializable {
     @FXML
     private TextField codeField;
 
+    @FXML
+    private JFXSpinner progressIndicator;
+
+    @FXML
+    private Label waitingLabel;
+
+    @FXML
+    private JFXButton enterButton;
+
     private boolean playUserAnimation = true;
+    private ResourceBundle bundle;
 
     /**
      * Initializes the controller class.
@@ -99,6 +119,8 @@ public class CQuizCode implements Initializable {
         new FadeInDown(userImage).play();
 
         new Pulso().start();
+
+        bundle = rb;
     }
 
     /**
@@ -122,11 +144,30 @@ public class CQuizCode implements Initializable {
     private void startGame() {
         String code = codeField.getText();
 
+        boolean showEmptyMessage = false;
+
         if (code != null) {
             if (!code.isEmpty()) {
                 playUserAnimation = false;
+                codeField.disableProperty().set(true);
+                enterButton.disableProperty().set(true);
+                progressIndicator.setVisible(true);
+                waitingLabel.setVisible(true);
                 enterRoom(code);
+            } else {
+                showEmptyMessage = true;
             }
+        } else {
+            showEmptyMessage = true;
+        }
+
+        if (showEmptyMessage) {
+            Mensaje alerta = new Mensaje();
+            alerta.setHeader(bundle.getString("key.emptyFieldTitle"));
+            alerta.setBody(bundle.getString("key.emptyField"));
+            JFXDialog dialog = new JFXDialog(centerPane, alerta, JFXDialog.DialogTransition.CENTER);
+
+            dialog.show();
         }
     }
 
@@ -165,7 +206,7 @@ public class CQuizCode implements Initializable {
         GameConector conector = new GameConector();
         conector.setInfo(code, user.getUsername());
         conector.start();
-        
+
     }
 
     class GameConector extends Thread {
@@ -199,11 +240,14 @@ public class CQuizCode implements Initializable {
                 }).on("quiz", new Emitter.Listener() {
                     @Override
                     public void call(Object... os) {
-                        String quiz = (String) os[0];
 
-                        CGameScreen.setQuizTitle(quiz);
-                        Stage actualStage = (Stage) mainPane.getScene().getWindow();
-                        Loader.loadPageInCurrentStage("/mx/inbo/gui/GameScreen.fxml", "Game", actualStage);
+                        CGameScreen.setQuizTitle(os);
+
+                        Platform.runLater(() -> {
+                            Stage actualStage = (Stage) mainPane.getScene().getWindow();
+                            Loader.loadPageInCurrentStage("/mx/inbo/gui/GameScreen.fxml", "Game", actualStage);
+                        });
+
                     }
                 });
 
@@ -216,7 +260,7 @@ public class CQuizCode implements Initializable {
         }
 
         public void setInfo(String code, String username) {
-            
+
             args = new String[]{
                 username,
                 code

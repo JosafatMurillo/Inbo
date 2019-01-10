@@ -50,9 +50,14 @@ public class CQuizQuestions implements Initializable {
 
     private static Quiz quiz;
     private static boolean isEditing = false;
+    private static Stage actualStage;
 
     public static void setQuiz(Quiz quizz) {
         quiz = quizz;
+    }
+    
+    public static void setStage(Stage stage){
+        actualStage = stage;
     }
 
     public static Quiz getQuiz() {
@@ -83,7 +88,7 @@ public class CQuizQuestions implements Initializable {
     @FXML
     private ListView questionsList;
 
-    private Collection<Question> questions;
+    private static Collection<Question> questions;
 
     /**
      * Initializes the controller class.
@@ -131,7 +136,6 @@ public class CQuizQuestions implements Initializable {
      */
     @FXML
     private void stepBack() {
-        Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizMaker.fxml", "New Quiz", actualStage);
     }
 
@@ -140,7 +144,6 @@ public class CQuizQuestions implements Initializable {
      */
     @FXML
     private void loadQuestionMaker() {
-        Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/QuestionMaker.fxml", "New Question", actualStage);
     }
 
@@ -185,15 +188,7 @@ public class CQuizQuestions implements Initializable {
                 });
             }
 
-            List<Quiz> quizzes = CDashboard.getQuizzes();
-
-            if (quizzes == null) {
-                quizzes = new ArrayList<>();
-            }
-
-            quizzes.add(quiz);
-
-            CDashboard.setQuizzes(quizzes);
+            CDashboard.setQuizzes(null);
         } else {
             try {
                 stub.actualizarQuiz(quiz);
@@ -202,8 +197,14 @@ public class CQuizQuestions implements Initializable {
             }
         }
 
-        Stage actualStage = (Stage) backButton.getScene().getWindow();
         Loader.loadPageInCurrentStage("/mx/inbo/gui/Dashboard.fxml", "Dashboard", actualStage);
+    }
+
+    public static void deleteQuestion(Question question) {
+        questions.remove(question);
+        quiz.setQuestionCollection(questions);
+        CQuizQuestions.setQuiz(quiz);
+        Loader.loadPageInCurrentStage("/mx/inbo/gui/QuizQuestions.fxml", "Questions", actualStage);
     }
 
 }

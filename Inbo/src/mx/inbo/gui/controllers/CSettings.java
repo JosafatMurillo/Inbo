@@ -22,12 +22,18 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -38,8 +44,10 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.persistence.NoResultException;
+import mx.inbo.LanguageController;
 import mx.inbo.domain.Thumbnail;
 import mx.inbo.entities.User;
+import mx.inbo.gui.CLanguageItem;
 import mx.inbo.gui.tools.FileHelper;
 import mx.inbo.gui.tools.Loader;
 import mx.inbo.gui.tools.Mensaje;
@@ -88,6 +96,9 @@ public class CSettings implements Initializable {
 
     @FXML
     private PasswordField passwordVerificationField;
+
+    @FXML
+    private ListView languageList;
 
     /**
      * Initializes the controller class.
@@ -143,6 +154,43 @@ public class CSettings implements Initializable {
                 }
             }
         });
+
+        ObservableList<String[]> languages = FXCollections.observableArrayList();
+
+        String spanishMX[] = {
+            "Español (MX)",
+            "/mx/inbo/images/mexico_flag.png",
+            "es-MX"
+        };
+
+        String englishUS[] = {
+            "English (US)",
+            "/mx/inbo/images/usa_flag.jpg",
+            "en-US"
+        };
+
+        languages.add(spanishMX);
+        languages.add(englishUS);
+
+        languageList.setItems(languages);
+
+        languageList.setCellFactory(celdas -> new ListCell<String[]>() {
+
+            @Override
+            protected void updateItem(String[] info, boolean vacio) {
+                super.updateItem(info, vacio);
+
+                if (vacio || info == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    CLanguageItem listController = new CLanguageItem();
+                    listController.setInformation(info);
+                    setGraphic(listController.getMainPane());
+                }
+            }
+        });
+
     }
 
     /**
@@ -228,10 +276,20 @@ public class CSettings implements Initializable {
 
                     try {
                         stub.editarUsuario(user);
+
+                        String[] language = (String[]) languageList.getSelectionModel().getSelectedItem();
+
+                        if (language != null) {
+                            LanguageController.setLanguageTag(language[2]);
+                            System.out.println(language[2]);
+                            System.out.println(LanguageController.getLanguageTag());
+                        }
+
                         stepBack();
                     } catch (RemoteException ex) {
                         Logger.getLogger(CSettings.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                 } else {
                     Mensaje message = new Mensaje();
                     message.setHeader("Usuario");

@@ -50,7 +50,7 @@ public class Osiyru extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        Locale locale = Locale.getDefault();
+        Locale locale = Locale.forLanguageTag(LanguageController.getLanguageTag());
         Parent root = FXMLLoader.load(Osiyru.class.getResource("/mx/inbo/gui/Login.fxml"), ResourceBundle.getBundle("mx.inbo.lang.lang", locale));
 
         root.setOnMousePressed((MouseEvent event) -> {
