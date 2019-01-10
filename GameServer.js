@@ -1,8 +1,6 @@
 
 var io = require("socket.io")(5000);
 
-var namespace = io.of("/");
-
 io.on("connection", function (socket) {
 
     var id = 1;
@@ -44,8 +42,18 @@ io.on("connection", function (socket) {
     });
 
     //Se supone que con esto se transmite la información a todos los usuarios de la sala
-    socket.on("iniciarQuiz", function (quiz, quizId){
-        socket.broadcast.to(quizId).emit('Preguntas', quiz);
+    socket.on("iniciarQuiz", function (quiz, quizId, numQuestions, imagenQuiz){
+        socket.broadcast.to(quizId).emit('quiz', quiz, numQuestions, imagenQuiz);
+        console.log(quiz + ':' + quizId);
+    });
+
+    //Se emite a todos los presentes todas las respuestas de una pregunta en especifico
+    socket.on("juegoPreguntas", function (quizId, pregunta, respuestas, respuestasCorrectas, imagenPregunta){
+        socket.broadcast.to(quizId).emit('respuestas', pregunta, respuestas, respuestasCorrectas, imagenPregunta);
+    });
+
+    socket.on("getPregunta", function(indexQuestion){
+        socket.to(socket.id).emit('getPregunta', indexQuestion);
     });
 
     //El cliente sale de la sala con el mismo id por el cual entró
@@ -58,16 +66,16 @@ io.on("connection", function (socket) {
         socket.username = username;
         usernames[username] = username;
         socket.join(quizId);
-        socket.broadcast.to(quizId).emit('actualizarSala', 'SERVER', username + ' se ha unido a la sala');
-        socket.emit('actualizarSalas', rooms, 'quizId');
+        socket.broadcast.to(quizId).emit('actualizarSala', 'SERVER:' + username + ' se ha unido a la sala ');
+        socket.emit('actualizarSalas', rooms, quizId);
     });
 
     //Cambiar de sala
     socket.on("cambiar", function(salaActual, nuevaSala){
         socket.leave(salaActual);
         socket.join(nuevaSala);
-        socket.emit('actualizado', 'SERVER', 'Te has conectado a la sala '+nuevaSala);
-        socket.broadcast.to(salaActual).emit('actualizar', 'SERVER', socket.username+' ha abandonado la sala');
-        socket.broadcast.to(nuevaSala).emit('actualizar', 'SERVER', socket.username+ 'se ha unido a la sala');
+        socket.emit('actualizado', 'SERVER: Te has conectado a la sala ' + nuevaSala);
+        socket.broadcast.to(salaActual).emit('actualizar', 'SERVER: ' + socket.username +' ha abandonado la sala');
+        socket.broadcast.to(nuevaSala).emit('actualizar', 'SERVER: ' + socket.username + 'se ha unido a la sala');
     });
 });
